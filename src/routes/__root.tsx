@@ -141,6 +141,7 @@ function RootComponent() {
             </main>
             <Footer />
           </div>
+          <Toaster />
         </LanguageProvider>
       </ThemeProvider>
     </QueryClientProvider>
