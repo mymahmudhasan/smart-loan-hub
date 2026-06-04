@@ -11,12 +11,16 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { ThemeProvider } from "../context/theme";
+import { LanguageProvider } from "../context/language";
+import { Navbar } from "../components/layout/Navbar";
+import { Footer } from "../components/layout/Footer";
 
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
+        <h1 className="text-7xl font-bold text-gradient">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
@@ -77,19 +81,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Smart Loan Membership Platform | Secure Loans in Bangladesh" },
+      {
+        name: "description",
+        content:
+          "Become a verified member and unlock loans up to 10× your balance at 8% annual interest. Secure, mobile-first lending for Bangladesh.",
+      },
+      { name: "author", content: "Smart Loan" },
+      { property: "og:title", content: "Smart Loan Membership Platform" },
+      {
+        property: "og:description",
+        content: "Membership-based loans for Bangladesh. Up to 10× your balance at 8% interest.",
+      },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap",
       },
     ],
   }),
@@ -118,8 +131,17 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ThemeProvider>
+        <LanguageProvider>
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
+        </LanguageProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
