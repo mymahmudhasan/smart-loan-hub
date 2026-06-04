@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MembershipRouteImport } from './routes/membership'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as IndexRouteImport } from './routes/index'
 
 const MembershipRoute = MembershipRouteImport.update({
   id: '/membership',
   path: '/membership',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CalculatorRoute = CalculatorRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/calculator': typeof CalculatorRoute
+  '/dashboard': typeof DashboardRoute
   '/membership': typeof MembershipRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calculator': typeof CalculatorRoute
+  '/dashboard': typeof DashboardRoute
   '/membership': typeof MembershipRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/calculator': typeof CalculatorRoute
+  '/dashboard': typeof DashboardRoute
   '/membership': typeof MembershipRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calculator' | '/membership'
+  fullPaths: '/' | '/calculator' | '/dashboard' | '/membership'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calculator' | '/membership'
-  id: '__root__' | '/' | '/calculator' | '/membership'
+  to: '/' | '/calculator' | '/dashboard' | '/membership'
+  id: '__root__' | '/' | '/calculator' | '/dashboard' | '/membership'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CalculatorRoute: typeof CalculatorRoute
+  DashboardRoute: typeof DashboardRoute
   MembershipRoute: typeof MembershipRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/membership'
       fullPath: '/membership'
       preLoaderRoute: typeof MembershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calculator': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CalculatorRoute: CalculatorRoute,
+  DashboardRoute: DashboardRoute,
   MembershipRoute: MembershipRoute,
 }
 export const routeTree = rootRouteImport
