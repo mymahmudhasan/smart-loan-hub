@@ -15,6 +15,7 @@ import { ThemeProvider } from "../context/theme";
 import { LanguageProvider } from "../context/language";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
