@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MembershipRoute = MembershipRouteImport.update({
   id: '/membership',
   path: '/membership',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/calculator': typeof CalculatorRoute
   '/dashboard': typeof DashboardRoute
   '/membership': typeof MembershipRoute
+  '/payments': typeof PaymentsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/calculator': typeof CalculatorRoute
   '/dashboard': typeof DashboardRoute
   '/membership': typeof MembershipRoute
+  '/payments': typeof PaymentsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/calculator': typeof CalculatorRoute
   '/dashboard': typeof DashboardRoute
   '/membership': typeof MembershipRoute
+  '/payments': typeof PaymentsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calculator' | '/dashboard' | '/membership'
+  fullPaths: '/' | '/calculator' | '/dashboard' | '/membership' | '/payments'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calculator' | '/dashboard' | '/membership'
-  id: '__root__' | '/' | '/calculator' | '/dashboard' | '/membership'
+  to: '/' | '/calculator' | '/dashboard' | '/membership' | '/payments'
+  id:
+    | '__root__'
+    | '/'
+    | '/calculator'
+    | '/dashboard'
+    | '/membership'
+    | '/payments'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +82,18 @@ export interface RootRouteChildren {
   CalculatorRoute: typeof CalculatorRoute
   DashboardRoute: typeof DashboardRoute
   MembershipRoute: typeof MembershipRoute
+  PaymentsRoute: typeof PaymentsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/membership': {
       id: '/membership'
       path: '/membership'
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalculatorRoute: CalculatorRoute,
   DashboardRoute: DashboardRoute,
   MembershipRoute: MembershipRoute,
+  PaymentsRoute: PaymentsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
