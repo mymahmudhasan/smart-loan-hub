@@ -342,6 +342,45 @@ function AdminBanners() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
+                <Label>Button Style</Label>
+                <Select
+                  value={form.cta_style}
+                  onValueChange={(v) => setForm({ ...form, cta_style: v as CtaStyle })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ctaStyles.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {ctaStyleLabel[s]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Text Style</Label>
+                <Select
+                  value={form.text_style}
+                  onValueChange={(v) => setForm({ ...form, text_style: v as TextStyle })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {textStyles.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {textStyleLabel[s]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
                 <Label>Button Label *</Label>
                 <Input
                   value={form.cta_label}
