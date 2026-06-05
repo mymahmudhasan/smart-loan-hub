@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, ArrowRight, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { listAllBanners, upsertBanner, deleteBanner, type BannerOffer } from "@/lib/banner.functions";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/banners")({
   component: AdminBanners,
@@ -33,6 +35,13 @@ export const Route = createFileRoute("/admin/banners")({
 
 const themes = ["primary", "gold", "emerald", "midnight"] as const;
 const themeSwatch: Record<string, string> = {
+  primary: "gradient-primary",
+  gold: "gradient-gold",
+  emerald: "gradient-emerald",
+  midnight: "gradient-midnight",
+};
+
+const themeClass: Record<string, string> = {
   primary: "gradient-primary",
   gold: "gradient-gold",
   emerald: "gradient-emerald",
@@ -62,6 +71,44 @@ const emptyForm: FormState = {
   active: true,
 };
 
+function BannerPreviewCard({ offer }: { offer: BannerOffer }) {
+  return (
+    <div
+      className={cn(
+        "relative flex min-h-[230px] flex-col justify-between overflow-hidden rounded-3xl p-6 shadow-elegant sm:p-8",
+        themeClass[offer.theme] ?? themeClass.primary,
+      )}
+    >
+      <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-2xl" />
+      <div className="pointer-events-none absolute right-6 top-6 h-9 w-12 rounded-md bg-white/25" />
+      <div className="pointer-events-none absolute -bottom-12 -left-6 h-40 w-40 rounded-full bg-black/10 blur-2xl" />
+
+      <div className="relative">
+        {offer.badge && (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-on-hero backdrop-blur">
+            <Sparkles className="h-3.5 w-3.5" /> {offer.badge}
+          </span>
+        )}
+        <h3 className="mt-4 max-w-xl text-2xl font-extrabold leading-tight text-on-hero sm:text-3xl">
+          {offer.title}
+        </h3>
+        {offer.subtitle && (
+          <p className="mt-2 max-w-lg text-sm text-on-hero/80 sm:text-base">{offer.subtitle}</p>
+        )}
+      </div>
+
+      <div className="relative mt-6 flex items-center justify-between gap-4">
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/20 px-5 py-2.5 text-sm font-semibold text-on-hero backdrop-blur-sm">
+          {offer.cta_label} <ArrowRight className="h-4 w-4" />
+        </span>
+        <span className="hidden font-mono text-sm tracking-[0.3em] text-on-hero/70 sm:block">
+          •••• •••• •••• 5000
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function AdminBanners() {
   const fetchAll = useServerFn(listAllBanners);
   const save = useServerFn(upsertBanner);
@@ -71,6 +118,9 @@ function AdminBanners() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [previewOffer, setPreviewOffer] = useState<BannerOffer | null>(null);
+  const [previewDevice, setPreviewDevice] = useState<"desktop" | "mobile">("desktop");
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "banners"],
@@ -222,6 +272,14 @@ function AdminBanners() {
                   <Button
                     variant="ghost"
                     size="sm"
+                    onClick={() => setPreviewOffer(b)}
+                    title="Preview on homepage"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => toggleMut.mutate(b)}
                     title={b.active ? "Hide" : "Show"}
                   >
@@ -246,6 +304,7 @@ function AdminBanners() {
         </div>
       )}
 
+      {/* Edit / Create Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
           <DialogHeader>
@@ -347,6 +406,72 @@ function AdminBanners() {
               </Button>
             </DialogFooter>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Preview Dialog */}
+      <Dialog open={!!previewOffer} onOpenChange={(v) => !v && setPreviewOffer(null)}>
+        <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-5xl">
+          <DialogHeader>
+            <DialogTitle>Homepage Preview</DialogTitle>
+          </DialogHeader>
+
+          <div className="flex items-center justify-center gap-2 pb-2">
+            <ToggleGroup
+              type="single"
+              value={previewDevice}
+              onValueChange={(v) => v && setPreviewDevice(v as "desktop" | "mobile")}
+              className="bg-muted/50 rounded-lg p-1"
+            >
+              <ToggleGroupItem value="desktop" aria-label="Desktop">
+                <Monitor className="h-4 w-4 mr-1.5" /> Desktop
+              </ToggleGroupItem>
+              <ToggleGroupItem value="mobile" aria-label="Mobile">
+                <Smartphone className="h-4 w-4 mr-1.5" /> Mobile
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          <div className={cn(
+            "mx-auto w-full transition-all duration-300",
+            previewDevice === "mobile" ? "max-w-[390px]" : "max-w-full"
+          )}>
+            {/* Mock homepage container */}
+            <div className="rounded-xl border bg-background p-4 shadow-sm">
+              {/* Fake navbar strip */}
+              <div className="mb-4 flex items-center justify-between">
+                <div className="h-6 w-24 rounded bg-muted" />
+                <div className="flex gap-2">
+                  <div className="h-6 w-6 rounded-full bg-muted" />
+                  <div className="h-6 w-6 rounded-full bg-muted" />
+                </div>
+              </div>
+
+              {/* Offers section header */}
+              <div className="mb-3">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent">
+                  <Landmark className="h-3.5 w-3.5" /> Exclusive Offers
+                </span>
+                <h2 className="mt-1 text-lg font-bold sm:text-xl">Offers & Promotions</h2>
+                <p className="text-xs text-muted-foreground">Limited time benefits for our members.</p>
+              </div>
+
+              {/* The actual banner card */}
+              {previewOffer && <BannerPreviewCard offer={previewOffer} />}
+
+              {/* Mock content below */}
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="h-20 rounded-lg bg-muted" />
+                <div className="h-20 rounded-lg bg-muted" />
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="pt-2">
+            <Button variant="outline" onClick={() => setPreviewOffer(null)}>
+              Close Preview
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
