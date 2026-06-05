@@ -72,7 +72,11 @@ function Dashboard() {
         </div>
       </div>
 
+      {/* Real-account approval timeline (72h) */}
+      <ApprovalTimeline />
+
       {/* Due alert */}
+
       <div className="mb-6 flex items-start gap-3 rounded-xl border border-warning/40 bg-warning/10 p-4">
         <AlertTriangle className="mt-0.5 h-5 w-5 text-warning" />
         <div className="text-sm">
