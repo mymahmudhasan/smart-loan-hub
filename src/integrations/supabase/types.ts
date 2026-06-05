@@ -44,6 +44,48 @@ export type Database = {
         }
         Relationships: []
       }
+      banner_offers: {
+        Row: {
+          active: boolean
+          badge: string | null
+          created_at: string
+          cta_href: string
+          cta_label: string
+          id: string
+          sort_order: number
+          subtitle: string | null
+          theme: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          badge?: string | null
+          created_at?: string
+          cta_href?: string
+          cta_label?: string
+          id?: string
+          sort_order?: number
+          subtitle?: string | null
+          theme?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          badge?: string | null
+          created_at?: string
+          cta_href?: string
+          cta_label?: string
+          id?: string
+          sort_order?: number
+          subtitle?: string | null
+          theme?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       fraud_flags: {
         Row: {
           created_at: string
@@ -208,6 +250,7 @@ export type Database = {
           member_status: string
           nid_number: string | null
           phone: string | null
+          referral_code: string | null
           updated_at: string
         }
         Insert: {
@@ -220,6 +263,7 @@ export type Database = {
           member_status?: string
           nid_number?: string | null
           phone?: string | null
+          referral_code?: string | null
           updated_at?: string
         }
         Update: {
@@ -232,6 +276,37 @@ export type Database = {
           member_status?: string
           nid_number?: string | null
           phone?: string | null
+          referral_code?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referred_id: string
+          referrer_id: string
+          reward_amount: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referred_id: string
+          referrer_id: string
+          reward_amount?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referred_id?: string
+          referrer_id?: string
+          reward_amount?: number
+          status?: string
           updated_at?: string
         }
         Relationships: []
