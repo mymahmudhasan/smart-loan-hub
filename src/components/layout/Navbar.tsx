@@ -22,6 +22,14 @@ export function Navbar() {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    setOpen(false);
+    await signOut();
+    navigate({ to: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full glass">
