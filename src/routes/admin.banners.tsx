@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, ArrowRight, Sparkles } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, ArrowRight, Sparkles, Landmark } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
