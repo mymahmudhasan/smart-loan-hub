@@ -20,7 +20,7 @@ export const Route = createFileRoute("/payments")({
   head: () => ({
     meta: [
       { title: "Payments | Smart Loan" },
-      { name: "description", content: "Deposit funds, withdraw, and pay EMIs via bKash, Nagad or bank transfer." },
+      { name: "description", content: "Deposit funds, withdraw, and pay EMIs via bKash or Nagad." },
     ],
   }),
   component: Payments,
