@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, ShieldCheck } from "lucide-react";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { Menu, ShieldCheck, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
 import { useLanguage } from "@/context/language";
+import { useAuth } from "@/context/auth";
 import { cn } from "@/lib/utils";
 
 const links = [
