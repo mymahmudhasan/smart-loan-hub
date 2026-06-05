@@ -72,6 +72,8 @@ export const upsertBanner = createServerFn({ method: "POST" })
       cta_label: data.cta_label,
       cta_href: data.cta_href,
       theme: data.theme,
+      cta_style: data.cta_style,
+      text_style: data.text_style,
       sort_order: data.sort_order,
       active: data.active,
     };
