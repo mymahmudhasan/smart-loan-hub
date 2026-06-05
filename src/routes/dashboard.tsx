@@ -165,6 +165,10 @@ function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      <div className="mt-6">
+        <ReferralWidget />
+      </div>
     </div>
   );
 }
