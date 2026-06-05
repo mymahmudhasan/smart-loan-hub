@@ -33,7 +33,13 @@ function Signup() {
     address: "",
     password: "",
     confirm: "",
+    referral: "",
   });
+
+  useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref) setForm((f) => ({ ...f, referral: ref.trim().toUpperCase() }));
+  }, []);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [k]: e.target.value });
