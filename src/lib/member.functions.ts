@@ -46,7 +46,7 @@ export const requestTransaction = createServerFn({ method: "POST" })
       .object({
         type: z.enum(["deposit", "withdrawal", "emi_payment"]),
         amount: z.number().positive().max(1_000_000_000),
-        method: z.enum(["bkash", "nagad", "bank"]),
+        method: z.enum(["bkash", "nagad"]),
       })
       .parse(d),
   )

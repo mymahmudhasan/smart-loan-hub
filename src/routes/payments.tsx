@@ -20,7 +20,7 @@ export const Route = createFileRoute("/payments")({
   head: () => ({
     meta: [
       { title: "Payments | Smart Loan" },
-      { name: "description", content: "Deposit funds, withdraw, and pay EMIs via bKash, Nagad or bank transfer." },
+      { name: "description", content: "Deposit funds, withdraw, and pay EMIs via bKash or Nagad." },
     ],
   }),
   component: Payments,
@@ -29,17 +29,16 @@ export const Route = createFileRoute("/payments")({
 const methods = [
   { id: "bkash", name: "bKash", hint: "Instant mobile wallet" },
   { id: "nagad", name: "Nagad", hint: "Instant mobile wallet" },
-  { id: "bank", name: "Bank Transfer", hint: "Manual verification" },
 ];
 
 const logs = [
   { label: "EMI Payment #8", method: "bKash", date: "01 Jun 2026", amount: 13568, status: "Completed" },
   { label: "Deposit", method: "Nagad", date: "20 May 2026", amount: 15000, status: "Completed" },
-  { label: "Withdraw", method: "Bank Transfer", date: "10 May 2026", amount: 5000, status: "Pending" },
+  { label: "Withdraw", method: "bKash", date: "10 May 2026", amount: 5000, status: "Pending" },
 ];
 
 function PaymentForm({ action, cta, type }: { action: string; cta: string; type: "deposit" | "withdrawal" | "emi_payment" }) {
-  const [method, setMethod] = useState<"bkash" | "nagad" | "bank">("bkash");
+  const [method, setMethod] = useState<"bkash" | "nagad">("bkash");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState<{
@@ -66,7 +65,7 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
       }
     }
 
-    if (!method || !["bkash", "nagad", "bank"].includes(method)) {
+    if (!method || !["bkash", "nagad"].includes(method)) {
       next.method = "Please select a valid payment method.";
     }
 
@@ -162,13 +161,13 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
 
       <div className="space-y-2">
         <Label>Payment Method</Label>
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid gap-2 sm:grid-cols-2">
           {methods.map((m) => (
             <button
               type="button"
               key={m.id}
               onClick={() => {
-                setMethod(m.id as "bkash" | "nagad" | "bank");
+                setMethod(m.id as "bkash" | "nagad");
                 if (errors.method) setErrors((p) => ({ ...p, method: undefined }));
               }}
               className={cn(
