@@ -14,6 +14,9 @@ import heroImg from "@/assets/hero.jpg";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
+import { listActiveBanners } from "@/lib/banner.functions";
+import { OffersBanner } from "@/components/home/OffersBanner";
+import { ReferralSection } from "@/components/home/ReferralSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,11 +29,19 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  loader: () => listActiveBanners(),
+  errorComponent: () => <Home />,
   component: Home,
 });
 
 function Home() {
   const { t } = useLanguage();
+  let offers: Awaited<ReturnType<typeof listActiveBanners>> = [];
+  try {
+    offers = Route.useLoaderData() ?? [];
+  } catch {
+    offers = [];
+  }
 
   const stats = [
     { value: "25,000+", key: "stat_members" as const, icon: UserCheck },
