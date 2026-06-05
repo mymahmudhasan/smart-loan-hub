@@ -54,10 +54,10 @@ function Membership() {
             <CardTitle>{t("mem_eligible")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="rounded-2xl gradient-hero p-6 text-primary-foreground shadow-soft">
+            <div className="rounded-2xl gradient-hero p-6 text-on-hero shadow-soft">
               <div className="text-sm opacity-80">{t("mem_balance")}</div>
               <div className="text-3xl font-extrabold">{formatBDT(balance)}</div>
-              <div className="mt-4 border-t border-primary-foreground/20 pt-4">
+              <div className="mt-4 border-t border-white/20 pt-4">
                 <div className="text-sm opacity-80">
                   {t("mem_eligible")} ({ELIGIBILITY_MULTIPLIER}×)
                 </div>
