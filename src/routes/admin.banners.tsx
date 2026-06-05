@@ -115,6 +115,8 @@ function AdminBanners() {
           cta_label: payload.cta_label.trim(),
           cta_href: payload.cta_href.trim(),
           theme: payload.theme,
+          cta_style: payload.cta_style,
+          text_style: payload.text_style,
           sort_order: Number(payload.sort_order) || 0,
           active: payload.active,
         },
