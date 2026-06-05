@@ -165,8 +165,12 @@ function Home() {
         </div>
       </section>
 
+      {/* Referral marketing */}
+      <ReferralSection />
+
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 py-16 lg:py-20">
+
         <div className="relative overflow-hidden rounded-3xl gradient-hero px-6 py-14 text-center shadow-elegant">
           <h2 className="text-3xl font-bold text-primary-foreground sm:text-4xl">{t("cta_title")}</h2>
           <p className="mx-auto mt-3 max-w-xl text-primary-foreground/80">{t("cta_subtitle")}</p>
