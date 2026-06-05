@@ -95,6 +95,162 @@ export const setMemberBalance = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+// ---------- Per-member dashboard (admin view) ----------
+export const getMemberDetail = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { userId: string }) => z.object({ userId: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const uid = data.userId;
+    const [profileR, rolesR, loansR, txR, kycR, fraudR, activityR] = await Promise.all([
+      supabaseAdmin.from("profiles").select("*").eq("id", uid).maybeSingle(),
+      supabaseAdmin.from("user_roles").select("role").eq("user_id", uid),
+      supabaseAdmin
+        .from("loan_applications")
+        .select("*")
+        .eq("user_id", uid)
+        .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("transactions")
+        .select("*")
+        .eq("user_id", uid)
+        .order("created_at", { ascending: false })
+        .limit(100),
+      supabaseAdmin
+        .from("kyc_submissions")
+        .select("*")
+        .eq("user_id", uid)
+        .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("fraud_flags")
+        .select("*")
+        .eq("user_id", uid)
+        .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("audit_logs")
+        .select("*")
+        .or(`actor_id.eq.${uid},entity_id.eq.${uid}`)
+        .order("created_at", { ascending: false })
+        .limit(100),
+    ]);
+    if (profileR.error) throw new Error(profileR.error.message);
+    return {
+      profile: profileR.data,
+      roles: (rolesR.data ?? []).map((r) => r.role),
+      loans: loansR.data ?? [],
+      transactions: txR.data ?? [],
+      kyc: kycR.data ?? [],
+      fraudFlags: fraudR.data ?? [],
+      activity: activityR.data ?? [],
+    };
+  });
+
+// Admin records a transaction for a member (optionally adjusting their balance).
+export const addMemberTransaction = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(
+    (d: { userId: string; type: string; amount: number; method?: string; note?: string; adjustBalance?: boolean }) =>
+      z
+        .object({
+          userId: z.string().uuid(),
+          type: z.enum(["deposit", "withdrawal", "emi_payment", "disbursement", "adjustment"]),
+          amount: z.number().positive().max(1_000_000_000),
+          method: z.string().max(50).optional(),
+          note: z.string().max(500).optional(),
+          adjustBalance: z.boolean().optional(),
+        })
+        .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { data: row, error } = await supabaseAdmin
+      .from("transactions")
+      .insert({
+        user_id: data.userId,
+        type: data.type as "deposit" | "withdrawal" | "emi_payment" | "disbursement" | "adjustment",
+        amount: data.amount,
+        method: data.method ?? null,
+        note: data.note ?? null,
+        status: "completed",
+        created_by: context.userId,
+      })
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    if (data.adjustBalance) {
+      const { data: prof } = await supabaseAdmin
+        .from("profiles")
+        .select("member_balance")
+        .eq("id", data.userId)
+        .maybeSingle();
+      const cur = Number(prof?.member_balance ?? 0);
+      const delta = data.type === "deposit" ? data.amount : -data.amount;
+      await supabaseAdmin
+        .from("profiles")
+        .update({ member_balance: Math.max(0, cur + delta) })
+        .eq("id", data.userId);
+    }
+    await logAudit({
+      actorId: context.userId,
+      action: `record_${data.type}`,
+      entityType: "transactions",
+      entityId: row?.id,
+      details: { userId: data.userId, amount: data.amount, adjustedBalance: !!data.adjustBalance },
+    });
+    return { ok: true };
+  });
+
+// Admin approves / rejects a pending member transaction request.
+export const setTransactionStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string; status: string; adjustBalance?: boolean }) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z.enum(["completed", "failed", "pending"]),
+        adjustBalance: z.boolean().optional(),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { data: tx, error: fetchErr } = await supabaseAdmin
+      .from("transactions")
+      .select("*")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (fetchErr) throw new Error(fetchErr.message);
+    if (!tx) throw new Error("Transaction not found");
+
+    const { error } = await supabaseAdmin
+      .from("transactions")
+      .update({ status: data.status })
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+
+    if (data.status === "completed" && data.adjustBalance && tx.status !== "completed") {
+      const { data: prof } = await supabaseAdmin
+        .from("profiles")
+        .select("member_balance")
+        .eq("id", tx.user_id)
+        .maybeSingle();
+      const cur = Number(prof?.member_balance ?? 0);
+      const delta = tx.type === "deposit" ? Number(tx.amount) : -Number(tx.amount);
+      await supabaseAdmin
+        .from("profiles")
+        .update({ member_balance: Math.max(0, cur + delta) })
+        .eq("id", tx.user_id);
+    }
+    await logAudit({
+      actorId: context.userId,
+      action: "review_transaction",
+      entityType: "transactions",
+      entityId: data.id,
+      details: { status: data.status, userId: tx.user_id },
+    });
+    return { ok: true };
+  });
+
 // ---------- KYC ----------
 export const listKyc = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
