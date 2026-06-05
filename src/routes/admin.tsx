@@ -9,6 +9,7 @@ import {
   Banknote,
   ShieldAlert,
   ScrollText,
+  Megaphone,
   Loader2,
   Lock,
 } from "lucide-react";
