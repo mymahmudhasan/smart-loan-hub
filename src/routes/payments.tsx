@@ -87,7 +87,7 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
             <button
               type="button"
               key={m.id}
-              onClick={() => setMethod(m.id)}
+              onClick={() => setMethod(m.id as "bkash" | "nagad" | "bank")}
               className={cn(
                 "rounded-xl border p-3 text-left transition-all",
                 method === m.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "hover:border-primary/50",
@@ -138,13 +138,13 @@ function Payments() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="deposit" className="mt-6">
-                <PaymentForm action="Deposit" cta={t("deposit")} />
+                <PaymentForm action="Deposit" cta={t("deposit")} type="deposit" />
               </TabsContent>
               <TabsContent value="withdraw" className="mt-6">
-                <PaymentForm action="Withdrawal" cta={t("withdraw")} />
+                <PaymentForm action="Withdrawal" cta={t("withdraw")} type="withdrawal" />
               </TabsContent>
               <TabsContent value="emi" className="mt-6">
-                <PaymentForm action="EMI payment" cta={t("pay_emi")} />
+                <PaymentForm action="EMI payment" cta={t("pay_emi")} type="emi_payment" />
               </TabsContent>
             </Tabs>
           </CardContent>
