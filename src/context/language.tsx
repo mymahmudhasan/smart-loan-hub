@@ -61,6 +61,36 @@ export const translations: Dict = {
   cta_title: { en: "Ready to unlock your loan limit?", bn: "আপনার লোন লিমিট আনলক করতে প্রস্তুত?" },
   cta_subtitle: { en: "Join thousands of verified members across Bangladesh.", bn: "বাংলাদেশজুড়ে হাজারো ভেরিফায়েড সদস্যের সাথে যোগ দিন।" },
 
+  // Offers banner
+  offers_eyebrow: { en: "Smart Loan Bank", bn: "স্মার্ট লোন ব্যাংক" },
+  offers_title: { en: "Exclusive member offers", bn: "এক্সক্লুসিভ মেম্বার অফার" },
+  offers_subtitle: { en: "Limited-time deals on loans, deposits and rewards.", bn: "লোন, জমা ও রিওয়ার্ডে সীমিত সময়ের অফার।" },
+
+  // Referral
+  refer_badge: { en: "Referral Rewards", bn: "রেফারেল রিওয়ার্ড" },
+  refer_title: { en: "Refer a friend, earn ৳500 each", bn: "বন্ধুকে রেফার করুন, প্রতি একাউন্টে ৳৫০০" },
+  refer_subtitle: {
+    en: "Share your code. When a friend opens a verified account, you both move closer to free money — ৳500 per successful referral.",
+    bn: "আপনার কোড শেয়ার করুন। বন্ধু ভেরিফায়েড একাউন্ট খুললে আপনি পাবেন প্রতি সফল রেফারেলে ৳৫০০।",
+  },
+  refer_reward: { en: "৳500 free per account", bn: "প্রতি একাউন্টে ৳৫০০ ফ্রি" },
+  refer_s1_t: { en: "Share your code", bn: "কোড শেয়ার করুন" },
+  refer_s1_d: { en: "Send your unique referral link to friends and family.", bn: "আপনার রেফারেল লিংক বন্ধু ও পরিবারকে পাঠান।" },
+  refer_s2_t: { en: "They join & verify", bn: "তারা যোগ দেয় ও যাচাই করে" },
+  refer_s2_d: { en: "Your friend signs up and completes KYC verification.", bn: "আপনার বন্ধু সাইন আপ করে কেওয়াইসি সম্পন্ন করে।" },
+  refer_s3_t: { en: "You earn ৳500", bn: "আপনি পান ৳৫০০" },
+  refer_s3_d: { en: "৳500 is added to your referral rewards balance.", bn: "৳৫০০ আপনার রেফারেল রিওয়ার্ড ব্যালেন্সে যোগ হয়।" },
+  refer_cta: { en: "Start referring", bn: "রেফার শুরু করুন" },
+  refer_code_label: { en: "Your referral code", bn: "আপনার রেফারেল কোড" },
+  refer_copy: { en: "Copy link", bn: "লিংক কপি" },
+  refer_copied: { en: "Referral link copied!", bn: "রেফারেল লিংক কপি হয়েছে!" },
+  refer_total: { en: "Total Referrals", bn: "মোট রেফারেল" },
+  refer_earned: { en: "Credited Rewards", bn: "ক্রেডিটেড রিওয়ার্ড" },
+  refer_pending: { en: "Pending Rewards", bn: "অপেক্ষমাণ রিওয়ার্ড" },
+  refer_widget_title: { en: "Refer & Earn", bn: "রেফার ও আয়" },
+  refer_none: { en: "No referrals yet. Share your link to start earning!", bn: "এখনো কোনো রেফারেল নেই। লিংক শেয়ার করে আয় শুরু করুন!" },
+  signup_referral: { en: "Referral Code (optional)", bn: "রেফারেল কোড (ঐচ্ছিক)" },
+
   // Calculator
   calc_title: { en: "Loan Calculator", bn: "লোন ক্যালকুলেটর" },
   calc_subtitle: { en: "Estimate your monthly EMI and total cost.", bn: "আপনার মাসিক ইএমআই ও মোট খরচ হিসাব করুন।" },

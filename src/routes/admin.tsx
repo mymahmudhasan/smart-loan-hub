@@ -9,6 +9,7 @@ import {
   Banknote,
   ShieldAlert,
   ScrollText,
+  Megaphone,
   Loader2,
   Lock,
 } from "lucide-react";
@@ -35,6 +36,7 @@ const navItems = [
   { to: "/admin/kyc", label: "KYC Review", icon: FileCheck2 },
   { to: "/admin/loans", label: "Loan Applications", icon: Banknote },
   { to: "/admin/fraud", label: "Fraud Flags", icon: ShieldAlert },
+  { to: "/admin/banners", label: "Banner Offers", icon: Megaphone },
   { to: "/admin/audit", label: "Audit Logs", icon: ScrollText },
 ];
 

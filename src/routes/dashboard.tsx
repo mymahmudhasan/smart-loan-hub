@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatBDT } from "@/lib/format";
 import { eligibleLoanAmount } from "@/lib/loan";
 import { useLanguage } from "@/context/language";
+import { ReferralWidget } from "@/components/dashboard/ReferralWidget";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -164,6 +165,10 @@ function Dashboard() {
             </ul>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="mt-6">
+        <ReferralWidget />
       </div>
     </div>
   );

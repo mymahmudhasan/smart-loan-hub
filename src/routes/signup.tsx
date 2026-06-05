@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { UserPlus, ShieldCheck, Upload, Loader2 } from "lucide-react";
+import { UserPlus, ShieldCheck, Upload, Loader2, Gift } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,7 +33,13 @@ function Signup() {
     address: "",
     password: "",
     confirm: "",
+    referral: "",
   });
+
+  useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref) setForm((f) => ({ ...f, referral: ref.trim().toUpperCase() }));
+  }, []);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [k]: e.target.value });
@@ -59,6 +65,7 @@ function Signup() {
           phone: form.phone,
           nid_number: form.nid,
           address: form.address,
+          referred_by: form.referral.trim().toUpperCase(),
         },
       },
     });
@@ -148,6 +155,20 @@ function Signup() {
                 <Input type="password" value={form.confirm} onChange={set("confirm")} required />
               </div>
             </div>
+
+            <div className="space-y-2">
+              <Label className="flex items-center gap-1.5">
+                <Gift className="h-4 w-4 text-accent" /> {t("signup_referral")}
+              </Label>
+              <Input
+                value={form.referral}
+                onChange={(e) => setForm({ ...form, referral: e.target.value.toUpperCase() })}
+                maxLength={20}
+                placeholder="ABCD1234"
+              />
+            </div>
+
+
 
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
