@@ -87,7 +87,7 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
             <button
               type="button"
               key={m.id}
-              onClick={() => setMethod(m.id)}
+              onClick={() => setMethod(m.id as "bkash" | "nagad" | "bank")}
               className={cn(
                 "rounded-xl border p-3 text-left transition-all",
                 method === m.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "hover:border-primary/50",
