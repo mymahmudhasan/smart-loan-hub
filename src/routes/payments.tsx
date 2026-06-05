@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatBDT } from "@/lib/format";
 import { useLanguage } from "@/context/language";
+import { useAuth } from "@/context/auth";
+import { requestTransaction } from "@/lib/member.functions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/payments")({
@@ -34,9 +38,22 @@ const logs = [
   { label: "Withdraw", method: "Bank Transfer", date: "10 May 2026", amount: 5000, status: "Pending" },
 ];
 
-function PaymentForm({ action, cta }: { action: string; cta: string }) {
-  const [method, setMethod] = useState("bkash");
+function PaymentForm({ action, cta, type }: { action: string; cta: string; type: "deposit" | "withdrawal" | "emi_payment" }) {
+  const [method, setMethod] = useState<"bkash" | "nagad" | "bank">("bkash");
   const [amount, setAmount] = useState("");
+  const { user } = useAuth();
+  const request = useServerFn(requestTransaction);
+
+  const mut = useMutation({
+    mutationFn: () => request({ data: { type, amount: Number(amount), method } }),
+    onSuccess: () => {
+      toast.success(`${action} request submitted`, {
+        description: `${formatBDT(Number(amount))} via ${methods.find((m) => m.id === method)?.name}. Awaiting verification.`,
+      });
+      setAmount("");
+    },
+    onError: (e) => toast.error("Request failed", { description: (e as Error).message }),
+  });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +61,11 @@ function PaymentForm({ action, cta }: { action: string; cta: string }) {
       toast.error("Please enter a valid amount");
       return;
     }
-    toast.success(`${action} request submitted`, {
-      description: `${formatBDT(Number(amount))} via ${methods.find((m) => m.id === method)?.name}. Awaiting verification.`,
-    });
-    setAmount("");
+    if (!user) {
+      toast.error("Please sign in to continue");
+      return;
+    }
+    mut.mutate();
   };
 
   return (
