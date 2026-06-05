@@ -26,6 +26,6 @@ export async function logAudit(params: {
     action: params.action,
     entity_type: params.entityType,
     entity_id: params.entityId ?? null,
-    details: params.details ?? {},
+    details: (params.details ?? {}) as Record<string, never>,
   });
 }
