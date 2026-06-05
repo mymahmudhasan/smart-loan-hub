@@ -438,3 +438,48 @@ export const claimAdmin = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { claimed: data === true };
   });
+
+// ---------- Account approval / document requests ----------
+// Admin asks a member to provide additional documents for the record.
+export const requestMemberDocuments = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { userId: string; message: string }) =>
+    z.object({ userId: z.string().uuid(), message: z.string().min(2).max(1000) }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({ documents_requested: data.message })
+      .eq("id", data.userId);
+    if (error) throw new Error(error.message);
+    await logAudit({
+      actorId: context.userId,
+      action: "request_member_documents",
+      entityType: "profiles",
+      entityId: data.userId,
+      details: { message: data.message },
+    });
+    return { ok: true };
+  });
+
+// Admin approves the member's real account (after KYC). Clears any document request
+// and starts the approval window if a deposit had not already done so.
+export const approveMemberAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { userId: string }) => z.object({ userId: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({ member_status: "verified", documents_requested: null })
+      .eq("id", data.userId);
+    if (error) throw new Error(error.message);
+    await logAudit({
+      actorId: context.userId,
+      action: "approve_member_account",
+      entityType: "profiles",
+      entityId: data.userId,
+    });
+    return { ok: true };
+  });

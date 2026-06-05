@@ -134,7 +134,39 @@ export const translations: Dict = {
 
   footer_tagline: { en: "Secure, membership-based lending for Bangladesh.", bn: "বাংলাদেশের জন্য নিরাপদ মেম্বারশিপ লোন।" },
   footer_rights: { en: "All rights reserved.", bn: "সর্বস্বত্ব সংরক্ষিত।" },
+
+  // Account approval timeline
+  appr_title: { en: "Real Account Approval", bn: "আসল অ্যাকাউন্ট অনুমোদন" },
+  appr_subtitle: {
+    en: "Your account is verified within 72 hours of your deposit, once KYC is approved.",
+    bn: "জমা দেওয়ার ৭২ ঘণ্টার মধ্যে, কেওয়াইসি অনুমোদনের পর আপনার অ্যাকাউন্ট ভেরিফায়েড হয়।",
+  },
+  appr_timeleft: { en: "Time left for approval", bn: "অনুমোদনের জন্য বাকি সময়" },
+  appr_deadline_passed: {
+    en: "Approval is taking a little longer. Our team is reviewing your account.",
+    bn: "অনুমোদনে একটু বেশি সময় লাগছে। আমাদের টিম আপনার অ্যাকাউন্ট পর্যালোচনা করছে।",
+  },
+  appr_start_hint: {
+    en: "Make a deposit to start your 72-hour account approval.",
+    bn: "৭২ ঘণ্টার অ্যাকাউন্ট অনুমোদন শুরু করতে একটি জমা দিন।",
+  },
+  appr_make_deposit: { en: "Make a Deposit", bn: "জমা দিন" },
+  appr_docs_needed: { en: "Documents requested by admin", bn: "অ্যাডমিন কর্তৃক চাওয়া ডকুমেন্ট" },
+  appr_stage_deposit: { en: "Deposit received", bn: "জমা গৃহীত" },
+  appr_stage_kyc: { en: "KYC verification", bn: "কেওয়াইসি যাচাই" },
+  appr_stage_docs: { en: "Document review", bn: "ডকুমেন্ট পর্যালোচনা" },
+  appr_stage_active: { en: "Account approved", bn: "অ্যাকাউন্ট অনুমোদিত" },
+  appr_approved_title: { en: "Your account is approved", bn: "আপনার অ্যাকাউন্ট অনুমোদিত" },
+  appr_approved_desc: {
+    en: "You're a verified member and can now access all features.",
+    bn: "আপনি একজন ভেরিফায়েড সদস্য এবং এখন সব ফিচার ব্যবহার করতে পারবেন।",
+  },
+  appr_days: { en: "d", bn: "দি" },
+  appr_hours: { en: "h", bn: "ঘ" },
+  appr_mins: { en: "m", bn: "মি" },
+  appr_secs: { en: "s", bn: "সে" },
 };
+
 
 interface LanguageContextValue {
   lang: Lang;

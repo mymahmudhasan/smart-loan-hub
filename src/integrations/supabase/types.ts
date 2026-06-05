@@ -248,7 +248,9 @@ export type Database = {
       profiles: {
         Row: {
           address: string | null
+          approval_started_at: string | null
           created_at: string
+          documents_requested: string | null
           email: string | null
           full_name: string | null
           id: string
@@ -261,7 +263,9 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          approval_started_at?: string | null
           created_at?: string
+          documents_requested?: string | null
           email?: string | null
           full_name?: string | null
           id: string
@@ -274,7 +278,9 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          approval_started_at?: string | null
           created_at?: string
+          documents_requested?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
