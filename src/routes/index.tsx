@@ -105,6 +105,11 @@ function Home() {
         </div>
       </section>
 
+      {/* Bank-style offers banner */}
+      <OffersBanner offers={offers} />
+
+
+
       {/* Stats */}
       <section className="border-y bg-card">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 lg:grid-cols-4">
