@@ -58,7 +58,7 @@ function AdminLayout() {
       <Gate
         title="Sign in required"
         body="You need to sign in with an administrator account to access the admin panel."
-        action={<Button variant="hero" onClick={() => navigate({ to: "/login" })}>Go to login</Button>}
+        action={<Button variant="hero" onClick={() => navigate({ to: "/admin-login" })}>Go to admin login</Button>}
       />
     );
   }
