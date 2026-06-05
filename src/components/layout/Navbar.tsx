@@ -59,12 +59,32 @@ export function Navbar() {
         <div className="flex items-center gap-1">
           <LanguageToggle />
           <ThemeToggle />
-          <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
-            <Link to="/login">{t("nav_login")}</Link>
-          </Button>
-          <Button variant="hero" size="sm" asChild className="hidden md:inline-flex">
-            <Link to="/signup">{t("nav_signup")}</Link>
-          </Button>
+          {isAdmin && (
+            <Button variant="accent" size="sm" asChild className="hidden md:inline-flex">
+              <Link to="/admin">
+                <LayoutDashboard className="h-4 w-4" /> Admin
+              </Link>
+            </Button>
+          )}
+          {user ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="hidden md:inline-flex"
+            >
+              <LogOut className="h-4 w-4" /> Sign out
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
+                <Link to="/login">{t("nav_login")}</Link>
+              </Button>
+              <Button variant="hero" size="sm" asChild className="hidden md:inline-flex">
+                <Link to="/signup">{t("nav_signup")}</Link>
+              </Button>
+            </>
+          )}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
