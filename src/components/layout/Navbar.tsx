@@ -109,12 +109,27 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-4 flex flex-col gap-2">
-                  <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                    <Link to="/login">{t("nav_login")}</Link>
-                  </Button>
-                  <Button variant="hero" asChild onClick={() => setOpen(false)}>
-                    <Link to="/signup">{t("nav_signup")}</Link>
-                  </Button>
+                  {isAdmin && (
+                    <Button variant="accent" asChild onClick={() => setOpen(false)}>
+                      <Link to="/admin">
+                        <LayoutDashboard className="h-4 w-4" /> Admin Panel
+                      </Link>
+                    </Button>
+                  )}
+                  {user ? (
+                    <Button variant="outline" onClick={handleSignOut}>
+                      <LogOut className="h-4 w-4" /> Sign out
+                    </Button>
+                  ) : (
+                    <>
+                      <Button variant="outline" asChild onClick={() => setOpen(false)}>
+                        <Link to="/login">{t("nav_login")}</Link>
+                      </Button>
+                      <Button variant="hero" asChild onClick={() => setOpen(false)}>
+                        <Link to="/signup">{t("nav_signup")}</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
