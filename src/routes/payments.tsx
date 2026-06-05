@@ -138,13 +138,13 @@ function Payments() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="deposit" className="mt-6">
-                <PaymentForm action="Deposit" cta={t("deposit")} />
+                <PaymentForm action="Deposit" cta={t("deposit")} type="deposit" />
               </TabsContent>
               <TabsContent value="withdraw" className="mt-6">
-                <PaymentForm action="Withdrawal" cta={t("withdraw")} />
+                <PaymentForm action="Withdrawal" cta={t("withdraw")} type="withdrawal" />
               </TabsContent>
               <TabsContent value="emi" className="mt-6">
-                <PaymentForm action="EMI payment" cta={t("pay_emi")} />
+                <PaymentForm action="EMI payment" cta={t("pay_emi")} type="emi_payment" />
               </TabsContent>
             </Tabs>
           </CardContent>
