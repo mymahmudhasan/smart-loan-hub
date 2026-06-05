@@ -1,12 +1,13 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ShieldCheck, LogIn } from "lucide-react";
+import { ShieldCheck, LogIn, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -20,13 +21,24 @@ export const Route = createFileRoute("/login")({
 
 function Login() {
   const { t } = useLanguage();
-  const [form, setForm] = useState({ phone: "", password: "" });
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.info("Authentication backend not connected yet", {
-      description: "Enable Lovable Cloud to activate secure login & sessions.",
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: form.email.trim(),
+      password: form.password,
     });
+    setLoading(false);
+    if (error) {
+      toast.error("Sign in failed", { description: error.message });
+      return;
+    }
+    toast.success("Welcome back!");
+    navigate({ to: "/dashboard" });
   };
 
   return (
@@ -42,29 +54,28 @@ function Login() {
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
-              <Label>Mobile Number</Label>
+              <Label>Email</Label>
               <Input
-                placeholder="+880 1XXXXXXXXX"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                type="email"
+                placeholder="you@example.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
               />
             </div>
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label>Password</Label>
-                <Link to="/login" className="text-xs text-primary hover:underline">
-                  Forgot password?
-                </Link>
-              </div>
+              <Label>Password</Label>
               <Input
                 type="password"
                 placeholder="••••••••"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
+                required
               />
             </div>
-            <Button type="submit" variant="hero" size="lg" className="w-full">
-              <LogIn className="h-4 w-4" /> {t("nav_login")}
+            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogIn className="h-4 w-4" />}
+              {t("nav_login")}
             </Button>
           </form>
           <p className="mt-6 text-center text-sm text-muted-foreground">
