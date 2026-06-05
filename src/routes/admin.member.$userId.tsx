@@ -256,6 +256,119 @@ function LoansCard({ loans }: { loans: Detail["loans"] }) {
   );
 }
 
+function AccountApprovalCard({
+  userId,
+  profile,
+  kyc,
+}: {
+  userId: string;
+  profile: NonNullable<Detail["profile"]>;
+  kyc: Detail["kyc"];
+}) {
+  const qc = useQueryClient();
+  const router = useRouter();
+  const [message, setMessage] = useState("");
+  const requestDocs = useServerFn(requestMemberDocuments);
+  const approve = useServerFn(approveMemberAccount);
+
+  const verified = profile.member_status === "verified";
+  const startedAt = (profile as { approval_started_at?: string | null }).approval_started_at ?? null;
+  const docsRequested = (profile as { documents_requested?: string | null }).documents_requested ?? null;
+  const latestKyc = (kyc ?? [])[0];
+  const deadline = startedAt ? new Date(new Date(startedAt).getTime() + 72 * 3600_000) : null;
+
+  const refresh = () => {
+    qc.invalidateQueries({ queryKey: ["admin", "member", userId] });
+    router.invalidate();
+  };
+
+  const docsMut = useMutation({
+    mutationFn: () => requestDocs({ data: { userId, message: message.trim() } }),
+    onSuccess: () => {
+      toast.success("Document request sent to member");
+      setMessage("");
+      refresh();
+    },
+    onError: (e) => toast.error("Failed", { description: (e as Error).message }),
+  });
+
+  const approveMut = useMutation({
+    mutationFn: () => approve({ data: { userId } }),
+    onSuccess: () => {
+      toast.success("Account approved");
+      refresh();
+    },
+    onError: (e) => toast.error("Failed", { description: (e as Error).message }),
+  });
+
+  return (
+    <Card className="shadow-soft">
+      <CardHeader>
+        <CardTitle className="text-base">Account approval (72h)</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border bg-muted/30 p-3">
+            <p className="text-xs text-muted-foreground">Status</p>
+            <div className="mt-1">
+              <StatusBadge status={profile.member_status} />
+            </div>
+          </div>
+          <div className="rounded-lg border bg-muted/30 p-3">
+            <p className="text-xs text-muted-foreground">KYC</p>
+            <div className="mt-1">
+              <StatusBadge status={latestKyc?.status ?? "pending"} />
+            </div>
+          </div>
+          <div className="rounded-lg border bg-muted/30 p-3">
+            <p className="text-xs text-muted-foreground">Approval deadline</p>
+            <p className="mt-1 text-sm font-medium">
+              {deadline ? format(deadline, "dd MMM, HH:mm") : "Not started"}
+            </p>
+          </div>
+        </div>
+
+        {docsRequested && (
+          <div className="rounded-lg border border-warning/40 bg-warning/10 p-3 text-sm">
+            <p className="font-semibold">Pending document request</p>
+            <p className="text-muted-foreground">{docsRequested}</p>
+          </div>
+        )}
+
+        <div className="space-y-2">
+          <Label>Request additional documents</Label>
+          <Textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={2}
+            placeholder="e.g. Please upload a recent bank statement and proof of address."
+          />
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={message.trim().length < 2 || docsMut.isPending}
+              onClick={() => docsMut.mutate()}
+            >
+              {docsMut.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+              Send request
+            </Button>
+            <Button
+              variant="hero"
+              size="sm"
+              disabled={verified || approveMut.isPending}
+              onClick={() => approveMut.mutate()}
+            >
+              {approveMut.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+              {verified ? "Already approved" : "Approve account"}
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 function ProfileCard({ profile }: { profile: NonNullable<Detail["profile"]> }) {
   const rows = [
     { l: "Full name", v: profile.full_name },
