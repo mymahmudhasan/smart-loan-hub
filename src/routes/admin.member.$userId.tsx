@@ -37,7 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StatusBadge } from "@/components/admin/StatusBadge";
-import { getMemberDetail, addMemberTransaction, setTransactionStatus } from "@/lib/admin.functions";
+import { getMemberDetail, addMemberTransaction, setTransactionStatus, requestMemberDocuments, approveMemberAccount } from "@/lib/admin.functions";
 import { formatBDT } from "@/lib/format";
 import { eligibleLoanAmount } from "@/lib/loan";
 import { format } from "date-fns";
