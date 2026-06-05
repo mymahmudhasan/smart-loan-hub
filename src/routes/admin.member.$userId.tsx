@@ -137,10 +137,13 @@ function MemberDetail() {
         <LoansCard loans={data!.loans} />
       </div>
 
+      <AccountApprovalCard userId={userId} profile={profile} kyc={data!.kyc} />
+
       <div className="grid gap-6 lg:grid-cols-2">
         <ProfileCard profile={profile} />
         <ActivityCard activity={data!.activity} />
       </div>
+
     </div>
   );
 }
