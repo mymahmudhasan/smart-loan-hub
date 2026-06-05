@@ -25,7 +25,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminMembersRouteImport } from './routes/admin.members'
+import { Route as AdminLoansRouteImport } from './routes/admin.loans'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
+import { Route as AdminFraudRouteImport } from './routes/admin.fraud'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -107,9 +110,24 @@ const AdminMembersRoute = AdminMembersRouteImport.update({
   path: '/members',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLoansRoute = AdminLoansRouteImport.update({
+  id: '/loans',
+  path: '/loans',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminKycRoute = AdminKycRouteImport.update({
   id: '/kyc',
   path: '/kyc',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFraudRoute = AdminFraudRouteImport.update({
+  id: '/fraud',
+  path: '/fraud',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -128,7 +146,10 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/loans': typeof AdminLoansRoute
   '/admin/members': typeof AdminMembersRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -146,7 +167,10 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/loans': typeof AdminLoansRoute
   '/admin/members': typeof AdminMembersRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -166,7 +190,10 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/loans': typeof AdminLoansRoute
   '/admin/members': typeof AdminMembersRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -187,7 +214,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/audit'
+    | '/admin/fraud'
     | '/admin/kyc'
+    | '/admin/loans'
     | '/admin/members'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -205,7 +235,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/audit'
+    | '/admin/fraud'
     | '/admin/kyc'
+    | '/admin/loans'
     | '/admin/members'
     | '/admin'
   id:
@@ -224,7 +257,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/audit'
+    | '/admin/fraud'
     | '/admin/kyc'
+    | '/admin/loans'
     | '/admin/members'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -360,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMembersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/loans': {
+      id: '/admin/loans'
+      path: '/loans'
+      fullPath: '/admin/loans'
+      preLoaderRoute: typeof AdminLoansRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/kyc': {
       id: '/admin/kyc'
       path: '/kyc'
@@ -367,17 +410,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminKycRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/fraud': {
+      id: '/admin/fraud'
+      path: '/fraud'
+      fullPath: '/admin/fraud'
+      preLoaderRoute: typeof AdminFraudRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminFraudRoute: typeof AdminFraudRoute
   AdminKycRoute: typeof AdminKycRoute
+  AdminLoansRoute: typeof AdminLoansRoute
   AdminMembersRoute: typeof AdminMembersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAuditRoute: AdminAuditRoute,
+  AdminFraudRoute: AdminFraudRoute,
   AdminKycRoute: AdminKycRoute,
+  AdminLoansRoute: AdminLoansRoute,
   AdminMembersRoute: AdminMembersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -403,3 +466,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
