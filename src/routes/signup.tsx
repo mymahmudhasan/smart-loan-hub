@@ -1,13 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { UserPlus, ShieldCheck, Upload } from "lucide-react";
+import { UserPlus, ShieldCheck, Upload, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -21,6 +22,8 @@ export const Route = createFileRoute("/signup")({
 
 function Signup() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -35,15 +38,39 @@ function Signup() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [k]: e.target.value });
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.password !== form.confirm) {
       toast.error("Passwords do not match");
       return;
     }
-    toast.info("Authentication backend not connected yet", {
-      description: "Enable Lovable Cloud to activate registration, OTP & KYC.",
+    if (form.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email: form.email.trim(),
+      password: form.password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+        data: {
+          full_name: form.fullName,
+          phone: form.phone,
+          nid_number: form.nid,
+          address: form.address,
+        },
+      },
     });
+    setLoading(false);
+    if (error) {
+      toast.error("Registration failed", { description: error.message });
+      return;
+    }
+    toast.success("Account created", {
+      description: "Check your email to verify your account, then log in.",
+    });
+    navigate({ to: "/login" });
   };
 
   return (
@@ -76,8 +103,8 @@ function Signup() {
                 <Input value={form.phone} onChange={set("phone")} placeholder="+880 1XXXXXXXXX" required />
               </div>
               <div className="space-y-2">
-                <Label>Email (optional)</Label>
-                <Input type="email" value={form.email} onChange={set("email")} maxLength={255} />
+                <Label>Email *</Label>
+                <Input type="email" value={form.email} onChange={set("email")} maxLength={255} required />
               </div>
               <div className="space-y-2">
                 <Label>National ID / Voter ID *</Label>
@@ -122,7 +149,8 @@ function Signup() {
               </div>
             </div>
 
-            <Button type="submit" variant="hero" size="lg" className="w-full">
+            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               Create Account
             </Button>
           </form>
