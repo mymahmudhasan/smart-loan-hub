@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, ArrowRight, Sparkles, Landmark } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, Landmark } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,12 +28,22 @@ import {
 } from "@/components/ui/select";
 import { listAllBanners, upsertBanner, deleteBanner, type BannerOffer } from "@/lib/banner.functions";
 import { cn } from "@/lib/utils";
+import {
+  OfferCard,
+  bannerThemes,
+  ctaStyles,
+  textStyles,
+  ctaStyleLabel,
+  textStyleLabel,
+  type CtaStyle,
+  type TextStyle,
+} from "@/components/home/OfferCard";
 
 export const Route = createFileRoute("/admin/banners")({
   component: AdminBanners,
 });
 
-const themes = ["primary", "gold", "emerald", "midnight"] as const;
+const themes = bannerThemes;
 const themeSwatch: Record<string, string> = {
   primary: "gradient-primary",
   gold: "gradient-gold",
@@ -41,12 +51,6 @@ const themeSwatch: Record<string, string> = {
   midnight: "gradient-midnight",
 };
 
-const themeClass: Record<string, string> = {
-  primary: "gradient-primary",
-  gold: "gradient-gold",
-  emerald: "gradient-emerald",
-  midnight: "gradient-midnight",
-};
 
 type FormState = {
   id?: string;
