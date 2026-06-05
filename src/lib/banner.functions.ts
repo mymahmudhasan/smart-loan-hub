@@ -12,6 +12,8 @@ export type BannerOffer = {
   cta_label: string;
   cta_href: string;
   theme: string;
+  cta_style: string;
+  text_style: string;
   sort_order: number;
   active: boolean;
 };
@@ -20,7 +22,9 @@ export type BannerOffer = {
 export const listActiveBanners = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin
     .from("banner_offers")
-    .select("id, title, subtitle, badge, cta_label, cta_href, theme, sort_order, active")
+    .select(
+      "id, title, subtitle, badge, cta_label, cta_href, theme, cta_style, text_style, sort_order, active",
+    )
     .eq("active", true)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
