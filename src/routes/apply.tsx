@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { HandCoins, ArrowRight } from "lucide-react";
+import { HandCoins, ArrowRight, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
@@ -9,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { calculateLoan, MAX_MONTHS, eligibleLoanAmount } from "@/lib/loan";
 import { formatBDT } from "@/lib/format";
 import { useLanguage } from "@/context/language";
+import { useAuth } from "@/context/auth";
+import { submitLoanApplication } from "@/lib/member.functions";
 
 export const Route = createFileRoute("/apply")({
   head: () => ({
@@ -24,16 +28,30 @@ const memberBalance = 50000;
 
 function Apply() {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const maxLoan = eligibleLoanAmount(memberBalance);
   const [amount, setAmount] = useState(Math.min(300000, maxLoan));
   const [months, setMonths] = useState(24);
   const result = useMemo(() => calculateLoan(amount, months), [amount, months]);
+  const apply = useServerFn(submitLoanApplication);
+
+  const mut = useMutation({
+    mutationFn: () => apply({ data: { amount, months, emi: Math.round(result.emi) } }),
+    onSuccess: () =>
+      toast.success("Loan application submitted", {
+        description: `${formatBDT(amount)} for ${months} months. Pending admin review.`,
+      }),
+    onError: (e) => toast.error("Submission failed", { description: (e as Error).message }),
+  });
 
   const submit = () => {
-    toast.success("Loan application submitted", {
-      description: `${formatBDT(amount)} for ${months} months. Pending admin review.`,
-    });
+    if (!user) {
+      toast.error("Please sign in to apply for a loan");
+      return;
+    }
+    mut.mutate();
   };
+
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 lg:py-16">
