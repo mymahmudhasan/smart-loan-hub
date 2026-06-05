@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, ShieldCheck } from "lucide-react";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { Menu, ShieldCheck, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
 import { useLanguage } from "@/context/language";
+import { useAuth } from "@/context/auth";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -21,6 +22,14 @@ export function Navbar() {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    setOpen(false);
+    await signOut();
+    navigate({ to: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full glass">
@@ -50,12 +59,32 @@ export function Navbar() {
         <div className="flex items-center gap-1">
           <LanguageToggle />
           <ThemeToggle />
-          <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
-            <Link to="/login">{t("nav_login")}</Link>
-          </Button>
-          <Button variant="hero" size="sm" asChild className="hidden md:inline-flex">
-            <Link to="/signup">{t("nav_signup")}</Link>
-          </Button>
+          {isAdmin && (
+            <Button variant="accent" size="sm" asChild className="hidden md:inline-flex">
+              <Link to="/admin">
+                <LayoutDashboard className="h-4 w-4" /> Admin
+              </Link>
+            </Button>
+          )}
+          {user ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="hidden md:inline-flex"
+            >
+              <LogOut className="h-4 w-4" /> Sign out
+            </Button>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
+                <Link to="/login">{t("nav_login")}</Link>
+              </Button>
+              <Button variant="hero" size="sm" asChild className="hidden md:inline-flex">
+                <Link to="/signup">{t("nav_signup")}</Link>
+              </Button>
+            </>
+          )}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -80,12 +109,27 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-4 flex flex-col gap-2">
-                  <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                    <Link to="/login">{t("nav_login")}</Link>
-                  </Button>
-                  <Button variant="hero" asChild onClick={() => setOpen(false)}>
-                    <Link to="/signup">{t("nav_signup")}</Link>
-                  </Button>
+                  {isAdmin && (
+                    <Button variant="accent" asChild onClick={() => setOpen(false)}>
+                      <Link to="/admin">
+                        <LayoutDashboard className="h-4 w-4" /> Admin Panel
+                      </Link>
+                    </Button>
+                  )}
+                  {user ? (
+                    <Button variant="outline" onClick={handleSignOut}>
+                      <LogOut className="h-4 w-4" /> Sign out
+                    </Button>
+                  ) : (
+                    <>
+                      <Button variant="outline" asChild onClick={() => setOpen(false)}>
+                        <Link to="/login">{t("nav_login")}</Link>
+                      </Button>
+                      <Button variant="hero" asChild onClick={() => setOpen(false)}>
+                        <Link to="/signup">{t("nav_signup")}</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
