@@ -156,6 +156,20 @@ function Signup() {
               </div>
             </div>
 
+            <div className="space-y-2">
+              <Label className="flex items-center gap-1.5">
+                <Gift className="h-4 w-4 text-accent" /> {t("signup_referral")}
+              </Label>
+              <Input
+                value={form.referral}
+                onChange={(e) => setForm({ ...form, referral: e.target.value.toUpperCase() })}
+                maxLength={20}
+                placeholder="ABCD1234"
+              />
+            </div>
+
+
+
             <Button type="submit" variant="hero" size="lg" className="w-full" disabled={loading}>
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               Create Account
