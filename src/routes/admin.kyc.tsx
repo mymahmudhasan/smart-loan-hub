@@ -33,7 +33,7 @@ function AdminKyc() {
   const [filter, setFilter] = useState("pending");
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "kyc"],
-    queryFn: () => fetchKyc() as Promise<Kyc[]>,
+    queryFn: () => fetchKyc() as unknown as Promise<Kyc[]>,
   });
 
   const rows = (data ?? []).filter((k) => filter === "all" || k.status === filter);
