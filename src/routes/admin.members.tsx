@@ -119,7 +119,12 @@ function AdminMembers() {
                         <StatusBadge status={m.member_status} />
                       </TableCell>
                       <TableCell className="text-right">
-                        <ManageMemberDialog member={m} onDone={() => qc.invalidateQueries({ queryKey: ["admin", "members"] })} />
+                        <div className="flex justify-end gap-2">
+                          <Button variant="ghost" size="sm" asChild>
+                            <Link to="/admin/member/$userId" params={{ userId: m.id }}>View</Link>
+                          </Button>
+                          <ManageMemberDialog member={m} onDone={() => qc.invalidateQueries({ queryKey: ["admin", "members"] })} />
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
