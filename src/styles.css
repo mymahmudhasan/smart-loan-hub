@@ -201,6 +201,19 @@
   background-image: var(--gradient-primary);
 }
 
+@utility gradient-gold {
+  background-image: var(--gradient-gold);
+}
+
+@utility gradient-emerald {
+  background-image: var(--gradient-emerald);
+}
+
+@utility gradient-midnight {
+  background-image: var(--gradient-midnight);
+}
+
+
 @utility text-gradient {
   background-image: var(--gradient-primary);
   background-clip: text;
