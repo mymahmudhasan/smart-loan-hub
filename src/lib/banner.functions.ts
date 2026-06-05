@@ -54,6 +54,8 @@ const bannerInput = z.object({
   cta_label: z.string().min(1).max(40),
   cta_href: z.string().min(1).max(200),
   theme: z.enum(["primary", "gold", "emerald", "midnight"]),
+  cta_style: z.enum(["glass", "solid", "outline", "gold", "ghost"]),
+  text_style: z.enum(["classic", "centered", "spotlight", "minimal"]),
   sort_order: z.number().int().min(0).max(999),
   active: z.boolean(),
 });
