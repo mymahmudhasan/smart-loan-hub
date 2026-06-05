@@ -41,8 +41,57 @@ const logs = [
 function PaymentForm({ action, cta, type }: { action: string; cta: string; type: "deposit" | "withdrawal" | "emi_payment" }) {
   const [method, setMethod] = useState<"bkash" | "nagad" | "bank">("bkash");
   const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [errors, setErrors] = useState<{
+    amount?: string;
+    method?: string;
+    date?: string;
+  }>({});
   const { user } = useAuth();
   const request = useServerFn(requestTransaction);
+
+  const validate = () => {
+    const next: typeof errors = {};
+
+    if (!amount || amount.trim() === "") {
+      next.amount = "Please enter an amount.";
+    } else {
+      const val = Number(amount);
+      if (Number.isNaN(val) || val <= 0) {
+        next.amount = "Amount must be a positive number.";
+      } else if (val < 10) {
+        next.amount = "Minimum amount is ৳10.";
+      } else if (val > 5_00_000) {
+        next.amount = "Maximum amount is ৳5,00,000.";
+      }
+    }
+
+    if (!method || !["bkash", "nagad", "bank"].includes(method)) {
+      next.method = "Please select a valid payment method.";
+    }
+
+    if (!date || date.trim() === "") {
+      next.date = "Please select a transaction date.";
+    } else {
+      const selected = new Date(date);
+      const now = new Date();
+      now.setHours(23, 59, 59, 999);
+      const minDate = new Date();
+      minDate.setDate(minDate.getDate() - 7);
+      minDate.setHours(0, 0, 0, 0);
+
+      if (Number.isNaN(selected.getTime())) {
+        next.date = "Invalid date selected.";
+      } else if (selected > now) {
+        next.date = "Date cannot be in the future.";
+      } else if (selected < minDate) {
+        next.date = "Date cannot be older than 7 days.";
+      }
+    }
+
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
 
   const mut = useMutation({
     mutationFn: () => request({ data: { type, amount: Number(amount), method } }),
@@ -51,35 +100,66 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
         description: `${formatBDT(Number(amount))} via ${methods.find((m) => m.id === method)?.name}. Awaiting verification.`,
       });
       setAmount("");
+      setDate("");
+      setErrors({});
     },
     onError: (e) => toast.error("Request failed", { description: (e as Error).message }),
   });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!amount || Number(amount) <= 0) {
-      toast.error("Please enter a valid amount");
-      return;
-    }
     if (!user) {
       toast.error("Please sign in to continue");
       return;
     }
+    if (!validate()) return;
     mut.mutate();
   };
 
   return (
-    <form onSubmit={submit} className="space-y-5">
+    <form onSubmit={submit} className="space-y-5" noValidate>
       <div className="space-y-2">
-        <Label>Amount (BDT)</Label>
+        <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
         <Input
+          id={`${type}-amount`}
           type="number"
           placeholder="0"
           value={amount}
           min={1}
-          onChange={(e) => setAmount(e.target.value)}
+          aria-invalid={!!errors.amount}
+          aria-describedby={errors.amount ? `${type}-amount-error` : undefined}
+          onChange={(e) => {
+            setAmount(e.target.value);
+            if (errors.amount) setErrors((p) => ({ ...p, amount: undefined }));
+          }}
         />
+        {errors.amount && (
+          <p id={`${type}-amount-error`} className="text-xs text-destructive">
+            {errors.amount}
+          </p>
+        )}
       </div>
+
+      <div className="space-y-2">
+        <Label htmlFor={`${type}-date`}>Transaction Date</Label>
+        <Input
+          id={`${type}-date`}
+          type="date"
+          value={date}
+          aria-invalid={!!errors.date}
+          aria-describedby={errors.date ? `${type}-date-error` : undefined}
+          onChange={(e) => {
+            setDate(e.target.value);
+            if (errors.date) setErrors((p) => ({ ...p, date: undefined }));
+          }}
+        />
+        {errors.date && (
+          <p id={`${type}-date-error`} className="text-xs text-destructive">
+            {errors.date}
+          </p>
+        )}
+      </div>
+
       <div className="space-y-2">
         <Label>Payment Method</Label>
         <div className="grid gap-2 sm:grid-cols-3">
@@ -87,11 +167,15 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
             <button
               type="button"
               key={m.id}
-              onClick={() => setMethod(m.id as "bkash" | "nagad" | "bank")}
+              onClick={() => {
+                setMethod(m.id as "bkash" | "nagad" | "bank");
+                if (errors.method) setErrors((p) => ({ ...p, method: undefined }));
+              }}
               className={cn(
                 "rounded-xl border p-3 text-left transition-all",
                 method === m.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "hover:border-primary/50",
               )}
+              aria-pressed={method === m.id}
             >
               <div className="flex items-center justify-between">
                 <span className="font-semibold">{m.name}</span>
@@ -101,9 +185,14 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
             </button>
           ))}
         </div>
+        {errors.method && (
+          <p id={`${type}-method-error`} className="text-xs text-destructive">
+            {errors.method}
+          </p>
+        )}
       </div>
-      <Button type="submit" variant="hero" size="lg" className="w-full">
-        {cta}
+      <Button type="submit" variant="hero" size="lg" className="w-full" disabled={mut.isPending}>
+        {mut.isPending ? "Processing…" : cta}
       </Button>
     </form>
   );
