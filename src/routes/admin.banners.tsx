@@ -419,7 +419,27 @@ function AdminBanners() {
                 <Label>Active</Label>
               </div>
             </div>
+            <div className="space-y-2">
+              <Label className="text-xs text-muted-foreground">Live preview</Label>
+              <OfferCard
+                offer={{
+                  id: "preview",
+                  title: form.title || "Your offer title",
+                  subtitle: form.subtitle || null,
+                  badge: form.badge || null,
+                  cta_label: form.cta_label || "Apply Now",
+                  cta_href: form.cta_href || "#",
+                  theme: form.theme,
+                  cta_style: form.cta_style,
+                  text_style: form.text_style,
+                  sort_order: form.sort_order,
+                  active: form.active,
+                }}
+                preview
+              />
+            </div>
             <DialogFooter>
+
               <Button type="submit" variant="hero" disabled={saveMut.isPending}>
                 {saveMut.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
                 Save Offer
