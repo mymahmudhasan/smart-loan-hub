@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, ArrowRight, Sparkles, Landmark } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Eye, EyeOff, Monitor, Smartphone, Landmark } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,12 +28,22 @@ import {
 } from "@/components/ui/select";
 import { listAllBanners, upsertBanner, deleteBanner, type BannerOffer } from "@/lib/banner.functions";
 import { cn } from "@/lib/utils";
+import {
+  OfferCard,
+  bannerThemes,
+  ctaStyles,
+  textStyles,
+  ctaStyleLabel,
+  textStyleLabel,
+  type CtaStyle,
+  type TextStyle,
+} from "@/components/home/OfferCard";
 
 export const Route = createFileRoute("/admin/banners")({
   component: AdminBanners,
 });
 
-const themes = ["primary", "gold", "emerald", "midnight"] as const;
+const themes = bannerThemes;
 const themeSwatch: Record<string, string> = {
   primary: "gradient-primary",
   gold: "gradient-gold",
@@ -41,12 +51,6 @@ const themeSwatch: Record<string, string> = {
   midnight: "gradient-midnight",
 };
 
-const themeClass: Record<string, string> = {
-  primary: "gradient-primary",
-  gold: "gradient-gold",
-  emerald: "gradient-emerald",
-  midnight: "gradient-midnight",
-};
 
 type FormState = {
   id?: string;
@@ -56,6 +60,8 @@ type FormState = {
   cta_label: string;
   cta_href: string;
   theme: (typeof themes)[number];
+  cta_style: CtaStyle;
+  text_style: TextStyle;
   sort_order: number;
   active: boolean;
 };
@@ -67,47 +73,16 @@ const emptyForm: FormState = {
   cta_label: "Apply Now",
   cta_href: "/signup",
   theme: "primary",
+  cta_style: "glass",
+  text_style: "classic",
   sort_order: 0,
   active: true,
 };
 
 function BannerPreviewCard({ offer }: { offer: BannerOffer }) {
-  return (
-    <div
-      className={cn(
-        "relative flex min-h-[230px] flex-col justify-between overflow-hidden rounded-3xl p-6 shadow-elegant sm:p-8",
-        themeClass[offer.theme] ?? themeClass.primary,
-      )}
-    >
-      <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-2xl" />
-      <div className="pointer-events-none absolute right-6 top-6 h-9 w-12 rounded-md bg-white/25" />
-      <div className="pointer-events-none absolute -bottom-12 -left-6 h-40 w-40 rounded-full bg-black/10 blur-2xl" />
-
-      <div className="relative">
-        {offer.badge && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-on-hero backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5" /> {offer.badge}
-          </span>
-        )}
-        <h3 className="mt-4 max-w-xl text-2xl font-extrabold leading-tight text-on-hero sm:text-3xl">
-          {offer.title}
-        </h3>
-        {offer.subtitle && (
-          <p className="mt-2 max-w-lg text-sm text-on-hero/80 sm:text-base">{offer.subtitle}</p>
-        )}
-      </div>
-
-      <div className="relative mt-6 flex items-center justify-between gap-4">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/20 px-5 py-2.5 text-sm font-semibold text-on-hero backdrop-blur-sm">
-          {offer.cta_label} <ArrowRight className="h-4 w-4" />
-        </span>
-        <span className="hidden font-mono text-sm tracking-[0.3em] text-on-hero/70 sm:block">
-          •••• •••• •••• 5000
-        </span>
-      </div>
-    </div>
-  );
+  return <OfferCard offer={offer} preview />;
 }
+
 
 function AdminBanners() {
   const fetchAll = useServerFn(listAllBanners);
@@ -140,6 +115,8 @@ function AdminBanners() {
           cta_label: payload.cta_label.trim(),
           cta_href: payload.cta_href.trim(),
           theme: payload.theme,
+          cta_style: payload.cta_style,
+          text_style: payload.text_style,
           sort_order: Number(payload.sort_order) || 0,
           active: payload.active,
         },
@@ -172,6 +149,8 @@ function AdminBanners() {
           cta_label: b.cta_label,
           cta_href: b.cta_href,
           theme: b.theme as FormState["theme"],
+          cta_style: b.cta_style as CtaStyle,
+          text_style: b.text_style as TextStyle,
           sort_order: b.sort_order,
           active: !b.active,
         },
@@ -195,6 +174,8 @@ function AdminBanners() {
       cta_label: b.cta_label,
       cta_href: b.cta_href,
       theme: (b.theme as FormState["theme"]) ?? "primary",
+      cta_style: (b.cta_style as CtaStyle) ?? "glass",
+      text_style: (b.text_style as TextStyle) ?? "classic",
       sort_order: b.sort_order,
       active: b.active,
     });
@@ -361,6 +342,45 @@ function AdminBanners() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
+                <Label>Button Style</Label>
+                <Select
+                  value={form.cta_style}
+                  onValueChange={(v) => setForm({ ...form, cta_style: v as CtaStyle })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ctaStyles.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {ctaStyleLabel[s]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Text Style</Label>
+                <Select
+                  value={form.text_style}
+                  onValueChange={(v) => setForm({ ...form, text_style: v as TextStyle })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {textStyles.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {textStyleLabel[s]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
                 <Label>Button Label *</Label>
                 <Input
                   value={form.cta_label}
@@ -399,7 +419,27 @@ function AdminBanners() {
                 <Label>Active</Label>
               </div>
             </div>
+            <div className="space-y-2">
+              <Label className="text-xs text-muted-foreground">Live preview</Label>
+              <OfferCard
+                offer={{
+                  id: "preview",
+                  title: form.title || "Your offer title",
+                  subtitle: form.subtitle || null,
+                  badge: form.badge || null,
+                  cta_label: form.cta_label || "Apply Now",
+                  cta_href: form.cta_href || "#",
+                  theme: form.theme,
+                  cta_style: form.cta_style,
+                  text_style: form.text_style,
+                  sort_order: form.sort_order,
+                  active: form.active,
+                }}
+                preview
+              />
+            </div>
             <DialogFooter>
+
               <Button type="submit" variant="hero" disabled={saveMut.isPending}>
                 {saveMut.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
                 Save Offer

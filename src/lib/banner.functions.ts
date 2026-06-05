@@ -12,6 +12,8 @@ export type BannerOffer = {
   cta_label: string;
   cta_href: string;
   theme: string;
+  cta_style: string;
+  text_style: string;
   sort_order: number;
   active: boolean;
 };
@@ -20,7 +22,9 @@ export type BannerOffer = {
 export const listActiveBanners = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin
     .from("banner_offers")
-    .select("id, title, subtitle, badge, cta_label, cta_href, theme, sort_order, active")
+    .select(
+      "id, title, subtitle, badge, cta_label, cta_href, theme, cta_style, text_style, sort_order, active",
+    )
     .eq("active", true)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
@@ -50,6 +54,8 @@ const bannerInput = z.object({
   cta_label: z.string().min(1).max(40),
   cta_href: z.string().min(1).max(200),
   theme: z.enum(["primary", "gold", "emerald", "midnight"]),
+  cta_style: z.enum(["glass", "solid", "outline", "gold", "ghost"]),
+  text_style: z.enum(["classic", "centered", "spotlight", "minimal"]),
   sort_order: z.number().int().min(0).max(999),
   active: z.boolean(),
 });
@@ -66,6 +72,8 @@ export const upsertBanner = createServerFn({ method: "POST" })
       cta_label: data.cta_label,
       cta_href: data.cta_href,
       theme: data.theme,
+      cta_style: data.cta_style,
+      text_style: data.text_style,
       sort_order: data.sort_order,
       active: data.active,
     };

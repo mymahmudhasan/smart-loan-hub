@@ -51,9 +51,11 @@ export type Database = {
           created_at: string
           cta_href: string
           cta_label: string
+          cta_style: string
           id: string
           sort_order: number
           subtitle: string | null
+          text_style: string
           theme: string
           title: string
           updated_at: string
@@ -64,9 +66,11 @@ export type Database = {
           created_at?: string
           cta_href?: string
           cta_label?: string
+          cta_style?: string
           id?: string
           sort_order?: number
           subtitle?: string | null
+          text_style?: string
           theme?: string
           title: string
           updated_at?: string
@@ -77,9 +81,11 @@ export type Database = {
           created_at?: string
           cta_href?: string
           cta_label?: string
+          cta_style?: string
           id?: string
           sort_order?: number
           subtitle?: string | null
+          text_style?: string
           theme?: string
           title?: string
           updated_at?: string
