@@ -103,8 +103,8 @@ function Apply() {
                 <span className="text-lg font-bold">{row.v}</span>
               </div>
             ))}
-            <Button variant="glass" size="lg" className="w-full" onClick={submit}>
-              Submit Application <ArrowRight className="h-4 w-4" />
+            <Button variant="glass" size="lg" className="w-full" onClick={submit} disabled={mut.isPending}>
+              {mut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Submit Application <ArrowRight className="h-4 w-4" /></>}
             </Button>
             <p className="text-center text-xs opacity-80">
               Subject to verification & admin approval.{" "}
