@@ -34,9 +34,22 @@ const logs = [
   { label: "Withdraw", method: "Bank Transfer", date: "10 May 2026", amount: 5000, status: "Pending" },
 ];
 
-function PaymentForm({ action, cta }: { action: string; cta: string }) {
-  const [method, setMethod] = useState("bkash");
+function PaymentForm({ action, cta, type }: { action: string; cta: string; type: "deposit" | "withdrawal" | "emi_payment" }) {
+  const [method, setMethod] = useState<"bkash" | "nagad" | "bank">("bkash");
   const [amount, setAmount] = useState("");
+  const { user } = useAuth();
+  const request = useServerFn(requestTransaction);
+
+  const mut = useMutation({
+    mutationFn: () => request({ data: { type, amount: Number(amount), method } }),
+    onSuccess: () => {
+      toast.success(`${action} request submitted`, {
+        description: `${formatBDT(Number(amount))} via ${methods.find((m) => m.id === method)?.name}. Awaiting verification.`,
+      });
+      setAmount("");
+    },
+    onError: (e) => toast.error("Request failed", { description: (e as Error).message }),
+  });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +57,11 @@ function PaymentForm({ action, cta }: { action: string; cta: string }) {
       toast.error("Please enter a valid amount");
       return;
     }
-    toast.success(`${action} request submitted`, {
-      description: `${formatBDT(Number(amount))} via ${methods.find((m) => m.id === method)?.name}. Awaiting verification.`,
-    });
-    setAmount("");
+    if (!user) {
+      toast.error("Please sign in to continue");
+      return;
+    }
+    mut.mutate();
   };
 
   return (
