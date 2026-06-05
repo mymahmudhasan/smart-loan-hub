@@ -174,6 +174,8 @@ function AdminBanners() {
       cta_label: b.cta_label,
       cta_href: b.cta_href,
       theme: (b.theme as FormState["theme"]) ?? "primary",
+      cta_style: (b.cta_style as CtaStyle) ?? "glass",
+      text_style: (b.text_style as TextStyle) ?? "classic",
       sort_order: b.sort_order,
       active: b.active,
     });
