@@ -65,6 +65,7 @@ function Signup() {
           phone: form.phone,
           nid_number: form.nid,
           address: form.address,
+          referred_by: form.referral.trim().toUpperCase(),
         },
       },
     });
