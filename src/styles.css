@@ -162,6 +162,9 @@
   --gradient-primary: linear-gradient(135deg, var(--primary), var(--accent));
   --gradient-hero: linear-gradient(160deg, oklch(0.3 0.1 255), oklch(0.22 0.06 230) 55%, oklch(0.28 0.08 165));
   --gradient-subtle: linear-gradient(180deg, oklch(0.19 0.03 255), oklch(0.17 0.03 255));
+  --gradient-gold: linear-gradient(135deg, oklch(0.5 0.11 70), oklch(0.62 0.13 85) 60%, oklch(0.42 0.09 55));
+  --gradient-emerald: linear-gradient(135deg, oklch(0.4 0.11 165), oklch(0.5 0.13 158) 60%, oklch(0.32 0.08 195));
+  --gradient-midnight: linear-gradient(135deg, oklch(0.24 0.06 260), oklch(0.3 0.08 250) 55%, oklch(0.18 0.04 230));
 
   --sidebar: oklch(0.19 0.03 255);
   --sidebar-foreground: oklch(0.96 0.01 250);
