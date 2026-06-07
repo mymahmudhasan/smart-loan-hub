@@ -1,6 +1,33 @@
 import { Link } from "@tanstack/react-router";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Lock, Landmark, Headphones } from "lucide-react";
 import { useLanguage } from "@/context/language";
+
+function BannerStrip() {
+  const { t } = useLanguage();
+  const items = [
+    { icon: Lock, label: t("footer_banner_secure") },
+    { icon: Landmark, label: t("footer_banner_regulated") },
+    { icon: Headphones, label: t("footer_banner_support") },
+  ];
+  return (
+    <div className="relative overflow-hidden border-b bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:flex-row">
+        <div className="text-center sm:text-left">
+          <h3 className="text-lg font-semibold text-foreground">{t("footer_banner_title")}</h3>
+          <p className="text-sm text-muted-foreground">{t("footer_banner_subtitle")}</p>
+        </div>
+        <div className="flex items-center gap-6">
+          {items.map((item) => (
+            <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
+              <item.icon className="h-4 w-4 text-primary" />
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Footer() {
   const { t } = useLanguage();
