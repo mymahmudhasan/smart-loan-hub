@@ -173,8 +173,13 @@ function Dashboard() {
         </Card>
       </div>
 
-      <div className="mt-6">
-        <ReferralWidget />
+      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-1">
+          <MemberBadge />
+        </div>
+        <div className="lg:col-span-2">
+          <ReferralWidget />
+        </div>
       </div>
     </div>
   );
