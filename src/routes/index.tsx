@@ -17,6 +17,7 @@ import { useLanguage } from "@/context/language";
 import { listActiveBanners } from "@/lib/banner.functions";
 import { OffersBanner } from "@/components/home/OffersBanner";
 import { ReferralSection } from "@/components/home/ReferralSection";
+import { TrustBadges } from "@/components/home/TrustBadges";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -165,8 +166,12 @@ function Home() {
         </div>
       </section>
 
+      {/* Trust & security badges */}
+      <TrustBadges />
+
       {/* Referral marketing */}
       <ReferralSection />
+
 
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 py-16 lg:py-20">

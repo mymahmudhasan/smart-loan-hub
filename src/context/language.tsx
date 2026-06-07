@@ -168,10 +168,45 @@ export const translations: Dict = {
     en: "You're a verified member and can now access all features.",
     bn: "আপনি একজন ভেরিফায়েড সদস্য এবং এখন সব ফিচার ব্যবহার করতে পারবেন।",
   },
-  appr_days: { en: "d", bn: "দি" },
-  appr_hours: { en: "h", bn: "ঘ" },
-  appr_mins: { en: "m", bn: "মি" },
   appr_secs: { en: "s", bn: "সে" },
+
+  // Trust badges section
+  trust_eyebrow: { en: "Trust & Security", bn: "বিশ্বাস ও নিরাপত্তা" },
+  trust_title: { en: "Why members trust us", bn: "সদস্যরা কেন আমাদের বিশ্বাস করে" },
+  trust_subtitle: {
+    en: "Bank-grade protection, government compliance, and human support — every step of the way.",
+    bn: "ব্যাংক-গ্রেড সুরক্ষা, সরকারি নিয়মকানুন ও মানবিক সহায়তা — প্রতিটি ধাপে।",
+  },
+  trust_b1_t: { en: "256-bit SSL Encryption", bn: "২৫৬-বিট এসএসএল এনক্রিপশন" },
+  trust_b1_d: {
+    en: "All data is encrypted in transit and at rest using industry-standard protocols.",
+    bn: "সব ডেটা ইন্ডাস্ট্রি-স্ট্যান্ডার্ড প্রোটোকল ব্যবহার করে ট্রানজিট ও রেস্টে এনক্রিপ্টেড।",
+  },
+  trust_b2_t: { en: "Secure KYC Vault", bn: "নিরাপদ কেওয়াইসি ভল্ট" },
+  trust_b2_d: {
+    en: "Identity documents are stored in an isolated vault with strict access controls.",
+    bn: "পরিচয়পত্র আইসোলেটেড ভল্টে কঠোর অ্যাক্সেস কন্ট্রোলের সাথে সংরক্ষিত।",
+  },
+  trust_b3_t: { en: "Govt. Regulated", bn: "সরকারি নিয়ন্ত্রিত" },
+  trust_b3_d: {
+    en: "We operate under Bangladesh financial regulations and maintain full compliance.",
+    bn: "আমরা বাংলাদেশের আর্থিক বিধিবিধান অনুসরণ করি এবং পূর্ণ কমপ্লায়েন্স বজায় রাখি।",
+  },
+  trust_b4_t: { en: "Verified Partners", bn: "ভেরিফায়েড পার্টনার" },
+  trust_b4_d: {
+    en: "All payment and lending partners are vetted and continuously monitored.",
+    bn: "সব পেমেন্ট ও লেনদেন পার্টনার পরীক্ষিত এবং নিয়মিত মনিটর করা হয়।",
+  },
+  trust_b5_t: { en: "72h Account Approval", bn: "৭২ ঘণ্টা অ্যাকাউন্ট অনুমোদন" },
+  trust_b5_d: {
+    en: "Clear timeline from deposit to verified status, with real-time progress updates.",
+    bn: "জমা থেকে ভেরিফায়েড স্ট্যাটাস পর্যন্ত স্পষ্ট সময়সীমা, রিয়েল-টাইম আপডেট সহ।",
+  },
+  trust_b6_t: { en: "24/7 Human Support", bn: "২৪/৭ মানবিক সহায়তা" },
+  trust_b6_d: {
+    en: "Reach our Bangladesh-based support team via chat, email, or phone anytime.",
+    bn: "যেকোনো সময় চ্যাট, ইমেইল বা ফোনে বাংলাদেশ-ভিত্তিক সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
+  },
 };
 
 
