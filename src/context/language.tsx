@@ -228,6 +228,11 @@ export const translations: Dict = {
     en: "Reach our Bangladesh-based support team via chat, email, or phone anytime.",
     bn: "যেকোনো সময় চ্যাট, ইমেইল বা ফোনে বাংলাদেশ-ভিত্তিক সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
   },
+
+  // Deposit config
+  deposit_send_to: { en: "Send to", bn: "পাঠান" },
+  deposit_inactive_warn: { en: "This method is currently inactive. Please contact support.", bn: "এই পদ্ধতি বর্তমানে নিষ্ক্রিয়। সহায়তার সাথে যোগাযোগ করুন।" },
+  deposit_after_send: { en: "After sending, enter the amount and date below to confirm.", bn: "পাঠানোর পর, নিশ্চিত করতে নিচে পরিমাণ ও তারিখ লিখুন।" },
 };
 
 
