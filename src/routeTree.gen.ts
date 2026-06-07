@@ -29,6 +29,7 @@ import { Route as AdminMembersRouteImport } from './routes/admin.members'
 import { Route as AdminLoansRouteImport } from './routes/admin.loans'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminFraudRouteImport } from './routes/admin.fraud'
+import { Route as AdminFooterRouteImport } from './routes/admin.footer'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminMemberUserIdRouteImport } from './routes/admin.member.$userId'
@@ -133,6 +134,11 @@ const AdminFraudRoute = AdminFraudRouteImport.update({
   path: '/fraud',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFooterRoute = AdminFooterRouteImport.update({
+  id: '/footer',
+  path: '/footer',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminBannersRoute = AdminBannersRouteImport.update({
   id: '/banners',
   path: '/banners',
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
   '/admin/loans': typeof AdminLoansRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
   '/admin/loans': typeof AdminLoansRoute
@@ -217,6 +225,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
   '/admin/loans': typeof AdminLoansRoute
@@ -244,6 +253,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/footer'
     | '/admin/fraud'
     | '/admin/kyc'
     | '/admin/loans'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/footer'
     | '/admin/fraud'
     | '/admin/kyc'
     | '/admin/loans'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/footer'
     | '/admin/fraud'
     | '/admin/kyc'
     | '/admin/loans'
@@ -461,6 +473,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFraudRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/footer': {
+      id: '/admin/footer'
+      path: '/footer'
+      fullPath: '/admin/footer'
+      preLoaderRoute: typeof AdminFooterRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/banners': {
       id: '/admin/banners'
       path: '/banners'
@@ -488,6 +507,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminBannersRoute: typeof AdminBannersRoute
+  AdminFooterRoute: typeof AdminFooterRoute
   AdminFraudRoute: typeof AdminFraudRoute
   AdminKycRoute: typeof AdminKycRoute
   AdminLoansRoute: typeof AdminLoansRoute
@@ -499,6 +519,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
   AdminBannersRoute: AdminBannersRoute,
+  AdminFooterRoute: AdminFooterRoute,
   AdminFraudRoute: AdminFraudRoute,
   AdminKycRoute: AdminKycRoute,
   AdminLoansRoute: AdminLoansRoute,
@@ -529,3 +550,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
