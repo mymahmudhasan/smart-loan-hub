@@ -10,6 +10,7 @@ import {
   ShieldAlert,
   ScrollText,
   Megaphone,
+  PanelBottom,
   Loader2,
   Lock,
 } from "lucide-react";
@@ -37,6 +38,7 @@ const navItems = [
   { to: "/admin/loans", label: "Loan Applications", icon: Banknote },
   { to: "/admin/fraud", label: "Fraud Flags", icon: ShieldAlert },
   { to: "/admin/banners", label: "Banner Offers", icon: Megaphone },
+  { to: "/admin/footer", label: "Footer Banner", icon: PanelBottom },
   { to: "/admin/audit", label: "Audit Logs", icon: ScrollText },
 ];
 

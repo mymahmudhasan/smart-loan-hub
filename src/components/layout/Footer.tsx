@@ -1,33 +1,75 @@
 import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck, Lock, Landmark, Headphones } from "lucide-react";
 import { useLanguage } from "@/context/language";
+import { getFooterBanner, type FooterBanner } from "@/lib/footer-banner.functions";
+import { footerBannerIconMap } from "@/components/layout/footerBannerIcons";
+
+function isExternal(href: string) {
+  return /^https?:\/\//i.test(href) || href.startsWith("mailto:") || href.startsWith("tel:");
+}
 
 function BannerStrip() {
   const { t } = useLanguage();
-  const items = [
-    { icon: Lock, label: t("footer_banner_secure") },
-    { icon: Landmark, label: t("footer_banner_regulated") },
-    { icon: Headphones, label: t("footer_banner_support") },
+  const fetchBanner = useServerFn(getFooterBanner);
+  const { data } = useQuery<FooterBanner | null>({
+    queryKey: ["footer-banner"],
+    queryFn: () => fetchBanner(),
+  });
+
+  // Fallback to translated defaults until config loads / when none set.
+  const fallbackBadges = [
+    { Icon: Lock, label: t("footer_banner_secure") },
+    { Icon: Landmark, label: t("footer_banner_regulated") },
+    { Icon: Headphones, label: t("footer_banner_support") },
   ];
+
+  if (data && !data.active) return null;
+
+  const title = data?.title || t("footer_banner_title");
+  const subtitle = data?.subtitle || t("footer_banner_subtitle");
+  const badges =
+    data && data.badges.length > 0
+      ? data.badges.map((b) => ({ Icon: footerBannerIconMap[b.icon] ?? ShieldCheck, label: b.label }))
+      : fallbackBadges;
+  const links = data?.links ?? [];
+
   return (
     <div className="relative overflow-hidden border-b bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:flex-row">
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold text-foreground">{t("footer_banner_title")}</h3>
-          <p className="text-sm text-muted-foreground">{t("footer_banner_subtitle")}</p>
+          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+          <p className="text-sm text-muted-foreground">{subtitle}</p>
         </div>
-        <div className="flex items-center gap-6">
-          {items.map((item) => (
-            <div key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-              <item.icon className="h-4 w-4 text-primary" />
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {badges.map((item, i) => (
+            <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+              <item.Icon className="h-4 w-4 text-primary" />
               <span>{item.label}</span>
             </div>
           ))}
         </div>
       </div>
+      {links.length > 0 && (
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t px-4 py-3 sm:justify-start">
+          {links.map((l, i) => (
+            <a
+              key={i}
+              href={l.href}
+              {...(isExternal(l.href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="text-sm text-primary transition-colors hover:underline"
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 }
+
 
 export function Footer() {
   const { t } = useLanguage();
