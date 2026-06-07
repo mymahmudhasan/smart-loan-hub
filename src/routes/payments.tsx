@@ -38,7 +38,17 @@ const logs = [
   { label: "Withdraw", method: "bKash", date: "10 May 2026", amount: 5000, status: "Pending" },
 ];
 
-function PaymentForm({ action, cta, type }: { action: string; cta: string; type: "deposit" | "withdrawal" | "emi_payment" }) {
+function PaymentForm({
+  action,
+  cta,
+  type,
+  config,
+}: {
+  action: string;
+  cta: string;
+  type: "deposit" | "withdrawal" | "emi_payment";
+  config?: { bkash_number?: string | null; nagad_number?: string | null; bkash_active?: boolean; nagad_active?: boolean } | null;
+}) {
   const [method, setMethod] = useState<"bkash" | "nagad">("bkash");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
@@ -49,6 +59,9 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
   }>({});
   const { user } = useAuth();
   const request = useServerFn(requestTransaction);
+
+  const methodNumber = method === "bkash" ? config?.bkash_number : config?.nagad_number;
+  const methodActive = method === "bkash" ? config?.bkash_active : config?.nagad_active;
 
   const validate = () => {
     const next: typeof errors = {};
@@ -118,6 +131,23 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
 
   return (
     <form onSubmit={submit} className="space-y-5" noValidate>
+      {type === "deposit" && methodNumber && (
+        <div className="flex items-start gap-3 rounded-xl border bg-muted/40 p-4">
+          <Smartphone className="mt-0.5 h-5 w-5 text-primary shrink-0" />
+          <div className="text-sm">
+            <p className="font-medium">
+              Send to {method === "bkash" ? "bKash" : "Nagad"}: {methodNumber}
+            </p>
+            {methodActive === false && (
+              <p className="text-destructive">This method is currently inactive. Please contact support.</p>
+            )}
+            <p className="text-xs text-muted-foreground mt-1">
+              After sending, enter the amount and date below to confirm.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="space-y-2">
         <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
         <Input
@@ -200,6 +230,11 @@ function PaymentForm({ action, cta, type }: { action: string; cta: string; type:
 
 function Payments() {
   const { t } = useLanguage();
+  const fetchConfig = useServerFn(getDepositConfig);
+  const { data: config } = useQuery({
+    queryKey: ["deposit-config"],
+    queryFn: () => fetchConfig(),
+  });
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
@@ -227,13 +262,13 @@ function Payments() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="deposit" className="mt-6">
-                <PaymentForm action="Deposit" cta={t("deposit")} type="deposit" />
+                <PaymentForm action="Deposit" cta={t("deposit")} type="deposit" config={config} />
               </TabsContent>
               <TabsContent value="withdraw" className="mt-6">
-                <PaymentForm action="Withdrawal" cta={t("withdraw")} type="withdrawal" />
+                <PaymentForm action="Withdrawal" cta={t("withdraw")} type="withdrawal" config={config} />
               </TabsContent>
               <TabsContent value="emi" className="mt-6">
-                <PaymentForm action="EMI payment" cta={t("pay_emi")} type="emi_payment" />
+                <PaymentForm action="EMI payment" cta={t("pay_emi")} type="emi_payment" config={config} />
               </TabsContent>
             </Tabs>
           </CardContent>
