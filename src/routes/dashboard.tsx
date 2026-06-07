@@ -19,6 +19,7 @@ import { eligibleLoanAmount } from "@/lib/loan";
 import { useLanguage } from "@/context/language";
 import { ReferralWidget } from "@/components/dashboard/ReferralWidget";
 import { ApprovalTimeline } from "@/components/dashboard/ApprovalTimeline";
+import { MemberBadge } from "@/components/dashboard/MemberBadge";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
