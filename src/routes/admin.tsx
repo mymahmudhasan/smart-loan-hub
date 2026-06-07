@@ -10,6 +10,7 @@ import {
   ShieldAlert,
   ScrollText,
   Megaphone,
+  PanelBottom,
   Loader2,
   Lock,
 } from "lucide-react";
