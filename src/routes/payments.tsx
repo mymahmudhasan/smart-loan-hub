@@ -58,6 +58,7 @@ function PaymentForm({
     date?: string;
   }>({});
   const { user } = useAuth();
+  const { t } = useLanguage();
   const request = useServerFn(requestTransaction);
 
   const methodNumber = method === "bkash" ? config?.bkash_number : config?.nagad_number;
