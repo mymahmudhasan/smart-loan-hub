@@ -135,6 +135,12 @@ export const translations: Dict = {
   tier_deposited: { en: "Total deposited", bn: "মোট জমা" },
   tier_next: { en: "Deposit {amount} more to reach {tier}", bn: "{tier} পেতে আরও {amount} জমা দিন" },
   tier_max: { en: "You've reached the highest badge!", bn: "আপনি সর্বোচ্চ ব্যাজে পৌঁছেছেন!" },
+  tier_history_heading: { en: "Badge History", bn: "ব্যাজ ইতিহাস" },
+  tier_history_empty: { en: "No badges earned yet.", bn: "এখনও কোনো ব্যাজ অর্জিত হয়নি।" },
+  tier_earned_on: { en: "Earned on", bn: "অর্জিত হয়েছে" },
+  tier_reached: { en: "Reached {tier}", bn: "{tier} অর্জন" },
+  tier_at_total: { en: "at {amount} total deposits", bn: "{amount} মোট জমায়" },
+  tier_account_created: { en: "Account created", bn: "অ্যাকাউন্ট তৈরি" },
 
   // Common
 
