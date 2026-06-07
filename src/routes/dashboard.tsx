@@ -175,8 +175,9 @@ function Dashboard() {
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-1">
+        <div className="space-y-6 lg:col-span-1">
           <MemberBadge />
+          <BadgeHistory />
         </div>
         <div className="lg:col-span-2">
           <ReferralWidget />
