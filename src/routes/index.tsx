@@ -17,6 +17,7 @@ import { useLanguage } from "@/context/language";
 import { listActiveBanners } from "@/lib/banner.functions";
 import { OffersBanner } from "@/components/home/OffersBanner";
 import { ReferralSection } from "@/components/home/ReferralSection";
+import { TrustBadges } from "@/components/home/TrustBadges";
 
 export const Route = createFileRoute("/")({
   head: () => ({
