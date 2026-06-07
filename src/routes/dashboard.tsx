@@ -19,6 +19,7 @@ import { eligibleLoanAmount } from "@/lib/loan";
 import { useLanguage } from "@/context/language";
 import { ReferralWidget } from "@/components/dashboard/ReferralWidget";
 import { ApprovalTimeline } from "@/components/dashboard/ApprovalTimeline";
+import { MemberBadge } from "@/components/dashboard/MemberBadge";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -172,8 +173,13 @@ function Dashboard() {
         </Card>
       </div>
 
-      <div className="mt-6">
-        <ReferralWidget />
+      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-1">
+          <MemberBadge />
+        </div>
+        <div className="lg:col-span-2">
+          <ReferralWidget />
+        </div>
       </div>
     </div>
   );

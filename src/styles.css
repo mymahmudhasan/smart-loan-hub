@@ -248,3 +248,25 @@
 @utility animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+/* ---- Membership tier badges ---- */
+@utility tier-free {
+  background-color: color-mix(in oklab, var(--muted) 80%, transparent);
+  color: var(--muted-foreground);
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+}
+@utility tier-bronze {
+  background-color: oklch(0.92 0.05 60);
+  color: oklch(0.4 0.09 55);
+  border: 1px solid oklch(0.78 0.09 60);
+}
+@utility tier-silver {
+  background-color: oklch(0.93 0.005 255);
+  color: oklch(0.42 0.02 255);
+  border: 1px solid oklch(0.78 0.01 255);
+}
+@utility tier-gold {
+  background-color: oklch(0.92 0.09 95);
+  color: oklch(0.42 0.1 75);
+  border: 1px solid oklch(0.8 0.13 90);
+}

@@ -122,7 +122,22 @@ export const translations: Dict = {
   dash_transactions: { en: "Recent Transactions", bn: "সাম্প্রতিক লেনদেন" },
   dash_download: { en: "Download Statement", bn: "স্টেটমেন্ট ডাউনলোড" },
 
+  // Membership tier badges
+  tier_heading: { en: "Membership Badge", bn: "মেম্বারশিপ ব্যাজ" },
+  tier_free: { en: "Free", bn: "ফ্রি" },
+  tier_bronze: { en: "Bronze", bn: "ব্রোঞ্জ" },
+  tier_silver: { en: "Silver", bn: "সিলভার" },
+  tier_gold: { en: "Gold", bn: "গোল্ড" },
+  tier_free_desc: { en: "Welcome badge for every new member.", bn: "প্রত্যেক নতুন সদস্যের জন্য স্বাগত ব্যাজ।" },
+  tier_bronze_desc: { en: "Unlocked at ৳5,000 in total deposits.", bn: "মোট ৳৫,০০০ জমায় আনলক হয়।" },
+  tier_silver_desc: { en: "Unlocked at ৳10,000 in total deposits.", bn: "মোট ৳১০,০০০ জমায় আনলক হয়।" },
+  tier_gold_desc: { en: "Unlocked at ৳30,000 in total deposits.", bn: "মোট ৳৩০,০০০ জমায় আনলক হয়।" },
+  tier_deposited: { en: "Total deposited", bn: "মোট জমা" },
+  tier_next: { en: "Deposit {amount} more to reach {tier}", bn: "{tier} পেতে আরও {amount} জমা দিন" },
+  tier_max: { en: "You've reached the highest badge!", bn: "আপনি সর্বোচ্চ ব্যাজে পৌঁছেছেন!" },
+
   // Common
+
   status_verified: { en: "Verified", bn: "ভেরিফায়েড" },
   status_pending: { en: "Pending", bn: "অপেক্ষমাণ" },
   status_rejected: { en: "Rejected", bn: "প্রত্যাখ্যাত" },

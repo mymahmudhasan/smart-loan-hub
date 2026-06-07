@@ -140,6 +140,21 @@ export const getMyApprovalStatus = createServerFn({ method: "GET" })
 
 
 
+// ---------- Member's membership tier (badge) from total deposits ----------
+export const getMyBadge = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await supabaseAdmin
+      .from("transactions")
+      .select("amount")
+      .eq("user_id", context.userId)
+      .eq("type", "deposit")
+      .eq("status", "completed");
+    if (error) throw new Error(error.message);
+    const totalDeposits = (data ?? []).reduce((sum, t) => sum + Number(t.amount ?? 0), 0);
+    return { totalDeposits };
+  });
+
 // ---------- Member submits a loan application ----------
 export const submitLoanApplication = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
