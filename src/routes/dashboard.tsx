@@ -20,6 +20,7 @@ import { useLanguage } from "@/context/language";
 import { ReferralWidget } from "@/components/dashboard/ReferralWidget";
 import { ApprovalTimeline } from "@/components/dashboard/ApprovalTimeline";
 import { MemberBadge } from "@/components/dashboard/MemberBadge";
+import { BadgeHistory } from "@/components/dashboard/BadgeHistory";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
