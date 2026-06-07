@@ -92,6 +92,39 @@ export type Database = {
         }
         Relationships: []
       }
+      deposit_config: {
+        Row: {
+          bkash_active: boolean
+          bkash_number: string | null
+          created_at: string
+          id: string
+          nagad_active: boolean
+          nagad_number: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          bkash_active?: boolean
+          bkash_number?: string | null
+          created_at?: string
+          id?: string
+          nagad_active?: boolean
+          nagad_number?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          bkash_active?: boolean
+          bkash_number?: string | null
+          created_at?: string
+          id?: string
+          nagad_active?: boolean
+          nagad_number?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       footer_banner: {
         Row: {
           active: boolean
