@@ -136,13 +136,13 @@ function PaymentForm({
           <Smartphone className="mt-0.5 h-5 w-5 text-primary shrink-0" />
           <div className="text-sm">
             <p className="font-medium">
-              Send to {method === "bkash" ? "bKash" : "Nagad"}: {methodNumber}
+              {t("deposit_send_to")} {method === "bkash" ? "bKash" : "Nagad"}: {methodNumber}
             </p>
             {methodActive === false && (
-              <p className="text-destructive">This method is currently inactive. Please contact support.</p>
+              <p className="text-destructive">{t("deposit_inactive_warn")}</p>
             )}
             <p className="text-xs text-muted-foreground mt-1">
-              After sending, enter the amount and date below to confirm.
+              {t("deposit_after_send")}
             </p>
           </div>
         </div>
