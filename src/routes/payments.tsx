@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2 } from "lucide-react";
+import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2, Smartphone } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import { formatBDT } from "@/lib/format";
 import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
 import { requestTransaction } from "@/lib/member.functions";
+import { getDepositConfig } from "@/lib/deposit-config.functions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/payments")({
