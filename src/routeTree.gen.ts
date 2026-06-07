@@ -30,6 +30,7 @@ import { Route as AdminLoansRouteImport } from './routes/admin.loans'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminFraudRouteImport } from './routes/admin.fraud'
 import { Route as AdminFooterRouteImport } from './routes/admin.footer'
+import { Route as AdminDepositConfigRouteImport } from './routes/admin.deposit-config'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as AdminMemberUserIdRouteImport } from './routes/admin.member.$userId'
@@ -139,6 +140,11 @@ const AdminFooterRoute = AdminFooterRouteImport.update({
   path: '/footer',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDepositConfigRoute = AdminDepositConfigRouteImport.update({
+  id: '/deposit-config',
+  path: '/deposit-config',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminBannersRoute = AdminBannersRouteImport.update({
   id: '/banners',
   path: '/banners',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
   '/admin/kyc': typeof AdminKycRoute
@@ -253,6 +262,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
     | '/admin/kyc'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
     | '/admin/kyc'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
     | '/admin/kyc'
@@ -480,6 +492,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFooterRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/deposit-config': {
+      id: '/admin/deposit-config'
+      path: '/deposit-config'
+      fullPath: '/admin/deposit-config'
+      preLoaderRoute: typeof AdminDepositConfigRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/banners': {
       id: '/admin/banners'
       path: '/banners'
@@ -507,6 +526,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminBannersRoute: typeof AdminBannersRoute
+  AdminDepositConfigRoute: typeof AdminDepositConfigRoute
   AdminFooterRoute: typeof AdminFooterRoute
   AdminFraudRoute: typeof AdminFraudRoute
   AdminKycRoute: typeof AdminKycRoute
@@ -519,6 +539,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
   AdminBannersRoute: AdminBannersRoute,
+  AdminDepositConfigRoute: AdminDepositConfigRoute,
   AdminFooterRoute: AdminFooterRoute,
   AdminFraudRoute: AdminFraudRoute,
   AdminKycRoute: AdminKycRoute,
@@ -550,3 +571,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
