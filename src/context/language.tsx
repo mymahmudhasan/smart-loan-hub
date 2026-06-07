@@ -135,6 +135,13 @@ export const translations: Dict = {
   footer_tagline: { en: "Secure, membership-based lending for Bangladesh.", bn: "বাংলাদেশের জন্য নিরাপদ মেম্বারশিপ লোন।" },
   footer_rights: { en: "All rights reserved.", bn: "সর্বস্বত্ব সংরক্ষিত।" },
 
+  // Footer banner
+  footer_banner_title: { en: "Your trust, our commitment", bn: "আপনার বিশ্বাস, আমাদের প্রতিশ্রুতি" },
+  footer_banner_subtitle: { en: "Regulated, secure, and always here to help.", bn: "নিয়ন্ত্রিত, নিরাপদ এবং সবসময় সাহায্যের জন্য এখানে।" },
+  footer_banner_secure: { en: "256-bit encrypted", bn: "২৫৬-বিট এনক্রিপ্টেড" },
+  footer_banner_regulated: { en: "Govt. compliant", bn: "সরকারি অনুমোদিত" },
+  footer_banner_support: { en: "24/7 support", bn: "২৪/৭ সহায়তা" },
+
   // Account approval timeline
   appr_title: { en: "Real Account Approval", bn: "আসল অ্যাকাউন্ট অনুমোদন" },
   appr_subtitle: {
