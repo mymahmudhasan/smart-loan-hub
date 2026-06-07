@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { logAudit } from "./admin.server";
+import { computeBadgeHistory } from "./badges";
 
 // ---------- Member's own account snapshot ----------
 export const getMyAccount = createServerFn({ method: "GET" })
@@ -154,6 +155,31 @@ export const getMyBadge = createServerFn({ method: "GET" })
     const totalDeposits = (data ?? []).reduce((sum, t) => sum + Number(t.amount ?? 0), 0);
     return { totalDeposits };
   });
+
+// ---------- Member's badge history (when each tier was reached) ----------
+export const getMyBadgeHistory = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const uid = context.userId;
+    const [txR, profR] = await Promise.all([
+      supabaseAdmin
+        .from("transactions")
+        .select("amount, created_at")
+        .eq("user_id", uid)
+        .eq("type", "deposit")
+        .eq("status", "completed")
+        .order("created_at", { ascending: true }),
+      supabaseAdmin.from("profiles").select("created_at").eq("id", uid).maybeSingle(),
+    ]);
+    if (txR.error) throw new Error(txR.error.message);
+
+    const deposits = txR.data ?? [];
+    const totalDeposits = deposits.reduce((sum, t) => sum + Number(t.amount ?? 0), 0);
+    const history = computeBadgeHistory(deposits, profR.data?.created_at ?? null);
+    return { totalDeposits, history };
+  });
+
+
 
 // ---------- Member submits a loan application ----------
 export const submitLoanApplication = createServerFn({ method: "POST" })

@@ -37,3 +37,44 @@ export function getNextTier(totalDeposits: number): BadgeTier | null {
   const amount = Number.isFinite(totalDeposits) ? totalDeposits : 0;
   return BADGE_TIERS.find((t) => t.threshold > amount) ?? null;
 }
+
+export interface BadgeAward {
+  key: BadgeTierKey;
+  /** ISO timestamp when this tier was reached. */
+  awardedAt: string;
+  /** Running deposit total (BDT) at the moment the tier was reached. */
+  totalAt: number;
+}
+
+/**
+ * Replays completed deposits in chronological order to determine exactly when a
+ * member crossed into each tier. The Free badge is awarded at account creation.
+ */
+export function computeBadgeHistory(
+  deposits: { amount: number | string | null; created_at: string }[],
+  accountCreatedAt: string | null,
+): BadgeAward[] {
+  const sorted = [...deposits]
+    .filter((d) => !!d.created_at)
+    .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+
+  const awards: BadgeAward[] = [
+    {
+      key: "free",
+      awardedAt: accountCreatedAt ?? sorted[0]?.created_at ?? new Date().toISOString(),
+      totalAt: 0,
+    },
+  ];
+
+  const paidTiers = BADGE_TIERS.filter((t) => t.threshold > 0); // bronze, silver, gold
+  let running = 0;
+  let idx = 0;
+  for (const d of sorted) {
+    running += Number(d.amount ?? 0);
+    while (idx < paidTiers.length && running >= paidTiers[idx].threshold) {
+      awards.push({ key: paidTiers[idx].key, awardedAt: d.created_at, totalAt: running });
+      idx++;
+    }
+  }
+  return awards;
+}
