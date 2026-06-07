@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { logAudit } from "./admin.server";
+import { computeBadgeHistory } from "./badges";
 
 // ---------- Member's own account snapshot ----------
 export const getMyAccount = createServerFn({ method: "GET" })
