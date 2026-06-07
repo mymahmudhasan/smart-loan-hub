@@ -53,29 +53,19 @@ function BannerStrip() {
       </div>
       {links.length > 0 && (
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t px-4 py-3 sm:justify-start">
-          {links.map((l, i) =>
-            isExternal(l.href) ? (
-              <a
-                key={i}
-                href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-primary transition-colors hover:underline"
-              >
-                {l.label}
-              </a>
-            ) : (
-              <Link
-                key={i}
-                to={l.href}
-                className="text-sm text-primary transition-colors hover:underline"
-              >
-                {l.label}
-              </Link>
-            ),
-          )}
+          {links.map((l, i) => (
+            <a
+              key={i}
+              href={l.href}
+              {...(isExternal(l.href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="text-sm text-primary transition-colors hover:underline"
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
       )}
+
     </div>
   );
 }
