@@ -92,6 +92,39 @@ export type Database = {
         }
         Relationships: []
       }
+      footer_banner: {
+        Row: {
+          active: boolean
+          badges: Json
+          created_at: string
+          id: string
+          links: Json
+          subtitle: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          badges?: Json
+          created_at?: string
+          id?: string
+          links?: Json
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          badges?: Json
+          created_at?: string
+          id?: string
+          links?: Json
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       fraud_flags: {
         Row: {
           created_at: string
