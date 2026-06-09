@@ -42,6 +42,7 @@ const navItems = [
   { to: "/admin/banners", label: "Banner Offers", icon: Megaphone },
   { to: "/admin/footer", label: "Footer Banner", icon: PanelBottom },
   { to: "/admin/deposit-config", label: "Payment Config", icon: Smartphone },
+  { to: "/admin/reviews", label: "Client Reviews", icon: Star },
   { to: "/admin/audit", label: "Audit Logs", icon: ScrollText },
 ];
 
