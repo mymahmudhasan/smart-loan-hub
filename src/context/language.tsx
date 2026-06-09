@@ -99,7 +99,24 @@ export const translations: Dict = {
     en: "Join Smart Loan and get instant loans! Sign up with my referral link and we both earn ৳500: ",
     bn: "স্মার্ট লোনে যোগ দিন এবং তাৎক্ষণিক ঋণ পান! আমার রেফারেল লিংক দিয়ে সাইন আপ করুন, আমরা দুজনেই পাব ৳৫০০: ",
   },
+  refer_stats_title: { en: "Referral Breakdown", bn: "রেফারেল বিশ্লেষণ" },
+  refer_stats_subtitle: {
+    en: "Track referred users, signups, KYC and loans per month.",
+    bn: "মাস অনুযায়ী রেফার করা ব্যবহারকারী, সাইন আপ, কেওয়াইসি ও লোন ট্র্যাক করুন।",
+  },
+  refer_stats_period: { en: "Period", bn: "সময়কাল" },
+  refer_stats_referred: { en: "Referred", bn: "রেফার করা" },
+  refer_stats_signups: { en: "Signups", bn: "সাইন আপ" },
+  refer_stats_kyc: { en: "KYC Verified", bn: "কেওয়াইসি যাচাই" },
+  refer_stats_loans: { en: "Loans", bn: "লোন" },
+  refer_stats_rewards: { en: "Rewards", bn: "রিওয়ার্ড" },
+  refer_stats_total: { en: "All time", bn: "সর্বকালীন" },
+  refer_stats_none: {
+    en: "No referral activity yet. Share your link to see stats here.",
+    bn: "এখনো কোনো রেফারেল কার্যক্রম নেই। স্ট্যাটস দেখতে লিংক শেয়ার করুন।",
+  },
   signup_referral: { en: "Referral Code (optional)", bn: "রেফারেল কোড (ঐচ্ছিক)" },
+
 
   // Calculator
   calc_title: { en: "Loan Calculator", bn: "লোন ক্যালকুলেটর" },
