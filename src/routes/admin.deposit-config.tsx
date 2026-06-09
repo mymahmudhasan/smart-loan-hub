@@ -68,7 +68,7 @@ function AdminDepositConfig() {
       }),
     onSuccess: () => {
       toast.success("Payment config saved");
-      qc.invalidateQueries({ queryKey: ["deposit-config"] });
+      qc.invalidateQueries({ queryKey: ["deposit-config-admin"] });
     },
     onError: (e) => toast.error("Could not save", { description: (e as Error).message }),
   });
