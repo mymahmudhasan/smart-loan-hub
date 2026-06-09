@@ -184,6 +184,10 @@ function Dashboard() {
           <ReferralWidget />
         </div>
       </div>
+
+      <div className="mt-6">
+        <ReferralStats />
+      </div>
     </div>
   );
 }
