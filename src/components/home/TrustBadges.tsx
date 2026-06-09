@@ -1,4 +1,4 @@
-import { ShieldCheck, Lock, Landmark, Headphones, BadgeCheck, Clock } from "lucide-react";
+import { ShieldCheck, Lock, Landmark, Headphones, BadgeCheck, Clock, FileCheck } from "lucide-react";
 import { useLanguage } from "@/context/language";
 
 export function TrustBadges() {
@@ -12,6 +12,13 @@ export function TrustBadges() {
     { icon: Clock, t: "trust_b5_t" as const, d: "trust_b5_d" as const },
     { icon: Headphones, t: "trust_b6_t" as const, d: "trust_b6_d" as const },
   ];
+
+  const credentials = [
+    { label: "reg_company" as const, value: "reg_company_val" as const },
+    { label: "reg_license" as const, value: "reg_license_val" as const },
+    { label: "reg_tin" as const, value: "reg_tin_val" as const },
+  ];
+
 
   return (
     <section className="border-y bg-card">
