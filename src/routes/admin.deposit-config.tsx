@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import {
-  getDepositConfig,
+  getDepositConfigAdmin,
   updateDepositConfig,
   type DepositConfig,
 } from "@/lib/deposit-config.functions";
@@ -34,12 +34,12 @@ const emptyForm: FormState = {
 };
 
 function AdminDepositConfig() {
-  const fetchConfig = useServerFn(getDepositConfig);
+  const fetchConfig = useServerFn(getDepositConfigAdmin);
   const saveConfig = useServerFn(updateDepositConfig);
   const qc = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["deposit-config"],
+    queryKey: ["deposit-config-admin"],
     queryFn: () => fetchConfig(),
   });
 
@@ -68,7 +68,7 @@ function AdminDepositConfig() {
       }),
     onSuccess: () => {
       toast.success("Payment config saved");
-      qc.invalidateQueries({ queryKey: ["deposit-config"] });
+      qc.invalidateQueries({ queryKey: ["deposit-config-admin"] });
     },
     onError: (e) => toast.error("Could not save", { description: (e as Error).message }),
   });
