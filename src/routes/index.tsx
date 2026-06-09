@@ -170,6 +170,10 @@ function Home() {
       {/* Trust & security badges */}
       <TrustBadges />
 
+      {/* Client reviews */}
+      <ClientReviews />
+
+
       {/* Referral marketing */}
       <ReferralSection />
 
