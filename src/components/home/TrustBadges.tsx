@@ -1,4 +1,4 @@
-import { ShieldCheck, Lock, Landmark, Headphones, BadgeCheck, Clock } from "lucide-react";
+import { ShieldCheck, Lock, Landmark, Headphones, BadgeCheck, Clock, FileCheck } from "lucide-react";
 import { useLanguage } from "@/context/language";
 
 export function TrustBadges() {
@@ -12,6 +12,13 @@ export function TrustBadges() {
     { icon: Clock, t: "trust_b5_t" as const, d: "trust_b5_d" as const },
     { icon: Headphones, t: "trust_b6_t" as const, d: "trust_b6_d" as const },
   ];
+
+  const credentials = [
+    { label: "reg_company" as const, value: "reg_company_val" as const },
+    { label: "reg_license" as const, value: "reg_license_val" as const },
+    { label: "reg_tin" as const, value: "reg_tin_val" as const },
+  ];
+
 
   return (
     <section className="border-y bg-card">
@@ -40,7 +47,27 @@ export function TrustBadges() {
             </div>
           ))}
         </div>
+
+        {/* Registration & licensing credentials */}
+        <div className="mx-auto mt-12 max-w-4xl rounded-2xl border bg-background p-6 shadow-soft">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent">
+              <FileCheck className="h-3.5 w-3.5" />
+              {t("reg_eyebrow")}
+            </span>
+            <p className="text-sm text-muted-foreground">{t("reg_member")}</p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {credentials.map((c) => (
+              <div key={c.label} className="rounded-xl bg-muted/50 p-4 text-center">
+                <div className="text-xs uppercase tracking-wide text-muted-foreground">{t(c.label)}</div>
+                <div className="mt-1 font-mono text-base font-bold">{t(c.value)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
     </section>
   );
 }
