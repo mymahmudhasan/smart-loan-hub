@@ -23,11 +23,44 @@ export function ReferralWidget() {
       ? `${window.location.origin}/signup?ref=${data.code}`
       : "";
 
+  const inviteMessage = link ? `${t("refer_invite_message")}${link}` : "";
+
   const copy = async () => {
     if (!link) return;
     await navigator.clipboard.writeText(link);
     toast.success(t("refer_copied"));
   };
+
+  const copyMessage = async () => {
+    if (!inviteMessage) return;
+    await navigator.clipboard.writeText(inviteMessage);
+    toast.success(t("refer_msg_copied"));
+  };
+
+  const openShare = (url: string) => {
+    if (typeof window !== "undefined") window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const shareTargets = [
+    {
+      label: t("refer_share_whatsapp"),
+      icon: MessageCircle,
+      onClick: () => openShare(`https://wa.me/?text=${encodeURIComponent(inviteMessage)}`),
+    },
+    {
+      label: t("refer_share_telegram"),
+      icon: Send,
+      onClick: () =>
+        openShare(
+          `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(t("refer_invite_message"))}`,
+        ),
+    },
+    {
+      label: t("refer_share_facebook"),
+      icon: Facebook,
+      onClick: () => openShare(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`),
+    },
+  ];
 
   return (
     <Card>
