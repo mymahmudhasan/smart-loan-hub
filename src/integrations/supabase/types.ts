@@ -92,6 +92,48 @@ export type Database = {
         }
         Relationships: []
       }
+      client_reviews: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          rating: number
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reviewer_name: string
+          reviewer_role: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          rating?: number
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_name: string
+          reviewer_role?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          rating?: number
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_name?: string
+          reviewer_role?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       deposit_config: {
         Row: {
           bkash_active: boolean
