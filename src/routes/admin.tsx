@@ -12,6 +12,7 @@ import {
   Megaphone,
   PanelBottom,
   Smartphone,
+  Star,
   Loader2,
   Lock,
 } from "lucide-react";
