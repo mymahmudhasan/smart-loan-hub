@@ -256,7 +256,44 @@ export const translations: Dict = {
     bn: "যেকোনো সময় চ্যাট, ইমেইল বা ফোনে বাংলাদেশ-ভিত্তিক সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
   },
 
-  // Deposit config
+  // Registration / credentials
+  reg_eyebrow: { en: "Registered & Licensed", bn: "নিবন্ধিত ও লাইসেন্সপ্রাপ্ত" },
+  reg_company: { en: "Reg. No.", bn: "রেজি. নং" },
+  reg_company_val: { en: "C-178342/2019", bn: "C-178342/2019" },
+  reg_license: { en: "License No.", bn: "লাইসেন্স নং" },
+  reg_license_val: { en: "BB-NBFI-0457", bn: "BB-NBFI-0457" },
+  reg_tin: { en: "TIN", bn: "টিআইএন" },
+  reg_tin_val: { en: "489201556743", bn: "489201556743" },
+  reg_member: { en: "BB Regulated NBFI", bn: "বিবি নিয়ন্ত্রিত এনবিএফআই" },
+
+  // Client reviews
+  reviews_eyebrow: { en: "Client Reviews", bn: "গ্রাহক রিভিউ" },
+  reviews_title: { en: "Trusted by thousands of members", bn: "হাজারো সদস্যের আস্থা" },
+  reviews_subtitle: {
+    en: "Real stories from members who borrowed, saved, and grew with us.",
+    bn: "যারা আমাদের সাথে ঋণ নিয়েছেন, সঞ্চয় করেছেন ও এগিয়েছেন তাদের সত্যিকারের গল্প।",
+  },
+  reviews_rating: { en: "4.9/5 average from 3,200+ reviews", bn: "৩,২০০+ রিভিউ থেকে গড় ৪.৯/৫" },
+  review1_name: { en: "Tahmina Akter", bn: "তাহমিনা আক্তার" },
+  review1_role: { en: "Small business owner, Dhaka", bn: "ক্ষুদ্র ব্যবসায়ী, ঢাকা" },
+  review1_text: {
+    en: "I got my loan approved within a day. The whole process was smooth and fully online.",
+    bn: "একদিনের মধ্যেই আমার ঋণ অনুমোদন হয়েছে। পুরো প্রক্রিয়াটি ছিল সহজ ও সম্পূর্ণ অনলাইন।",
+  },
+  review2_name: { en: "Rakibul Hasan", bn: "রাকিবুল হাসান" },
+  review2_role: { en: "Software engineer, Chattogram", bn: "সফটওয়্যার ইঞ্জিনিয়ার, চট্টগ্রাম" },
+  review2_text: {
+    en: "Transparent interest rates and no hidden charges. Customer support is genuinely helpful.",
+    bn: "স্বচ্ছ সুদের হার এবং কোনো লুকানো চার্জ নেই। গ্রাহক সহায়তা সত্যিই সহায়ক।",
+  },
+  review3_name: { en: "Nusrat Jahan", bn: "নুসরাত জাহান" },
+  review3_role: { en: "Teacher, Sylhet", bn: "শিক্ষক, সিলেট" },
+  review3_text: {
+    en: "The membership rewards and referral bonus helped me save a lot. Highly recommended!",
+    bn: "মেম্বারশিপ রিওয়ার্ড ও রেফারেল বোনাস আমাকে অনেক সাশ্রয় করতে সাহায্য করেছে। অত্যন্ত সুপারিশকৃত!",
+  },
+
+
   deposit_send_to: { en: "Send to", bn: "পাঠান" },
   deposit_inactive_warn: { en: "This method is currently inactive. Please contact support.", bn: "এই পদ্ধতি বর্তমানে নিষ্ক্রিয়। সহায়তার সাথে যোগাযোগ করুন।" },
   deposit_after_send: { en: "After sending, enter the amount and date below to confirm.", bn: "পাঠানোর পর, নিশ্চিত করতে নিচে পরিমাণ ও তারিখ লিখুন।" },
