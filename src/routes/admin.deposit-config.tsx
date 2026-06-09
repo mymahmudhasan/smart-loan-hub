@@ -34,12 +34,12 @@ const emptyForm: FormState = {
 };
 
 function AdminDepositConfig() {
-  const fetchConfig = useServerFn(getDepositConfig);
+  const fetchConfig = useServerFn(getDepositConfigAdmin);
   const saveConfig = useServerFn(updateDepositConfig);
   const qc = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["deposit-config"],
+    queryKey: ["deposit-config-admin"],
     queryFn: () => fetchConfig(),
   });
 
