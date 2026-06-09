@@ -1,7 +1,7 @@
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Gift, Copy, Users, Coins, Clock, Loader2 } from "lucide-react";
+import { Gift, Copy, Users, Coins, Clock, Loader2, MessageCircle, Facebook, Send } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,11 +23,44 @@ export function ReferralWidget() {
       ? `${window.location.origin}/signup?ref=${data.code}`
       : "";
 
+  const inviteMessage = link ? `${t("refer_invite_message")}${link}` : "";
+
   const copy = async () => {
     if (!link) return;
     await navigator.clipboard.writeText(link);
     toast.success(t("refer_copied"));
   };
+
+  const copyMessage = async () => {
+    if (!inviteMessage) return;
+    await navigator.clipboard.writeText(inviteMessage);
+    toast.success(t("refer_msg_copied"));
+  };
+
+  const openShare = (url: string) => {
+    if (typeof window !== "undefined") window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const shareTargets = [
+    {
+      label: t("refer_share_whatsapp"),
+      icon: MessageCircle,
+      onClick: () => openShare(`https://wa.me/?text=${encodeURIComponent(inviteMessage)}`),
+    },
+    {
+      label: t("refer_share_telegram"),
+      icon: Send,
+      onClick: () =>
+        openShare(
+          `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(t("refer_invite_message"))}`,
+        ),
+    },
+    {
+      label: t("refer_share_facebook"),
+      icon: Facebook,
+      onClick: () => openShare(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`),
+    },
+  ];
 
   return (
     <Card>
@@ -58,6 +91,35 @@ export function ReferralWidget() {
                 </Button>
               </div>
             </div>
+
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">{t("refer_share_label")}</p>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {shareTargets.map((s) => (
+                  <Button
+                    key={s.label}
+                    variant="outline"
+                    size="sm"
+                    onClick={s.onClick}
+                    disabled={!link}
+                    className="justify-center"
+                  >
+                    <s.icon className="h-4 w-4" /> {s.label}
+                  </Button>
+                ))}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={copyMessage}
+                  disabled={!inviteMessage}
+                  className="justify-center"
+                >
+                  <Copy className="h-4 w-4" /> {t("refer_share_copy_msg")}
+                </Button>
+              </div>
+            </div>
+
+
 
             <div className="grid grid-cols-3 gap-3 text-center">
               <Stat icon={Users} label={t("refer_total")} value={String(data?.totalReferrals ?? 0)} />
