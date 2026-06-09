@@ -41,6 +41,21 @@ export const getDepositConfig = createServerFn({ method: "GET" }).handler(async 
   return normalize(data as Record<string, unknown> | null);
 });
 
+// ---------- Admin: read deposit config (RBAC enforced) ----------
+export const getDepositConfigAdmin = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context.userId);
+    const { data, error } = await supabaseAdmin
+      .from("deposit_config")
+      .select("*")
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+    if (error) return null;
+    return normalize(data as Record<string, unknown> | null);
+  });
+
 const depositConfigInput = z.object({
   bkash_number: z.string().max(20).nullable(),
   nagad_number: z.string().max(20).nullable(),
