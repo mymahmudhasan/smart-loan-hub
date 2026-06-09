@@ -92,6 +92,35 @@ export function ReferralWidget() {
               </div>
             </div>
 
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">{t("refer_share_label")}</p>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {shareTargets.map((s) => (
+                  <Button
+                    key={s.label}
+                    variant="outline"
+                    size="sm"
+                    onClick={s.onClick}
+                    disabled={!link}
+                    className="justify-center"
+                  >
+                    <s.icon className="h-4 w-4" /> {s.label}
+                  </Button>
+                ))}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={copyMessage}
+                  disabled={!inviteMessage}
+                  className="justify-center"
+                >
+                  <Copy className="h-4 w-4" /> {t("refer_share_copy_msg")}
+                </Button>
+              </div>
+            </div>
+
+
+
             <div className="grid grid-cols-3 gap-3 text-center">
               <Stat icon={Users} label={t("refer_total")} value={String(data?.totalReferrals ?? 0)} />
               <Stat icon={Coins} label={t("refer_earned")} value={formatBDT(data?.creditedAmount ?? 0)} />
