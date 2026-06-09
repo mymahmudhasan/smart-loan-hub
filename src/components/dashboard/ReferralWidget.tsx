@@ -1,7 +1,7 @@
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Gift, Copy, Users, Coins, Clock, Loader2 } from "lucide-react";
+import { Gift, Copy, Users, Coins, Clock, Loader2, MessageCircle, Facebook, Send } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
