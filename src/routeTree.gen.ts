@@ -25,6 +25,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminMembersRouteImport } from './routes/admin.members'
 import { Route as AdminLoansRouteImport } from './routes/admin.loans'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
@@ -115,6 +116,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminMembersRoute = AdminMembersRouteImport.update({
   id: '/members',
   path: '/members',
@@ -185,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/admin/kyc': typeof AdminKycRoute
   '/admin/loans': typeof AdminLoansRoute
   '/admin/members': typeof AdminMembersRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/member/$userId': typeof AdminMemberUserIdRoute
 }
@@ -211,6 +218,7 @@ export interface FileRoutesByTo {
   '/admin/kyc': typeof AdminKycRoute
   '/admin/loans': typeof AdminLoansRoute
   '/admin/members': typeof AdminMembersRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin': typeof AdminIndexRoute
   '/admin/member/$userId': typeof AdminMemberUserIdRoute
 }
@@ -239,6 +247,7 @@ export interface FileRoutesById {
   '/admin/kyc': typeof AdminKycRoute
   '/admin/loans': typeof AdminLoansRoute
   '/admin/members': typeof AdminMembersRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/member/$userId': typeof AdminMemberUserIdRoute
 }
@@ -268,6 +277,7 @@ export interface FileRouteTypes {
     | '/admin/kyc'
     | '/admin/loans'
     | '/admin/members'
+    | '/admin/reviews'
     | '/admin/'
     | '/admin/member/$userId'
   fileRoutesByTo: FileRoutesByTo
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
     | '/admin/kyc'
     | '/admin/loans'
     | '/admin/members'
+    | '/admin/reviews'
     | '/admin'
     | '/admin/member/$userId'
   id:
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/admin/kyc'
     | '/admin/loans'
     | '/admin/members'
+    | '/admin/reviews'
     | '/admin/'
     | '/admin/member/$userId'
   fileRoutesById: FileRoutesById
@@ -457,6 +469,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/members': {
       id: '/admin/members'
       path: '/members'
@@ -532,6 +551,7 @@ interface AdminRouteChildren {
   AdminKycRoute: typeof AdminKycRoute
   AdminLoansRoute: typeof AdminLoansRoute
   AdminMembersRoute: typeof AdminMembersRoute
+  AdminReviewsRoute: typeof AdminReviewsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminMemberUserIdRoute: typeof AdminMemberUserIdRoute
 }
@@ -545,6 +565,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminKycRoute: AdminKycRoute,
   AdminLoansRoute: AdminLoansRoute,
   AdminMembersRoute: AdminMembersRoute,
+  AdminReviewsRoute: AdminReviewsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminMemberUserIdRoute: AdminMemberUserIdRoute,
 }
