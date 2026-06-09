@@ -89,6 +89,16 @@ export const translations: Dict = {
   refer_pending: { en: "Pending Rewards", bn: "অপেক্ষমাণ রিওয়ার্ড" },
   refer_widget_title: { en: "Refer & Earn", bn: "রেফার ও আয়" },
   refer_none: { en: "No referrals yet. Share your link to start earning!", bn: "এখনো কোনো রেফারেল নেই। লিংক শেয়ার করে আয় শুরু করুন!" },
+  refer_share_label: { en: "Share & invite", bn: "শেয়ার ও আমন্ত্রণ" },
+  refer_share_whatsapp: { en: "WhatsApp", bn: "হোয়াটসঅ্যাপ" },
+  refer_share_facebook: { en: "Facebook", bn: "ফেসবুক" },
+  refer_share_telegram: { en: "Telegram", bn: "টেলিগ্রাম" },
+  refer_share_copy_msg: { en: "Copy message", bn: "মেসেজ কপি" },
+  refer_msg_copied: { en: "Invite message copied!", bn: "আমন্ত্রণ মেসেজ কপি হয়েছে!" },
+  refer_invite_message: {
+    en: "Join Smart Loan and get instant loans! Sign up with my referral link and we both earn ৳500: ",
+    bn: "স্মার্ট লোনে যোগ দিন এবং তাৎক্ষণিক ঋণ পান! আমার রেফারেল লিংক দিয়ে সাইন আপ করুন, আমরা দুজনেই পাব ৳৫০০: ",
+  },
   signup_referral: { en: "Referral Code (optional)", bn: "রেফারেল কোড (ঐচ্ছিক)" },
 
   // Calculator
