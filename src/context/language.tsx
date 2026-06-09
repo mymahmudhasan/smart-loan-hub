@@ -293,6 +293,34 @@ export const translations: Dict = {
     bn: "মেম্বারশিপ রিওয়ার্ড ও রেফারেল বোনাস আমাকে অনেক সাশ্রয় করতে সাহায্য করেছে। অত্যন্ত সুপারিশকৃত!",
   },
 
+  // Review submission
+  review_write: { en: "Write a review", bn: "রিভিউ লিখুন" },
+  review_share_title: { en: "Share your experience", bn: "আপনার অভিজ্ঞতা শেয়ার করুন" },
+  review_share_subtitle: {
+    en: "Your review will appear publicly once approved by our team.",
+    bn: "আমাদের টিম অনুমোদন করলে আপনার রিভিউ সর্বজনীনভাবে প্রকাশিত হবে।",
+  },
+  review_name_label: { en: "Display name", bn: "প্রদর্শন নাম" },
+  review_role_label: { en: "Title / location (optional)", bn: "পদবি / অবস্থান (ঐচ্ছিক)" },
+  review_rating_label: { en: "Your rating", bn: "আপনার রেটিং" },
+  review_text_label: { en: "Your review", bn: "আপনার রিভিউ" },
+  review_text_ph: {
+    en: "Tell others about your experience with us...",
+    bn: "আমাদের সাথে আপনার অভিজ্ঞতা অন্যদের জানান...",
+  },
+  review_submit: { en: "Submit review", bn: "রিভিউ জমা দিন" },
+  review_submitted: {
+    en: "Thanks! Your review was submitted and is awaiting approval.",
+    bn: "ধন্যবাদ! আপনার রিভিউ জমা হয়েছে এবং অনুমোদনের অপেক্ষায় আছে।",
+  },
+  review_submit_error: { en: "Could not submit review", bn: "রিভিউ জমা দেওয়া যায়নি" },
+  review_signin_required: {
+    en: "Please sign in to write a review.",
+    bn: "রিভিউ লিখতে অনুগ্রহ করে সাইন ইন করুন।",
+  },
+  review_signin_cta: { en: "Sign in to review", bn: "রিভিউ দিতে সাইন ইন করুন" },
+
+
 
   deposit_send_to: { en: "Send to", bn: "পাঠান" },
   deposit_inactive_warn: { en: "This method is currently inactive. Please contact support.", bn: "এই পদ্ধতি বর্তমানে নিষ্ক্রিয়। সহায়তার সাথে যোগাযোগ করুন।" },
