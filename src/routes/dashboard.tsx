@@ -18,6 +18,7 @@ import { formatBDT } from "@/lib/format";
 import { eligibleLoanAmount } from "@/lib/loan";
 import { useLanguage } from "@/context/language";
 import { ReferralWidget } from "@/components/dashboard/ReferralWidget";
+import { ReferralStats } from "@/components/dashboard/ReferralStats";
 import { ApprovalTimeline } from "@/components/dashboard/ApprovalTimeline";
 import { MemberBadge } from "@/components/dashboard/MemberBadge";
 import { BadgeHistory } from "@/components/dashboard/BadgeHistory";
