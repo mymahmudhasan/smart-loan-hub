@@ -286,6 +286,8 @@ export const translations: Dict = {
     bn: "যারা আমাদের সাথে ঋণ নিয়েছেন, সঞ্চয় করেছেন ও এগিয়েছেন তাদের সত্যিকারের গল্প।",
   },
   reviews_rating: { en: "4.9/5 average from 3,200+ reviews", bn: "৩,২০০+ রিভিউ থেকে গড় ৪.৯/৫" },
+  reviews_see_more: { en: "See more reviews", bn: "আরও রিভিউ দেখুন" },
+  reviews_show_less: { en: "Show less", bn: "কম দেখুন" },
   review1_name: { en: "Tahmina Akter", bn: "তাহমিনা আক্তার" },
   review1_role: { en: "Small business owner, Dhaka", bn: "ক্ষুদ্র ব্যবসায়ী, ঢাকা" },
   review1_text: {

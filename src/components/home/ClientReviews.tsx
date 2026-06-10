@@ -228,6 +228,7 @@ export function ClientReviews() {
   const { user } = useAuth();
   const fetchApproved = useServerFn(listApprovedReviews);
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["approved-reviews"],
@@ -235,6 +236,9 @@ export function ClientReviews() {
   });
 
   const approved = useMemo(() => data ?? [], [data]);
+  const initialLimit = 6;
+  const hasMore = approved.length > initialLimit;
+  const visible = expanded ? approved : approved.slice(0, initialLimit);
 
   return (
     <section className="bg-muted/40 py-16 lg:py-24">
@@ -280,8 +284,8 @@ export function ClientReviews() {
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {approved.length > 0 ? (
-            approved.map((r) => (
+          {visible.length > 0 ? (
+            visible.map((r) => (
               <ReviewCard
                 key={r.id}
                 name={r.reviewer_name}
@@ -296,6 +300,14 @@ export function ClientReviews() {
             <StaticReviews />
           )}
         </div>
+
+        {hasMore && (
+          <div className="mt-10 flex justify-center">
+            <Button variant="outline" size="lg" onClick={() => setExpanded((v) => !v)}>
+              {expanded ? t("reviews_show_less") : t("reviews_see_more")}
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );
