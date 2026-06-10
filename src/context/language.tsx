@@ -266,6 +266,18 @@ export const translations: Dict = {
   reg_tin_val: { en: "489201556743", bn: "489201556743" },
   reg_member: { en: "BB Regulated NBFI", bn: "বিবি নিয়ন্ত্রিত এনবিএফআই" },
 
+  // Banking partners
+  bank_eyebrow: { en: "Banking Partners", bn: "ব্যাংকিং পার্টনার" },
+  bank_title: { en: "Trusted by Leading Bangladesh Banks", bn: "বাংলাদেশের শীর্ষ ব্যাংকগুলোর বিশ্বস্ত" },
+  bank_subtitle: {
+    en: "We work with licensed banks to ensure safe deposits, disbursements, and settlements.",
+    bn: "নিরাপদ জমা, বিতরণ ও নিষ্পত্তির জন্য আমরা লাইসেন্সপ্রাপ্ত ব্যাংকগুলোর সাথে কাজ করি।",
+  },
+  bank_badge_1: { en: "NPSB Connected", bn: "এনপিএসবি সংযুক্ত" },
+  bank_badge_2: { en: "RTGS Enabled", bn: "আরটিজিএস সক্ষম" },
+  bank_badge_3: { en: "bKash & Nagad", bn: "বিকাশ ও নগদ" },
+  bank_badge_4: { en: "Scheduled Bank Network", bn: "শিডিউল্ড ব্যাংক নেটওয়ার্ক" },
+
   // Client reviews
   reviews_eyebrow: { en: "Client Reviews", bn: "গ্রাহক রিভিউ" },
   reviews_title: { en: "Trusted by thousands of members", bn: "হাজারো সদস্যের আস্থা" },
