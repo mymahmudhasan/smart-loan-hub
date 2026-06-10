@@ -54,23 +54,37 @@ function StaticReviews() {
 function ReviewCard({
   name,
   role,
+  title,
+  avatarUrl,
   text,
   rating,
 }: {
   name: string;
   role: string | null;
+  title?: string | null;
+  avatarUrl?: string | null;
   text: string;
   rating: number;
 }) {
   return (
-    <Card className="relative p-6">
+    <Card className="relative flex flex-col p-6">
       <Quote className="absolute right-5 top-5 h-8 w-8 text-primary/10" />
       <StarRow count={rating} />
-      <p className="mt-4 text-sm text-foreground">{text}</p>
+      {title && <h3 className="mt-3 text-base font-semibold text-foreground">{title}</h3>}
+      <p className={cn("text-sm text-foreground", title ? "mt-1.5" : "mt-4")}>{text}</p>
       <div className="mt-5 flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full gradient-primary text-sm font-bold text-primary-foreground">
-          {name.charAt(0)}
-        </span>
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt={name}
+            loading="lazy"
+            className="h-10 w-10 shrink-0 rounded-full object-cover"
+          />
+        ) : (
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full gradient-primary text-sm font-bold text-primary-foreground">
+            {name.charAt(0)}
+          </span>
+        )}
         <div>
           <div className="text-sm font-semibold">{name}</div>
           {role && <div className="text-xs text-muted-foreground">{role}</div>}
