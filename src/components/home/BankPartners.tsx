@@ -46,20 +46,17 @@ export function BankPartners() {
         </div>
 
         <div className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-3">
-          {[
-            "bank_badge_1",
-            "bank_badge_2",
-            "bank_badge_3",
-            "bank_badge_4",
-          ].map((key) => (
-            <span
-              key={key}
-              className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-soft"
-            >
-              <CheckCircle className="h-3.5 w-3.5 text-accent" />
-              {t(key as keyof typeof t)}
-            </span>
-          ))}
+          {(["bank_badge_1", "bank_badge_2", "bank_badge_3", "bank_badge_4"] as const).map(
+            (key) => (
+              <span
+                key={key}
+                className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-soft"
+              >
+                <CheckCircle className="h-3.5 w-3.5 text-accent" />
+                {t(key)}
+              </span>
+            )
+          )}
         </div>
       </div>
     </section>
