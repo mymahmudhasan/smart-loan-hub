@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
 import { listActiveBanners } from "@/lib/banner.functions";
+import { getPublicReferralStats, type PublicReferralStats } from "@/lib/referral-stats.functions";
 import { OffersBanner } from "@/components/home/OffersBanner";
 import { ReferralSection } from "@/components/home/ReferralSection";
 import { TrustBadges } from "@/components/home/TrustBadges";
@@ -32,7 +33,13 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  loader: () => listActiveBanners(),
+  loader: async () => {
+    const [offers, referralStats] = await Promise.all([
+      listActiveBanners(),
+      getPublicReferralStats(),
+    ]);
+    return { offers, referralStats };
+  },
   errorComponent: () => <Home />,
   component: Home,
 });
@@ -40,8 +47,11 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { t } = useLanguage();
   let offers: Awaited<ReturnType<typeof listActiveBanners>> = [];
+  let referralStats: PublicReferralStats | undefined;
   try {
-    offers = Route.useLoaderData() ?? [];
+    const data = Route.useLoaderData();
+    offers = data?.offers ?? [];
+    referralStats = data?.referralStats;
   } catch {
     offers = [];
   }
@@ -179,7 +189,7 @@ function Home() {
 
 
       {/* Referral marketing */}
-      <ReferralSection />
+      <ReferralSection stats={referralStats} />
 
 
       {/* CTA */}

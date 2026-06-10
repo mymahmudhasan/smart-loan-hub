@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { Gift, Share2, UserCheck, Coins, ArrowRight } from "lucide-react";
+import { Gift, Share2, UserCheck, Coins, ArrowRight, Users, TrendingUp, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
+import type { PublicReferralStats } from "@/lib/referral-stats.functions";
 
-export function ReferralSection() {
+export function ReferralSection({ stats }: { stats?: PublicReferralStats }) {
   const { t } = useLanguage();
 
   const steps = [
@@ -11,6 +13,11 @@ export function ReferralSection() {
     { icon: UserCheck, title: t("refer_s2_t"), desc: t("refer_s2_d") },
     { icon: Coins, title: t("refer_s3_t"), desc: t("refer_s3_d") },
   ];
+
+  const formatBDT = (n: number) =>
+    "৳" + n.toLocaleString("en-IN");
+
+  const hasStats = stats && stats.totalReferrals > 0;
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 lg:py-20">
@@ -28,6 +35,32 @@ export function ReferralSection() {
             <Coins className="h-6 w-6 text-on-hero" />
             <span className="text-lg font-extrabold text-on-hero">{t("refer_reward")}</span>
           </div>
+
+          {/* Live stats */}
+          {hasStats && (
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <Card className="flex flex-col items-center justify-center p-4 text-center">
+                <Users className="h-5 w-5 text-primary" />
+                <div className="mt-1 text-xl font-extrabold">{stats.totalReferrals.toLocaleString()}</div>
+                <div className="text-xs text-muted-foreground">{t("refer_stat_referrals")}</div>
+              </Card>
+              <Card className="flex flex-col items-center justify-center p-4 text-center">
+                <TrendingUp className="h-5 w-5 text-accent" />
+                <div className="mt-1 text-xl font-extrabold">{stats.totalReferrers.toLocaleString()}</div>
+                <div className="text-xs text-muted-foreground">{t("refer_stat_referrers")}</div>
+              </Card>
+              <Card className="flex flex-col items-center justify-center p-4 text-center">
+                <Wallet className="h-5 w-5 text-success" />
+                <div className="mt-1 text-xl font-extrabold">{formatBDT(stats.totalRewardsCredited)}</div>
+                <div className="text-xs text-muted-foreground">{t("refer_stat_credited")}</div>
+              </Card>
+              <Card className="flex flex-col items-center justify-center p-4 text-center">
+                <Coins className="h-5 w-5 text-warning" />
+                <div className="mt-1 text-xl font-extrabold">{formatBDT(stats.totalRewardsPending)}</div>
+                <div className="text-xs text-muted-foreground">{t("refer_stat_pending")}</div>
+              </Card>
+            </div>
+          )}
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button variant="hero" size="xl" asChild>
@@ -59,6 +92,28 @@ export function ReferralSection() {
               </div>
             </div>
           ))}
+
+          {/* Top referrers */}
+          {hasStats && stats.topReferrers.length > 0 && (
+            <Card className="p-5">
+              <h4 className="text-sm font-semibold">{t("refer_top_title")}</h4>
+              <div className="mt-3 space-y-2">
+                {stats.topReferrers.map((r, i) => (
+                  <div key={i} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                        {i + 1}
+                      </span>
+                      <span className="truncate">{r.name ?? "Member"}</span>
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {r.referrals} referrals
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </section>

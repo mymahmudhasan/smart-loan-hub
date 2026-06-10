@@ -117,6 +117,13 @@ export const translations: Dict = {
   },
   signup_referral: { en: "Referral Code (optional)", bn: "রেফারেল কোড (ঐচ্ছিক)" },
 
+  // Referral marketing stats
+  refer_stat_referrals: { en: "Referrals made", bn: "করা রেফারেল" },
+  refer_stat_referrers: { en: "Active referrers", bn: "সক্রিয় রেফারার" },
+  refer_stat_credited: { en: "Rewards paid out", bn: "প্রদত্ত রিওয়ার্ড" },
+  refer_stat_pending: { en: "Pending rewards", bn: "অপেক্ষমাণ রিওয়ার্ড" },
+  refer_top_title: { en: "Top referrers", bn: "শীর্ষ রেফারার" },
+
 
   // Calculator
   calc_title: { en: "Loan Calculator", bn: "লোন ক্যালকুলেটর" },
