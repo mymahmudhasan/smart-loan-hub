@@ -35,7 +35,7 @@ export const getPublicReferralStats = createServerFn({ method: "GET" }).handler(
       .slice(0, 5)
       .map(([id]) => id);
 
-    const topReferrers: { name: string | null; referrals: number }[] = [];
+    let topReferrers: { name: string | null; referrals: number }[] = [];
     if (topIds.length) {
       const { data: profs } = await supabaseAdmin
         .from("profiles")
