@@ -27,7 +27,7 @@ export type AdminReview = ClientReview & {
 export const listApprovedReviews = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin
     .from("client_reviews")
-    .select("id, reviewer_name, reviewer_role, rating, content, created_at")
+    .select("id, reviewer_name, reviewer_role, review_title, avatar_url, rating, content, created_at")
     .eq("status", "approved")
     .order("reviewed_at", { ascending: false })
     .limit(24);
