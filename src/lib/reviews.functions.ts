@@ -8,6 +8,8 @@ export type ClientReview = {
   id: string;
   reviewer_name: string;
   reviewer_role: string | null;
+  review_title: string | null;
+  avatar_url: string | null;
   rating: number;
   content: string;
   created_at: string;
@@ -25,7 +27,7 @@ export type AdminReview = ClientReview & {
 export const listApprovedReviews = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin
     .from("client_reviews")
-    .select("id, reviewer_name, reviewer_role, rating, content, created_at")
+    .select("id, reviewer_name, reviewer_role, review_title, avatar_url, rating, content, created_at")
     .eq("status", "approved")
     .order("reviewed_at", { ascending: false })
     .limit(24);
@@ -37,6 +39,15 @@ export const listApprovedReviews = createServerFn({ method: "GET" }).handler(asy
 const reviewInput = z.object({
   reviewer_name: z.string().trim().min(2).max(80),
   reviewer_role: z.string().trim().max(120).optional().nullable(),
+  review_title: z.string().trim().max(120).optional().nullable(),
+  avatar_url: z
+    .string()
+    .trim()
+    .url()
+    .max(500)
+    .refine((u) => /^https:\/\//i.test(u), "Must be an https URL")
+    .optional()
+    .nullable(),
   rating: z.number().int().min(1).max(5),
   content: z.string().trim().min(10).max(1000),
 });
@@ -49,6 +60,8 @@ export const submitReview = createServerFn({ method: "POST" })
       user_id: context.userId,
       reviewer_name: data.reviewer_name,
       reviewer_role: data.reviewer_role || null,
+      review_title: data.review_title || null,
+      avatar_url: data.avatar_url || null,
       rating: data.rating,
       content: data.content,
       status: "pending",
@@ -63,7 +76,7 @@ export const listMyReviews = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await supabaseAdmin
       .from("client_reviews")
-      .select("id, reviewer_name, reviewer_role, rating, content, status, created_at")
+      .select("id, reviewer_name, reviewer_role, review_title, avatar_url, rating, content, status, created_at")
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false });
     if (error) return [];

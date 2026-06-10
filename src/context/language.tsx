@@ -302,6 +302,11 @@ export const translations: Dict = {
   },
   review_name_label: { en: "Display name", bn: "প্রদর্শন নাম" },
   review_role_label: { en: "Title / location (optional)", bn: "পদবি / অবস্থান (ঐচ্ছিক)" },
+  review_title_label: { en: "Review headline (optional)", bn: "রিভিউ শিরোনাম (ঐচ্ছিক)" },
+  review_title_ph: { en: "e.g. Fast and hassle-free loan", bn: "যেমন: দ্রুত ও ঝামেলামুক্ত ঋণ" },
+  review_avatar_label: { en: "Photo URL (optional)", bn: "ছবির URL (ঐচ্ছিক)" },
+  review_avatar_ph: { en: "https://...", bn: "https://..." },
+  review_avatar_error: { en: "Enter a valid https image URL", bn: "একটি বৈধ https ছবির URL দিন" },
   review_rating_label: { en: "Your rating", bn: "আপনার রেটিং" },
   review_text_label: { en: "Your review", bn: "আপনার রিভিউ" },
   review_text_ph: {

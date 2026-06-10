@@ -94,10 +94,12 @@ export type Database = {
       }
       client_reviews: {
         Row: {
+          avatar_url: string | null
           content: string
           created_at: string
           id: string
           rating: number
+          review_title: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           reviewer_name: string
@@ -107,10 +109,12 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          avatar_url?: string | null
           content: string
           created_at?: string
           id?: string
           rating?: number
+          review_title?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           reviewer_name: string
@@ -120,10 +124,12 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          avatar_url?: string | null
           content?: string
           created_at?: string
           id?: string
           rating?: number
+          review_title?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           reviewer_name?: string

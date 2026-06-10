@@ -54,23 +54,37 @@ function StaticReviews() {
 function ReviewCard({
   name,
   role,
+  title,
+  avatarUrl,
   text,
   rating,
 }: {
   name: string;
   role: string | null;
+  title?: string | null;
+  avatarUrl?: string | null;
   text: string;
   rating: number;
 }) {
   return (
-    <Card className="relative p-6">
+    <Card className="relative flex flex-col p-6">
       <Quote className="absolute right-5 top-5 h-8 w-8 text-primary/10" />
       <StarRow count={rating} />
-      <p className="mt-4 text-sm text-foreground">{text}</p>
+      {title && <h3 className="mt-3 text-base font-semibold text-foreground">{title}</h3>}
+      <p className={cn("text-sm text-foreground", title ? "mt-1.5" : "mt-4")}>{text}</p>
       <div className="mt-5 flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full gradient-primary text-sm font-bold text-primary-foreground">
-          {name.charAt(0)}
-        </span>
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt={name}
+            loading="lazy"
+            className="h-10 w-10 shrink-0 rounded-full object-cover"
+          />
+        ) : (
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full gradient-primary text-sm font-bold text-primary-foreground">
+            {name.charAt(0)}
+          </span>
+        )}
         <div>
           <div className="text-sm font-semibold">{name}</div>
           {role && <div className="text-xs text-muted-foreground">{role}</div>}
@@ -90,6 +104,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     (user?.user_metadata?.full_name as string | undefined) ?? user?.email?.split("@")[0] ?? "";
   const [name, setName] = useState(defaultName);
   const [role, setRole] = useState("");
+  const [title, setTitle] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -100,6 +116,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         data: {
           reviewer_name: name.trim(),
           reviewer_role: role.trim() || null,
+          review_title: title.trim() || null,
+          avatar_url: avatarUrl.trim() || null,
           rating,
           content: content.trim(),
         },
@@ -116,6 +134,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     const e: Record<string, string> = {};
     if (name.trim().length < 2) e.name = "Min 2 characters";
     if (content.trim().length < 10) e.content = "Min 10 characters";
+    if (avatarUrl.trim() && !/^https:\/\/\S+$/i.test(avatarUrl.trim()))
+      e.avatar = t("review_avatar_error");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -141,6 +161,27 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
           placeholder="Small business owner, Dhaka"
           onChange={(e) => setRole(e.target.value)}
         />
+      </div>
+      <div className="space-y-2">
+        <Label>{t("review_title_label")}</Label>
+        <Input
+          value={title}
+          maxLength={120}
+          placeholder={t("review_title_ph")}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label>{t("review_avatar_label")}</Label>
+        <Input
+          value={avatarUrl}
+          maxLength={500}
+          type="url"
+          inputMode="url"
+          placeholder={t("review_avatar_ph")}
+          onChange={(e) => setAvatarUrl(e.target.value)}
+        />
+        {errors.avatar && <p className="text-xs text-destructive">{errors.avatar}</p>}
       </div>
       <div className="space-y-2">
         <Label>{t("review_rating_label")}</Label>
@@ -245,6 +286,8 @@ export function ClientReviews() {
                 key={r.id}
                 name={r.reviewer_name}
                 role={r.reviewer_role}
+                title={r.review_title}
+                avatarUrl={r.avatar_url}
                 text={r.content}
                 rating={r.rating}
               />

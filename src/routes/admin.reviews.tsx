@@ -101,29 +101,46 @@ function AdminReviews() {
               {reviews.map((r) => (
                 <Card key={r.id}>
                   <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-semibold">{r.reviewer_name}</span>
-                        {r.reviewer_role && (
-                          <span className="text-xs text-muted-foreground">{r.reviewer_role}</span>
+                    <div className="flex min-w-0 flex-1 gap-3">
+                      {r.avatar_url ? (
+                        <img
+                          src={r.avatar_url}
+                          alt={r.reviewer_name}
+                          loading="lazy"
+                          className="h-10 w-10 shrink-0 rounded-full object-cover"
+                        />
+                      ) : (
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full gradient-primary text-sm font-bold text-primary-foreground">
+                          {r.reviewer_name.charAt(0)}
+                        </span>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-semibold">{r.reviewer_name}</span>
+                          {r.reviewer_role && (
+                            <span className="text-xs text-muted-foreground">{r.reviewer_role}</span>
+                          )}
+                          <StatusBadge status={r.status} />
+                        </div>
+                        <div className="mt-1 flex">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star
+                              key={i}
+                              className={cn(
+                                "h-3.5 w-3.5",
+                                i < r.rating ? "fill-warning text-warning" : "text-muted-foreground/30",
+                              )}
+                            />
+                          ))}
+                        </div>
+                        {r.review_title && (
+                          <p className="mt-2 text-sm font-semibold text-foreground">{r.review_title}</p>
                         )}
-                        <StatusBadge status={r.status} />
+                        <p className="mt-1 text-sm text-foreground">{r.content}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {new Date(r.created_at).toLocaleString()}
+                        </p>
                       </div>
-                      <div className="mt-1 flex">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className={cn(
-                              "h-3.5 w-3.5",
-                              i < r.rating ? "fill-warning text-warning" : "text-muted-foreground/30",
-                            )}
-                          />
-                        ))}
-                      </div>
-                      <p className="mt-2 text-sm text-foreground">{r.content}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {new Date(r.created_at).toLocaleString()}
-                      </p>
                     </div>
                     <div className="flex shrink-0 flex-wrap gap-2">
                       {r.status !== "approved" && (
