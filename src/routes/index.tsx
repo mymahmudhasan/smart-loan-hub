@@ -171,6 +171,9 @@ function Home() {
       {/* Trust & security badges */}
       <TrustBadges />
 
+      {/* Banking partners */}
+      <BankPartners />
+
       {/* Client reviews */}
       <ClientReviews />
 
