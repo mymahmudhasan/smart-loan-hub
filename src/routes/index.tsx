@@ -47,8 +47,11 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { t } = useLanguage();
   let offers: Awaited<ReturnType<typeof listActiveBanners>> = [];
+  let referralStats: PublicReferralStats | undefined;
   try {
-    offers = Route.useLoaderData() ?? [];
+    const data = Route.useLoaderData();
+    offers = data?.offers ?? [];
+    referralStats = data?.referralStats;
   } catch {
     offers = [];
   }
