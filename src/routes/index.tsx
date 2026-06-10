@@ -18,6 +18,7 @@ import { listActiveBanners } from "@/lib/banner.functions";
 import { OffersBanner } from "@/components/home/OffersBanner";
 import { ReferralSection } from "@/components/home/ReferralSection";
 import { TrustBadges } from "@/components/home/TrustBadges";
+import { BankPartners } from "@/components/home/BankPartners";
 import { ClientReviews } from "@/components/home/ClientReviews";
 
 export const Route = createFileRoute("/")({
@@ -169,6 +170,9 @@ function Home() {
 
       {/* Trust & security badges */}
       <TrustBadges />
+
+      {/* Banking partners */}
+      <BankPartners />
 
       {/* Client reviews */}
       <ClientReviews />
