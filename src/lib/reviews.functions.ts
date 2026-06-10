@@ -8,6 +8,8 @@ export type ClientReview = {
   id: string;
   reviewer_name: string;
   reviewer_role: string | null;
+  review_title: string | null;
+  avatar_url: string | null;
   rating: number;
   content: string;
   created_at: string;
