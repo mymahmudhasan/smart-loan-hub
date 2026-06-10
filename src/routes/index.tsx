@@ -189,7 +189,7 @@ function Home() {
 
 
       {/* Referral marketing */}
-      <ReferralSection />
+      <ReferralSection stats={referralStats} />
 
 
       {/* CTA */}
