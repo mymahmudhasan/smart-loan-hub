@@ -104,6 +104,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     (user?.user_metadata?.full_name as string | undefined) ?? user?.email?.split("@")[0] ?? "";
   const [name, setName] = useState(defaultName);
   const [role, setRole] = useState("");
+  const [title, setTitle] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -114,6 +116,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         data: {
           reviewer_name: name.trim(),
           reviewer_role: role.trim() || null,
+          review_title: title.trim() || null,
+          avatar_url: avatarUrl.trim() || null,
           rating,
           content: content.trim(),
         },
@@ -130,6 +134,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     const e: Record<string, string> = {};
     if (name.trim().length < 2) e.name = "Min 2 characters";
     if (content.trim().length < 10) e.content = "Min 10 characters";
+    if (avatarUrl.trim() && !/^https:\/\/\S+$/i.test(avatarUrl.trim()))
+      e.avatar = t("review_avatar_error");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
