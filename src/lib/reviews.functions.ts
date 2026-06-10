@@ -76,7 +76,7 @@ export const listMyReviews = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await supabaseAdmin
       .from("client_reviews")
-      .select("id, reviewer_name, reviewer_role, rating, content, status, created_at")
+      .select("id, reviewer_name, reviewer_role, review_title, avatar_url, rating, content, status, created_at")
       .eq("user_id", context.userId)
       .order("created_at", { ascending: false });
     if (error) return [];
