@@ -39,6 +39,15 @@ export const listApprovedReviews = createServerFn({ method: "GET" }).handler(asy
 const reviewInput = z.object({
   reviewer_name: z.string().trim().min(2).max(80),
   reviewer_role: z.string().trim().max(120).optional().nullable(),
+  review_title: z.string().trim().max(120).optional().nullable(),
+  avatar_url: z
+    .string()
+    .trim()
+    .url()
+    .max(500)
+    .refine((u) => /^https:\/\//i.test(u), "Must be an https URL")
+    .optional()
+    .nullable(),
   rating: z.number().int().min(1).max(5),
   content: z.string().trim().min(10).max(1000),
 });
@@ -51,6 +60,8 @@ export const submitReview = createServerFn({ method: "POST" })
       user_id: context.userId,
       reviewer_name: data.reviewer_name,
       reviewer_role: data.reviewer_role || null,
+      review_title: data.review_title || null,
+      avatar_url: data.avatar_url || null,
       rating: data.rating,
       content: data.content,
       status: "pending",
