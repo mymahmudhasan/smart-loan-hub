@@ -286,6 +286,8 @@ export function ClientReviews() {
                 key={r.id}
                 name={r.reviewer_name}
                 role={r.reviewer_role}
+                title={r.review_title}
+                avatarUrl={r.avatar_url}
                 text={r.content}
                 rating={r.rating}
               />
