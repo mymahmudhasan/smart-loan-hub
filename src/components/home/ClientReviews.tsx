@@ -36,11 +36,25 @@ function StarRow({ count = 5 }: { count?: number }) {
 }
 
 function StaticReviews() {
-  const { t } = useLanguage();
   const reviews = [
-    { name: t("review1_name"), role: t("review1_role"), text: t("review1_text"), rating: 5 },
-    { name: t("review2_name"), role: t("review2_role"), text: t("review2_text"), rating: 5 },
-    { name: t("review3_name"), role: t("review3_role"), text: t("review3_text"), rating: 5 },
+    {
+      name: "তাহমিনা আক্তার",
+      role: "ক্ষুদ্র ব্যবসায়ী, ঢাকা",
+      text: "একদিনের মধ্যেই আমার ঋণ অনুমোদন হয়েছে। পুরো প্রক্রিয়াটি ছিল সহজ ও সম্পূর্ণ অনলাইন।",
+      rating: 5,
+    },
+    {
+      name: "রাকিবুল হাসান",
+      role: "সফটওয়্যার ইঞ্জিনিয়ার, চট্টগ্রাম",
+      text: "স্বচ্ছ সুদের হার এবং কোনো লুকানো চার্জ নেই। গ্রাহক সহায়তা সত্যিই সহায়ক।",
+      rating: 5,
+    },
+    {
+      name: "নুসরাত জাহান",
+      role: "শিক্ষক, সিলেট",
+      text: "মেম্বারশিপ রিওয়ার্ড ও রেফারেল বোনাস আমাকে অনেক সাশ্রয় করতে সাহায্য করেছে। অত্যন্ত সুপারিশকৃত!",
+      rating: 5,
+    },
   ];
   return (
     <>
