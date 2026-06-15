@@ -3,55 +3,51 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Save, Smartphone } from "lucide-react";
+import { Loader2, Save, KeyRound, Link2, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import {
-  getDepositConfigAdmin,
-  updateDepositConfig,
-  type DepositConfig,
-} from "@/lib/deposit-config.functions";
+  getGatewayConfigAdmin,
+  updateGatewayConfig,
+} from "@/lib/payment-gateway.functions";
 
 export const Route = createFileRoute("/admin/deposit-config")({
-  component: AdminDepositConfig,
+  component: AdminGatewayConfig,
 });
 
 type FormState = {
-  bkash_number: string;
-  nagad_number: string;
-  bkash_active: boolean;
-  nagad_active: boolean;
+  api_key: string;
+  base_url: string;
+  is_active: boolean;
 };
 
-const emptyForm: FormState = {
-  bkash_number: "",
-  nagad_number: "",
-  bkash_active: true,
-  nagad_active: true,
-};
-
-function AdminDepositConfig() {
-  const fetchConfig = useServerFn(getDepositConfigAdmin);
-  const saveConfig = useServerFn(updateDepositConfig);
+function AdminGatewayConfig() {
+  const fetchConfig = useServerFn(getGatewayConfigAdmin);
+  const saveConfig = useServerFn(updateGatewayConfig);
   const qc = useQueryClient();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["deposit-config-admin"],
+    queryKey: ["payment-gateway-admin"],
     queryFn: () => fetchConfig(),
   });
 
-  const [form, setForm] = useState<FormState>(emptyForm);
+  const [form, setForm] = useState<FormState>({
+    api_key: "",
+    base_url: "https://pay.auratradeai.tech",
+    is_active: true,
+  });
+  const [showKey, setShowKey] = useState(false);
 
   useEffect(() => {
     if (data) {
       setForm({
-        bkash_number: data.bkash_number ?? "",
-        nagad_number: data.nagad_number ?? "",
-        bkash_active: data.bkash_active,
-        nagad_active: data.nagad_active,
+        api_key: "",
+        base_url: data.base_url,
+        is_active: data.is_active,
       });
     }
   }, [data]);
@@ -60,15 +56,17 @@ function AdminDepositConfig() {
     mutationFn: (payload: FormState) =>
       saveConfig({
         data: {
-          bkash_number: payload.bkash_number || null,
-          nagad_number: payload.nagad_number || null,
-          bkash_active: payload.bkash_active,
-          nagad_active: payload.nagad_active,
+          api_key: payload.api_key, // empty string keeps existing key
+          base_url: payload.base_url.trim(),
+          is_active: payload.is_active,
         },
       }),
     onSuccess: () => {
-      toast.success("Payment config saved");
-      qc.invalidateQueries({ queryKey: ["deposit-config-admin"] });
+      toast.success("Payment gateway updated", {
+        description: "New settings are live immediately.",
+      });
+      setForm((f) => ({ ...f, api_key: "" }));
+      qc.invalidateQueries({ queryKey: ["payment-gateway-admin"] });
     },
     onError: (e) => toast.error("Could not save", { description: (e as Error).message }),
   });
@@ -87,72 +85,98 @@ function AdminDepositConfig() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold">Payment Method Numbers</h2>
+        <h2 className="text-xl font-semibold">Payment Gateway</h2>
         <p className="text-sm text-muted-foreground">
-          Set the active bKash and Nagad numbers members see when making deposits. Change these when a number hits its transaction limit.
+          Set the gateway API key and base URL. Changes apply immediately — when you rotate the key,
+          update it here to reconnect the gateway right away.
         </p>
       </div>
 
       <Card>
         <CardContent className="space-y-6 pt-6">
-          {/* bKash */}
+          {/* Status */}
+          <div className="flex items-center gap-2">
+            {data?.configured ? (
+              <Badge variant="secondary" className="gap-1 text-accent">
+                <CheckCircle2 className="h-3.5 w-3.5" /> API key configured
+              </Badge>
+            ) : (
+              <Badge variant="secondary" className="gap-1 text-warning">
+                <AlertCircle className="h-3.5 w-3.5" /> No API key set
+              </Badge>
+            )}
+            {data?.masked_key && (
+              <span className="text-xs text-muted-foreground">Current: {data.masked_key}</span>
+            )}
+          </div>
+
+          {/* API key */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Smartphone className="h-4 w-4 text-primary" />
-                <span className="font-medium">bKash Number</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Label htmlFor="bkash_active" className="text-sm">
-                  Active
-                </Label>
-                <Switch
-                  id="bkash_active"
-                  checked={form.bkash_active}
-                  onCheckedChange={(v) => set("bkash_active", v)}
-                />
-              </div>
+            <div className="flex items-center gap-2">
+              <KeyRound className="h-4 w-4 text-primary" />
+              <span className="font-medium">Gateway API Key</span>
             </div>
-            <Input
-              value={form.bkash_number}
-              maxLength={20}
-              placeholder="01XXXXXXXXX"
-              onChange={(e) => set("bkash_number", e.target.value)}
-            />
+            <div className="relative">
+              <Input
+                type={showKey ? "text" : "password"}
+                className="pr-10"
+                maxLength={300}
+                placeholder={data?.configured ? "Enter a new key to replace it" : "Paste your gateway API key"}
+                value={form.api_key}
+                onChange={(e) => set("api_key", e.target.value)}
+                autoComplete="off"
+              />
+              <button
+                type="button"
+                onClick={() => setShowKey((s) => !s)}
+                className="absolute right-0 top-0 flex h-full w-10 items-center justify-center text-muted-foreground hover:text-foreground"
+                aria-label={showKey ? "Hide API key" : "Show API key"}
+              >
+                {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
             <p className="text-xs text-muted-foreground">
-              Members will see this number on the deposit page when they choose bKash.
+              Leave blank to keep the current key. The full key is never displayed for security.
             </p>
           </div>
 
           <div className="border-t" />
 
-          {/* Nagad */}
+          {/* Base URL */}
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Smartphone className="h-4 w-4 text-accent" />
-                <span className="font-medium">Nagad Number</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Label htmlFor="nagad_active" className="text-sm">
-                  Active
-                </Label>
-                <Switch
-                  id="nagad_active"
-                  checked={form.nagad_active}
-                  onCheckedChange={(v) => set("nagad_active", v)}
-                />
-              </div>
+            <div className="flex items-center gap-2">
+              <Link2 className="h-4 w-4 text-accent" />
+              <span className="font-medium">Gateway Base URL</span>
             </div>
             <Input
-              value={form.nagad_number}
-              maxLength={20}
-              placeholder="01XXXXXXXXX"
-              onChange={(e) => set("nagad_number", e.target.value)}
+              type="url"
+              maxLength={300}
+              placeholder="https://pay.auratradeai.tech"
+              value={form.base_url}
+              onChange={(e) => set("base_url", e.target.value)}
             />
             <p className="text-xs text-muted-foreground">
-              Members will see this number on the deposit page when they choose Nagad.
+              The base URL of your payment gateway (without a trailing slash).
             </p>
+          </div>
+
+          <div className="border-t" />
+
+          {/* Active */}
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="gateway_active" className="font-medium">
+                Gateway Active
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                Turn off to temporarily disable online payments.
+              </p>
+            </div>
+            <Switch
+              id="gateway_active"
+              checked={form.is_active}
+              onCheckedChange={(v) => set("is_active", v)}
+            />
           </div>
         </CardContent>
       </Card>
