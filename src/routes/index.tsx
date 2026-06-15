@@ -10,7 +10,6 @@ import {
   CalendarCheck,
   ArrowRight,
 } from "lucide-react";
-import { HeroTestimonials } from "@/components/home/HeroTestimonials";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
@@ -106,7 +105,13 @@ function Home() {
               </Button>
             </div>
           </div>
-          <HeroTestimonials />
+          <img
+            src="/hero-img.png"
+            alt="Smart Loan Platform"
+            className="mx-auto w-full max-w-lg animate-float rounded-3xl shadow-elegant lg:max-w-none"
+            width={1024}
+            height={768}
+          />
         </div>
       </section>
 
