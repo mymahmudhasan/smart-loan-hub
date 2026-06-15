@@ -115,6 +115,20 @@ function Home() {
         </div>
       </section>
 
+      {/* Why Smart Loan — key benefits banner */}
+      <section className="relative overflow-hidden bg-primary py-10 lg:py-14">
+        <div className="absolute inset-0 -z-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        <div className="mx-auto max-w-7xl px-4">
+          <img
+            src="/after-hero.png"
+            alt="Smart Loan Benefits"
+            className="mx-auto w-full max-w-5xl rounded-2xl shadow-elegant"
+            width={1200}
+            height={600}
+          />
+        </div>
+      </section>
+
       {/* Bank-style offers banner */}
       <OffersBanner offers={offers} />
 
