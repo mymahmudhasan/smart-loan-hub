@@ -365,7 +365,8 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>("bn");
+
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Lang | null;
