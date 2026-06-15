@@ -10,7 +10,7 @@ import {
   CalendarCheck,
   ArrowRight,
 } from "lucide-react";
-import heroImg from "@/assets/hero.jpg";
+import { HeroTestimonials } from "@/components/home/HeroTestimonials";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
