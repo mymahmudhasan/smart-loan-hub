@@ -103,7 +103,7 @@ function Signup() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-12">
-      <Card className="relative overflow-visible rounded-3xl border-0 bg-white shadow-elegant">
+      <Card className="relative overflow-visible rounded-3xl border bg-card text-card-foreground shadow-elegant">
         {/* Logo badge */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2">
           {logoUrl ? (
