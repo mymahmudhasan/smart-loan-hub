@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -76,7 +76,13 @@ function AdminKyc() {
                   rows.map((k) => (
                     <TableRow key={k.id}>
                       <TableCell>
-                        <div className="font-medium">{k.profiles?.full_name || "—"}</div>
+                        <Link
+                          to="/admin/member/$userId"
+                          params={{ userId: k.user_id }}
+                          className="font-medium text-primary hover:underline"
+                        >
+                          {k.profiles?.full_name || "—"}
+                        </Link>
                         <div className="text-xs text-muted-foreground">{k.profiles?.phone || k.profiles?.email || "—"}</div>
                       </TableCell>
                       <TableCell className="text-sm">{k.nid_number || "—"}</TableCell>
