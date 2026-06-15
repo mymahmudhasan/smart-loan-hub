@@ -106,9 +106,17 @@ function Signup() {
       <Card className="relative overflow-visible rounded-3xl border-0 bg-white shadow-elegant">
         {/* Logo badge */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full gradient-primary text-primary-foreground shadow-soft">
-            <ShieldCheck className="h-10 w-10" />
-          </div>
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={brandName ?? "Logo"}
+              className="h-20 w-20 rounded-full object-contain shadow-soft bg-white"
+            />
+          ) : (
+            <div className="flex h-20 w-20 items-center justify-center rounded-full gradient-primary text-primary-foreground shadow-soft">
+              <ShieldCheck className="h-10 w-10" />
+            </div>
+          )}
         </div>
 
         <CardContent className="pt-14 pb-8 px-8">
