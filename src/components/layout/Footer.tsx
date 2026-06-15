@@ -134,9 +134,17 @@ export function Footer() {
         ))}
       </div>
       <div className="border-t py-5">
-        <p className="mx-auto max-w-7xl px-4 text-center text-xs text-muted-foreground">
-          © {year} {t("brandFull")}. {t("footer_rights")}
-        </p>
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 px-4 text-center text-xs text-muted-foreground sm:flex-row sm:justify-between">
+          <p>
+            © {year} {t("brandFull")}. {t("footer_rights")}
+          </p>
+          <Link
+            to="/admin-login"
+            className="inline-flex items-center gap-1 transition-colors hover:text-primary"
+          >
+            <Lock className="h-3 w-3" /> Admin
+          </Link>
+        </div>
       </div>
     </footer>
   );
