@@ -41,7 +41,7 @@ const navItems = [
   { to: "/admin/fraud", label: "Fraud Flags", icon: ShieldAlert },
   { to: "/admin/banners", label: "Banner Offers", icon: Megaphone },
   { to: "/admin/footer", label: "Footer Banner", icon: PanelBottom },
-  { to: "/admin/deposit-config", label: "Payment Config", icon: Smartphone },
+  { to: "/admin/deposit-config", label: "Payment Gateway", icon: CreditCard },
   { to: "/admin/reviews", label: "Client Reviews", icon: Star },
   { to: "/admin/audit", label: "Audit Logs", icon: ScrollText },
 ];
