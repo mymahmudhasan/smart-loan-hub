@@ -168,7 +168,7 @@ function Signup() {
                 <button
                   type="button"
                   onClick={() => setProfessionOpen((o) => !o)}
-                  className="flex h-12 w-full items-center justify-between rounded-xl border border-input bg-white pl-12 pr-4 text-base text-left focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="flex h-12 w-full items-center justify-between rounded-xl border border-input bg-background pl-12 pr-4 text-base text-left text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <span className={selectedProfession ? "text-foreground" : "text-muted-foreground"}>
                     {selectedProfession
