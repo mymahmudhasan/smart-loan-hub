@@ -67,7 +67,12 @@ export const updateGatewayConfig = createServerFn({ method: "POST" })
       .maybeSingle();
 
     const newKey = data.api_key?.trim();
-    const basePayload: Record<string, unknown> = {
+    const basePayload: {
+      base_url: string;
+      is_active: boolean;
+      updated_by: string;
+      api_key?: string;
+    } = {
       base_url: data.base_url.replace(/\/$/, ""),
       is_active: data.is_active,
       updated_by: context.userId,
