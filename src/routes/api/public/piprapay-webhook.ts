@@ -22,7 +22,7 @@ export const Route = createFileRoute("/api/public/piprapay-webhook")({
         const headerKey =
           request.headers.get("mh-piprapay-api-key") ??
           request.headers.get("MHS-PIPRAPAY-API-KEY");
-        if (!isValidWebhookKey(headerKey)) {
+        if (!(await isValidWebhookKey(headerKey))) {
           return new Response("Unauthorized", { status: 401 });
         }
 

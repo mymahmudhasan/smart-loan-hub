@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2, Smartphone } from "lucide-react";
+import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -15,61 +15,41 @@ import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
 import { requestTransaction } from "@/lib/member.functions";
 import { createPaymentCharge } from "@/lib/payment.functions";
-import { getDepositConfig } from "@/lib/deposit-config.functions";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/payments")({
   head: () => ({
     meta: [
       { title: "Payments | Smart Loan" },
-      { name: "description", content: "Deposit funds, withdraw, and pay EMIs via bKash or Nagad." },
+      { name: "description", content: "Deposit funds, withdraw, and pay EMIs securely via our online payment gateway." },
     ],
   }),
   component: Payments,
 });
 
-const methods = [
+const withdrawMethods = [
   { id: "bkash", name: "bKash", hint: "Instant mobile wallet" },
   { id: "nagad", name: "Nagad", hint: "Instant mobile wallet" },
 ];
 
 const logs = [
-  { label: "EMI Payment #8", method: "bKash", date: "01 Jun 2026", amount: 13568, status: "Completed" },
-  { label: "Deposit", method: "Nagad", date: "20 May 2026", amount: 15000, status: "Completed" },
+  { label: "EMI Payment #8", method: "Online", date: "01 Jun 2026", amount: 13568, status: "Completed" },
+  { label: "Deposit", method: "Online", date: "20 May 2026", amount: 15000, status: "Completed" },
   { label: "Withdraw", method: "bKash", date: "10 May 2026", amount: 5000, status: "Pending" },
 ];
 
-function PaymentForm({
-  action,
-  cta,
-  type,
-  config,
-}: {
-  action: string;
-  cta: string;
-  type: "deposit" | "withdrawal" | "emi_payment";
-  config?: { bkash_number?: string | null; nagad_number?: string | null; bkash_active?: boolean; nagad_active?: boolean } | null;
-}) {
-  const [method, setMethod] = useState<"bkash" | "nagad">("bkash");
+// ---------- Online (gateway) deposit / EMI form ----------
+function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
-  const [errors, setErrors] = useState<{
-    amount?: string;
-    method?: string;
-    date?: string;
-  }>({});
+  const [amountError, setAmountError] = useState<string | undefined>();
   const { user } = useAuth();
-  const { t } = useLanguage();
-  const request = useServerFn(requestTransaction);
   const charge = useServerFn(createPaymentCharge);
-
-  const canPayOnline = type === "deposit" || type === "emi_payment";
 
   const onlineMut = useMutation({
     mutationFn: () =>
       charge({
         data: {
-          type: type as "deposit" | "emi_payment",
+          type,
           amount: Number(amount),
           origin: window.location.origin,
         },
@@ -87,20 +67,21 @@ function PaymentForm({
     onError: (e) => toast.error("Payment failed", { description: (e as Error).message }),
   });
 
-  const validateAmountOnly = () => {
+  const validate = () => {
     const val = Number(amount);
     if (!amount || Number.isNaN(val) || val <= 0) {
-      setErrors((p) => ({ ...p, amount: "Please enter a valid amount." }));
+      setAmountError("Please enter a valid amount.");
       return false;
     }
     if (val < 10) {
-      setErrors((p) => ({ ...p, amount: "Minimum amount is ৳10." }));
+      setAmountError("Minimum amount is ৳10.");
       return false;
     }
     if (val > 5_00_000) {
-      setErrors((p) => ({ ...p, amount: "Maximum amount is ৳5,00,000." }));
+      setAmountError("Maximum amount is ৳5,00,000.");
       return false;
     }
+    setAmountError(undefined);
     return true;
   };
 
@@ -109,33 +90,76 @@ function PaymentForm({
       toast.error("Please sign in to continue");
       return;
     }
-    if (!validateAmountOnly()) return;
+    if (!validate()) return;
     onlineMut.mutate();
   };
 
-  const methodNumber = method === "bkash" ? config?.bkash_number : config?.nagad_number;
-  const methodActive = method === "bkash" ? config?.bkash_active : config?.nagad_active;
+  return (
+    <div className="space-y-5">
+      <div className="flex items-start gap-3 rounded-xl border bg-muted/40 p-4">
+        <ShieldCheck className="mt-0.5 h-5 w-5 text-primary shrink-0" />
+        <div className="text-sm">
+          <p className="font-medium">Secure online payment</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Pay instantly by card, bKash or Nagad through our payment gateway.
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
+        <Input
+          id={`${type}-amount`}
+          type="number"
+          placeholder="0"
+          value={amount}
+          min={1}
+          aria-invalid={!!amountError}
+          onChange={(e) => {
+            setAmount(e.target.value);
+            if (amountError) setAmountError(undefined);
+          }}
+        />
+        {amountError && <p className="text-xs text-destructive">{amountError}</p>}
+      </div>
+
+      <Button
+        type="button"
+        variant="hero"
+        size="lg"
+        className="w-full"
+        onClick={payOnline}
+        disabled={onlineMut.isPending}
+      >
+        {onlineMut.isPending ? "Starting checkout…" : "Pay Online Now"}
+      </Button>
+    </div>
+  );
+}
+
+// ---------- Manual withdrawal request form ----------
+function WithdrawForm() {
+  const [method, setMethod] = useState<"bkash" | "nagad">("bkash");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [errors, setErrors] = useState<{ amount?: string; method?: string; date?: string }>({});
+  const { user } = useAuth();
+  const { t } = useLanguage();
+  const request = useServerFn(requestTransaction);
 
   const validate = () => {
     const next: typeof errors = {};
-
     if (!amount || amount.trim() === "") {
       next.amount = "Please enter an amount.";
     } else {
       const val = Number(amount);
-      if (Number.isNaN(val) || val <= 0) {
-        next.amount = "Amount must be a positive number.";
-      } else if (val < 10) {
-        next.amount = "Minimum amount is ৳10.";
-      } else if (val > 5_00_000) {
-        next.amount = "Maximum amount is ৳5,00,000.";
-      }
+      if (Number.isNaN(val) || val <= 0) next.amount = "Amount must be a positive number.";
+      else if (val < 10) next.amount = "Minimum amount is ৳10.";
+      else if (val > 5_00_000) next.amount = "Maximum amount is ৳5,00,000.";
     }
-
     if (!method || !["bkash", "nagad"].includes(method)) {
       next.method = "Please select a valid payment method.";
     }
-
     if (!date || date.trim() === "") {
       next.date = "Please select a transaction date.";
     } else {
@@ -145,25 +169,19 @@ function PaymentForm({
       const minDate = new Date();
       minDate.setDate(minDate.getDate() - 7);
       minDate.setHours(0, 0, 0, 0);
-
-      if (Number.isNaN(selected.getTime())) {
-        next.date = "Invalid date selected.";
-      } else if (selected > now) {
-        next.date = "Date cannot be in the future.";
-      } else if (selected < minDate) {
-        next.date = "Date cannot be older than 7 days.";
-      }
+      if (Number.isNaN(selected.getTime())) next.date = "Invalid date selected.";
+      else if (selected > now) next.date = "Date cannot be in the future.";
+      else if (selected < minDate) next.date = "Date cannot be older than 7 days.";
     }
-
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
   const mut = useMutation({
-    mutationFn: () => request({ data: { type, amount: Number(amount), method } }),
+    mutationFn: () => request({ data: { type: "withdrawal", amount: Number(amount), method } }),
     onSuccess: () => {
-      toast.success(`${action} request submitted`, {
-        description: `${formatBDT(Number(amount))} via ${methods.find((m) => m.id === method)?.name}. Awaiting verification.`,
+      toast.success("Withdrawal request submitted", {
+        description: `${formatBDT(Number(amount))} via ${withdrawMethods.find((m) => m.id === method)?.name}. Awaiting verification.`,
       });
       setAmount("");
       setDate("");
@@ -184,69 +202,42 @@ function PaymentForm({
 
   return (
     <form onSubmit={submit} className="space-y-5" noValidate>
-      {type === "deposit" && methodNumber && (
-        <div className="flex items-start gap-3 rounded-xl border bg-muted/40 p-4">
-          <Smartphone className="mt-0.5 h-5 w-5 text-primary shrink-0" />
-          <div className="text-sm">
-            <p className="font-medium">
-              {t("deposit_send_to")} {method === "bkash" ? "bKash" : "Nagad"}: {methodNumber}
-            </p>
-            {methodActive === false && (
-              <p className="text-destructive">{t("deposit_inactive_warn")}</p>
-            )}
-            <p className="text-xs text-muted-foreground mt-1">
-              {t("deposit_after_send")}
-            </p>
-          </div>
-        </div>
-      )}
-
       <div className="space-y-2">
-        <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
+        <Label htmlFor="withdraw-amount">Amount (BDT)</Label>
         <Input
-          id={`${type}-amount`}
+          id="withdraw-amount"
           type="number"
           placeholder="0"
           value={amount}
           min={1}
           aria-invalid={!!errors.amount}
-          aria-describedby={errors.amount ? `${type}-amount-error` : undefined}
           onChange={(e) => {
             setAmount(e.target.value);
             if (errors.amount) setErrors((p) => ({ ...p, amount: undefined }));
           }}
         />
-        {errors.amount && (
-          <p id={`${type}-amount-error`} className="text-xs text-destructive">
-            {errors.amount}
-          </p>
-        )}
+        {errors.amount && <p className="text-xs text-destructive">{errors.amount}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor={`${type}-date`}>Transaction Date</Label>
+        <Label htmlFor="withdraw-date">Transaction Date</Label>
         <Input
-          id={`${type}-date`}
+          id="withdraw-date"
           type="date"
           value={date}
           aria-invalid={!!errors.date}
-          aria-describedby={errors.date ? `${type}-date-error` : undefined}
           onChange={(e) => {
             setDate(e.target.value);
             if (errors.date) setErrors((p) => ({ ...p, date: undefined }));
           }}
         />
-        {errors.date && (
-          <p id={`${type}-date-error`} className="text-xs text-destructive">
-            {errors.date}
-          </p>
-        )}
+        {errors.date && <p className="text-xs text-destructive">{errors.date}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label>Payment Method</Label>
+        <Label>Withdraw To</Label>
         <div className="grid gap-2 sm:grid-cols-2">
-          {methods.map((m) => (
+          {withdrawMethods.map((m) => (
             <button
               type="button"
               key={m.id}
@@ -268,47 +259,18 @@ function PaymentForm({
             </button>
           ))}
         </div>
-        {errors.method && (
-          <p id={`${type}-method-error`} className="text-xs text-destructive">
-            {errors.method}
-          </p>
-        )}
+        {errors.method && <p className="text-xs text-destructive">{errors.method}</p>}
       </div>
-      {canPayOnline && (
-        <div className="space-y-2">
-          <Button
-            type="button"
-            variant="hero"
-            size="lg"
-            className="w-full"
-            onClick={payOnline}
-            disabled={onlineMut.isPending}
-          >
-            {onlineMut.isPending ? "Starting checkout…" : `Pay Online Now`}
-          </Button>
-          <p className="text-center text-xs text-muted-foreground">
-            Instant & secure — pay by card, bKash or Nagad via our payment gateway.
-          </p>
-          <div className="relative py-1 text-center">
-            <span className="bg-card px-2 text-xs text-muted-foreground">or submit manually</span>
-          </div>
-        </div>
-      )}
-      <Button type="submit" variant="outline" size="lg" className="w-full" disabled={mut.isPending}>
-        {mut.isPending ? "Processing…" : cta}
-      </Button>
 
+      <Button type="submit" variant="outline" size="lg" className="w-full" disabled={mut.isPending}>
+        {mut.isPending ? "Processing…" : t("withdraw")}
+      </Button>
     </form>
   );
 }
 
 function Payments() {
   const { t } = useLanguage();
-  const fetchConfig = useServerFn(getDepositConfig);
-  const { data: config } = useQuery({
-    queryKey: ["deposit-config"],
-    queryFn: () => fetchConfig(),
-  });
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
@@ -336,13 +298,13 @@ function Payments() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="deposit" className="mt-6">
-                <PaymentForm action="Deposit" cta={t("deposit")} type="deposit" config={config} />
+                <OnlinePaymentForm type="deposit" />
               </TabsContent>
               <TabsContent value="withdraw" className="mt-6">
-                <PaymentForm action="Withdrawal" cta={t("withdraw")} type="withdrawal" config={config} />
+                <WithdrawForm />
               </TabsContent>
               <TabsContent value="emi" className="mt-6">
-                <PaymentForm action="EMI payment" cta={t("pay_emi")} type="emi_payment" config={config} />
+                <OnlinePaymentForm type="emi_payment" />
               </TabsContent>
             </Tabs>
           </CardContent>
