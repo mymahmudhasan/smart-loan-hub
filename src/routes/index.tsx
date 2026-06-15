@@ -170,6 +170,11 @@ function Home() {
         </div>
       </section>
 
+      {/* Why it's easy */}
+      <WhyEasy />
+
+
+
       {/* Trust & security badges */}
       <TrustBadges />
 
