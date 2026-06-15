@@ -42,6 +42,7 @@ export const Route = createFileRoute("/signup")({
 
 function Signup() {
   const { t, lang } = useLanguage();
+  const { logoUrl, brandName } = useBranding();
   const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
