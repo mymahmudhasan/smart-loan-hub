@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
 import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
+import { useBranding } from "@/context/branding";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -24,6 +25,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, isAdmin, signOut } = useAuth();
+  const { logoUrl, brandName } = useBranding();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -36,10 +38,18 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full glass">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary text-primary-foreground shadow-soft">
-            <ShieldCheck className="h-5 w-5" />
-          </span>
-          <span className="hidden sm:inline">{t("brand")}</span>
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={brandName ?? t("brand")}
+              className="h-9 w-9 rounded-xl object-contain shadow-soft"
+            />
+          ) : (
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary text-primary-foreground shadow-soft">
+              <ShieldCheck className="h-5 w-5" />
+            </span>
+          )}
+          <span className="hidden sm:inline">{brandName ?? t("brand")}</span>
         </Link>
 
         <div className="hidden items-center gap-1 lg:flex">

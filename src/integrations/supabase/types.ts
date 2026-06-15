@@ -527,6 +527,33 @@ export type Database = {
         }
         Relationships: []
       }
+      site_branding: {
+        Row: {
+          brand_name: string | null
+          created_at: string
+          favicon_url: string | null
+          id: string
+          logo_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand_name?: string | null
+          created_at?: string
+          favicon_url?: string | null
+          id?: string
+          logo_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand_name?: string | null
+          created_at?: string
+          favicon_url?: string | null
+          id?: string
+          logo_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number

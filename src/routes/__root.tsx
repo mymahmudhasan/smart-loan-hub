@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "../context/theme";
 import { LanguageProvider } from "../context/language";
 import { AuthProvider } from "../context/auth";
+import { BrandingProvider } from "../context/branding";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { Toaster } from "../components/ui/sonner";
@@ -136,14 +137,16 @@ function RootComponent() {
       <ThemeProvider>
         <LanguageProvider>
           <AuthProvider>
-            <div className="flex min-h-screen flex-col">
-              <Navbar />
-              <main className="flex-1">
-                <Outlet />
-              </main>
-              <Footer />
-            </div>
-            <Toaster />
+            <BrandingProvider>
+              <div className="flex min-h-screen flex-col">
+                <Navbar />
+                <main className="flex-1">
+                  <Outlet />
+                </main>
+                <Footer />
+              </div>
+              <Toaster />
+            </BrandingProvider>
           </AuthProvider>
         </LanguageProvider>
       </ThemeProvider>
