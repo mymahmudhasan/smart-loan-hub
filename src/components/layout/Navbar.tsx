@@ -25,6 +25,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, isAdmin, signOut } = useAuth();
+  const { logoUrl, brandName } = useBranding();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
