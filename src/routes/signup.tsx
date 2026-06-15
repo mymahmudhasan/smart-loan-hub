@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   UserPlus,
@@ -8,6 +8,7 @@ import {
   Lock,
   Briefcase,
   ChevronDown,
+  ShieldCheck,
   Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -100,21 +101,11 @@ function Signup() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-12">
-      <Card className="relative overflow-visible rounded-3xl border-0 bg-white shadow-xl">
+      <Card className="relative overflow-visible rounded-3xl border-0 bg-white shadow-elegant">
         {/* Logo badge */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#D4AF37] shadow-lg">
-            <svg viewBox="0 0 64 64" className="h-12 w-12 text-white" fill="currentColor">
-              <circle cx="32" cy="32" r="6" />
-              <path d="M32 4 L36 20 L32 18 L28 20 Z" />
-              <path d="M32 60 L36 44 L32 46 L28 44 Z" />
-              <path d="M4 32 L20 36 L18 32 L20 28 Z" />
-              <path d="M60 32 L44 36 L46 32 L44 28 Z" />
-              <path d="M12 12 L24 24 L22 26 L10 14 Z" />
-              <path d="M52 52 L40 40 L42 38 L54 50 Z" />
-              <path d="M12 52 L24 40 L22 38 L10 50 Z" />
-              <path d="M52 12 L40 24 L42 26 L54 14 Z" />
-            </svg>
+          <div className="flex h-20 w-20 items-center justify-center rounded-full gradient-primary text-primary-foreground shadow-soft">
+            <ShieldCheck className="h-10 w-10" />
           </div>
         </div>
 
@@ -126,9 +117,9 @@ function Signup() {
                 {L("Full Name", "পুরো নাম")}
               </Label>
               <div className="relative">
-                <User className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#E91E8C]" />
+                <User className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                 <Input
-                  className="h-12 rounded-xl border border-gray-200 pl-12 text-base shadow-none focus-visible:ring-[#E91E8C]"
+                  className="h-12 rounded-xl border border-input pl-12 text-base shadow-none focus-visible:ring-primary"
                   value={form.fullName}
                   onChange={(e) => setForm({ ...form, fullName: e.target.value })}
                   placeholder={L("Enter your name", "আপনার নাম লিখুন")}
@@ -144,9 +135,9 @@ function Signup() {
                 {L("Mobile Number (11 digits)", "মোবাইল নাম্বার (১১ ডিজিট)")}
               </Label>
               <div className="relative">
-                <Phone className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#E91E8C]" />
+                <Phone className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                 <Input
-                  className="h-12 rounded-xl border border-gray-200 pl-12 text-base shadow-none focus-visible:ring-[#E91E8C]"
+                  className="h-12 rounded-xl border border-input pl-12 text-base shadow-none focus-visible:ring-primary"
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   placeholder={L("Enter your number", "আপনার নাম্বার লিখুন")}
@@ -163,11 +154,11 @@ function Signup() {
                 {L("Profession", "পেশা")}
               </Label>
               <div className="relative">
-                <Briefcase className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#E91E8C]" />
+                <Briefcase className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                 <button
                   type="button"
                   onClick={() => setProfessionOpen((o) => !o)}
-                  className="flex h-12 w-full items-center justify-between rounded-xl border border-gray-200 bg-white pl-12 pr-4 text-base text-left focus:outline-none focus:ring-2 focus:ring-[#E91E8C]"
+                  className="flex h-12 w-full items-center justify-between rounded-xl border border-input bg-white pl-12 pr-4 text-base text-left focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <span className={selectedProfession ? "text-foreground" : "text-muted-foreground"}>
                     {selectedProfession
@@ -177,7 +168,7 @@ function Signup() {
                   <ChevronDown className="h-4 w-4 text-muted-foreground" />
                 </button>
                 {professionOpen && (
-                  <div className="absolute z-10 mt-1 w-full rounded-xl border border-gray-200 bg-white py-1 shadow-lg">
+                  <div className="absolute z-10 mt-1 w-full rounded-xl border border-input bg-white py-1 shadow-lg">
                     {PROFESSIONS.map((p) => (
                       <button
                         key={p.value}
@@ -186,7 +177,7 @@ function Signup() {
                           setForm({ ...form, profession: p.value });
                           setProfessionOpen(false);
                         }}
-                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50"
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-muted"
                       >
                         {L(p.label.en, p.label.bn)}
                       </button>
@@ -202,19 +193,19 @@ function Signup() {
                 {L("Password", "পাসওয়ার্ড")}
               </Label>
               <div className="relative">
-                <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#E91E8C]" />
+                <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                 <Input
                   type={showPassword ? "text" : "password"}
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   placeholder={L("Enter password", "পাসওয়ার্ড লিখুন")}
-                  className="h-12 rounded-xl border border-gray-200 pl-12 pr-10 text-base shadow-none focus-visible:ring-[#E91E8C]"
+                  className="h-12 rounded-xl border border-input pl-12 pr-16 text-base shadow-none focus-visible:ring-primary"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-[#E91E8C] hover:text-[#C4187C]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-primary hover:text-accent"
                 >
                   {showPassword ? L("Hide", "লুকান") : L("Show", "দেখুন")}
                 </button>
@@ -227,19 +218,19 @@ function Signup() {
                 {L("Confirm Password", "পাসওয়ার্ড নিশ্চিত করুন")}
               </Label>
               <div className="relative">
-                <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#E91E8C]" />
+                <Lock className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                 <Input
                   type={showConfirm ? "text" : "password"}
                   value={form.confirm}
                   onChange={(e) => setForm({ ...form, confirm: e.target.value })}
                   placeholder={L("Re-enter password", "পাসওয়ার্ড আবার লিখুন")}
-                  className="h-12 rounded-xl border border-gray-200 pl-12 pr-10 text-base shadow-none focus-visible:ring-[#E91E8C]"
+                  className="h-12 rounded-xl border border-input pl-12 pr-16 text-base shadow-none focus-visible:ring-primary"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirm((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-[#E91E8C] hover:text-[#C4187C]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-primary hover:text-accent"
                 >
                   {showConfirm ? L("Hide", "লুকান") : L("Show", "দেখুন")}
                 </button>
@@ -251,7 +242,7 @@ function Signup() {
               type="submit"
               size="lg"
               disabled={loading}
-              className="mt-2 h-12 w-full rounded-xl bg-gradient-to-r from-[#E91E8C] to-[#C4187C] text-base font-semibold text-white shadow-lg hover:from-[#D01A7E] hover:to-[#A31466]"
+              className="mt-2 h-12 w-full rounded-xl gradient-primary text-base font-semibold text-primary-foreground shadow-soft hover:opacity-90"
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               <UserPlus className="mr-2 h-5 w-5" />
@@ -261,7 +252,7 @@ function Signup() {
 
           <p className="mt-5 text-center text-sm text-muted-foreground">
             {L("Already a member?", "ইতিমধ্যে সদস্য?")}{" "}
-            <Link to="/login" className="font-semibold text-[#E91E8C] hover:underline">
+            <Link to="/login" className="font-semibold text-primary hover:underline">
               {t("nav_login")}
             </Link>
           </p>
