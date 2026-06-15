@@ -62,6 +62,10 @@ export const translations: Dict = {
   cta_title: { en: "Ready to unlock your loan limit?", bn: "আপনার লোন লিমিট আনলক করতে প্রস্তুত?" },
   cta_subtitle: { en: "Join thousands of verified members across Bangladesh.", bn: "বাংলাদেশজুড়ে হাজারো ভেরিফায়েড সদস্যের সাথে যোগ দিন।" },
 
+  // Why it's easy
+  why_easy_title: { en: "Loans made simple", bn: "লোন এখন সহজ" },
+  why_easy_subtitle: { en: "No hassle, no hidden steps — just fast, fair lending.", bn: "কোনো ঝামেলা নেই, কোনো লুকানো ধাপ নেই — দ্রুত ও ন্যায্য লোন।" },
+
   // Offers banner
   offers_eyebrow: { en: "Smart Loan Bank", bn: "স্মার্ট লোন ব্যাংক" },
   offers_title: { en: "Exclusive member offers", bn: "এক্সক্লুসিভ মেম্বার অফার" },
