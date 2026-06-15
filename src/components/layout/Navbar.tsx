@@ -38,10 +38,18 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full glass">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary text-primary-foreground shadow-soft">
-            <ShieldCheck className="h-5 w-5" />
-          </span>
-          <span className="hidden sm:inline">{t("brand")}</span>
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={brandName ?? t("brand")}
+              className="h-9 w-9 rounded-xl object-contain shadow-soft"
+            />
+          ) : (
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary text-primary-foreground shadow-soft">
+              <ShieldCheck className="h-5 w-5" />
+            </span>
+          )}
+          <span className="hidden sm:inline">{brandName ?? t("brand")}</span>
         </Link>
 
         <div className="hidden items-center gap-1 lg:flex">
