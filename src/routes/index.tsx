@@ -105,7 +105,13 @@ function Home() {
               </Button>
             </div>
           </div>
-          <HeroTestimonials />
+          <img
+            src="/hero-img.png"
+            alt="Smart Loan Platform"
+            className="mx-auto w-full max-w-lg animate-float rounded-3xl shadow-elegant lg:max-w-none"
+            width={1024}
+            height={768}
+          />
         </div>
       </section>
 
