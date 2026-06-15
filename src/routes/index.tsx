@@ -10,7 +10,7 @@ import {
   CalendarCheck,
   ArrowRight,
 } from "lucide-react";
-import heroImg from "@/assets/hero.jpg";
+import { HeroTestimonials } from "@/components/home/HeroTestimonials";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
@@ -105,16 +105,7 @@ function Home() {
               </Button>
             </div>
           </div>
-          <div className="relative">
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] gradient-primary opacity-20 blur-3xl" />
-            <img
-              src={heroImg}
-              alt="Smart Loan mobile dashboard with secure financial charts"
-              width={1280}
-              height={960}
-              className="animate-float w-full rounded-3xl shadow-elegant"
-            />
-          </div>
+          <HeroTestimonials />
         </div>
       </section>
 
