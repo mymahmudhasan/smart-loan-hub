@@ -19,6 +19,7 @@ export const Route = createFileRoute("/admin/loans")({
 
 type Loan = {
   id: string;
+  user_id: string;
   amount: number;
   months: number;
   purpose: string | null;
@@ -78,7 +79,13 @@ function AdminLoans() {
                   rows.map((l) => (
                     <TableRow key={l.id}>
                       <TableCell>
-                        <div className="font-medium">{l.profiles?.full_name || "—"}</div>
+                        <Link
+                          to="/admin/member/$userId"
+                          params={{ userId: l.user_id }}
+                          className="font-medium text-primary hover:underline"
+                        >
+                          {l.profiles?.full_name || "—"}
+                        </Link>
                         <div className="text-xs text-muted-foreground">
                           Balance: {formatBDT(l.profiles?.member_balance ?? 0)}
                         </div>

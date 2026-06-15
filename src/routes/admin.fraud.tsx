@@ -17,6 +17,7 @@ export const Route = createFileRoute("/admin/fraud")({
 
 type Flag = {
   id: string;
+  user_id: string;
   reason: string;
   severity: string;
   status: string;
@@ -74,7 +75,13 @@ function AdminFraud() {
                   (data ?? []).map((f) => (
                     <TableRow key={f.id}>
                       <TableCell>
-                        <div className="font-medium">{f.profiles?.full_name || "—"}</div>
+                        <Link
+                          to="/admin/member/$userId"
+                          params={{ userId: f.user_id }}
+                          className="font-medium text-primary hover:underline"
+                        >
+                          {f.profiles?.full_name || "—"}
+                        </Link>
                         <div className="text-xs text-muted-foreground">{f.profiles?.phone || f.profiles?.email || "—"}</div>
                       </TableCell>
                       <TableCell className="max-w-xs text-sm">{f.reason}</TableCell>
