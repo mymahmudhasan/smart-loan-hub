@@ -274,9 +274,30 @@ function PaymentForm({
           </p>
         )}
       </div>
-      <Button type="submit" variant="hero" size="lg" className="w-full" disabled={mut.isPending}>
+      {canPayOnline && (
+        <div className="space-y-2">
+          <Button
+            type="button"
+            variant="hero"
+            size="lg"
+            className="w-full"
+            onClick={payOnline}
+            disabled={onlineMut.isPending}
+          >
+            {onlineMut.isPending ? "Starting checkout…" : `Pay Online Now`}
+          </Button>
+          <p className="text-center text-xs text-muted-foreground">
+            Instant & secure — pay by card, bKash or Nagad via our payment gateway.
+          </p>
+          <div className="relative py-1 text-center">
+            <span className="bg-card px-2 text-xs text-muted-foreground">or submit manually</span>
+          </div>
+        </div>
+      )}
+      <Button type="submit" variant="outline" size="lg" className="w-full" disabled={mut.isPending}>
         {mut.isPending ? "Processing…" : cta}
       </Button>
+
     </form>
   );
 }
