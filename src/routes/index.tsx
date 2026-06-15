@@ -21,6 +21,7 @@ import { ReferralSection } from "@/components/home/ReferralSection";
 import { TrustBadges } from "@/components/home/TrustBadges";
 import { BankPartners } from "@/components/home/BankPartners";
 import { ClientReviews } from "@/components/home/ClientReviews";
+import { WhyEasy } from "@/components/home/WhyEasy";
 
 export const Route = createFileRoute("/")({
   head: () => ({
