@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language";
+import { useBranding } from "@/context/branding";
 import { supabase } from "@/integrations/supabase/client";
 
 const PROFESSIONS = [
