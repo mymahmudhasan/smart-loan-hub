@@ -41,6 +41,7 @@ const navItems = [
   { to: "/admin/loans", label: "Loan Applications", icon: Banknote },
   { to: "/admin/fraud", label: "Fraud Flags", icon: ShieldAlert },
   { to: "/admin/banners", label: "Banner Offers", icon: Megaphone },
+  { to: "/admin/branding", label: "Logo & Favicon", icon: Image },
   { to: "/admin/footer", label: "Footer Banner", icon: PanelBottom },
   { to: "/admin/deposit-config", label: "Payment Gateway", icon: CreditCard },
   { to: "/admin/reviews", label: "Client Reviews", icon: Star },
