@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   UserPlus,
@@ -8,6 +8,7 @@ import {
   Lock,
   Briefcase,
   ChevronDown,
+  ShieldCheck,
   Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
