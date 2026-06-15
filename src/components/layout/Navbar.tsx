@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
 import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
+import { useBranding } from "@/context/branding";
 import { cn } from "@/lib/utils";
 
 const links = [
