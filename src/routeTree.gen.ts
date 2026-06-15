@@ -15,6 +15,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as PaymentStatusRouteImport } from './routes/payment-status'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -35,6 +36,7 @@ import { Route as AdminFooterRouteImport } from './routes/admin.footer'
 import { Route as AdminDepositConfigRouteImport } from './routes/admin.deposit-config'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as ApiPublicPiprapayWebhookRouteImport } from './routes/api/public/piprapay-webhook'
 import { Route as AdminMemberUserIdRouteImport } from './routes/admin.member.$userId'
 
 const TermsRoute = TermsRouteImport.update({
@@ -65,6 +67,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PaymentsRoute = PaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentStatusRoute = PaymentStatusRouteImport.update({
+  id: '/payment-status',
+  path: '/payment-status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MembershipRoute = MembershipRouteImport.update({
@@ -167,6 +174,12 @@ const AdminAuditRoute = AdminAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiPublicPiprapayWebhookRoute =
+  ApiPublicPiprapayWebhookRouteImport.update({
+    id: '/api/public/piprapay-webhook',
+    path: '/api/public/piprapay-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminMemberUserIdRoute = AdminMemberUserIdRouteImport.update({
   id: '/member/$userId',
   path: '/member/$userId',
@@ -184,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
+  '/payment-status': typeof PaymentStatusRoute
   '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -201,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/member/$userId': typeof AdminMemberUserIdRoute
+  '/api/public/piprapay-webhook': typeof ApiPublicPiprapayWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -212,6 +227,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
+  '/payment-status': typeof PaymentStatusRoute
   '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -229,6 +245,7 @@ export interface FileRoutesByTo {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin': typeof AdminIndexRoute
   '/admin/member/$userId': typeof AdminMemberUserIdRoute
+  '/api/public/piprapay-webhook': typeof ApiPublicPiprapayWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -242,6 +259,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
+  '/payment-status': typeof PaymentStatusRoute
   '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -259,6 +277,7 @@ export interface FileRoutesById {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/member/$userId': typeof AdminMemberUserIdRoute
+  '/api/public/piprapay-webhook': typeof ApiPublicPiprapayWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -273,6 +292,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/login'
     | '/membership'
+    | '/payment-status'
     | '/payments'
     | '/privacy'
     | '/profile'
@@ -290,6 +310,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/'
     | '/admin/member/$userId'
+    | '/api/public/piprapay-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -301,6 +322,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/login'
     | '/membership'
+    | '/payment-status'
     | '/payments'
     | '/privacy'
     | '/profile'
@@ -318,6 +340,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin'
     | '/admin/member/$userId'
+    | '/api/public/piprapay-webhook'
   id:
     | '__root__'
     | '/'
@@ -330,6 +353,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/login'
     | '/membership'
+    | '/payment-status'
     | '/payments'
     | '/privacy'
     | '/profile'
@@ -347,6 +371,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/'
     | '/admin/member/$userId'
+    | '/api/public/piprapay-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -360,12 +385,14 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   LoginRoute: typeof LoginRoute
   MembershipRoute: typeof MembershipRoute
+  PaymentStatusRoute: typeof PaymentStatusRoute
   PaymentsRoute: typeof PaymentsRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  ApiPublicPiprapayWebhookRoute: typeof ApiPublicPiprapayWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -410,6 +437,13 @@ declare module '@tanstack/react-router' {
       path: '/payments'
       fullPath: '/payments'
       preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-status': {
+      id: '/payment-status'
+      path: '/payment-status'
+      fullPath: '/payment-status'
+      preLoaderRoute: typeof PaymentStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/membership': {
@@ -552,6 +586,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuditRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/public/piprapay-webhook': {
+      id: '/api/public/piprapay-webhook'
+      path: '/api/public/piprapay-webhook'
+      fullPath: '/api/public/piprapay-webhook'
+      preLoaderRoute: typeof ApiPublicPiprapayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/member/$userId': {
       id: '/admin/member/$userId'
       path: '/member/$userId'
@@ -603,23 +644,15 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   LoginRoute: LoginRoute,
   MembershipRoute: MembershipRoute,
+  PaymentStatusRoute: PaymentStatusRoute,
   PaymentsRoute: PaymentsRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  ApiPublicPiprapayWebhookRoute: ApiPublicPiprapayWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
