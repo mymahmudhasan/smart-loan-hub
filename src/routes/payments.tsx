@@ -61,6 +61,57 @@ function PaymentForm({
   const { user } = useAuth();
   const { t } = useLanguage();
   const request = useServerFn(requestTransaction);
+  const charge = useServerFn(createPaymentCharge);
+
+  const canPayOnline = type === "deposit" || type === "emi_payment";
+
+  const onlineMut = useMutation({
+    mutationFn: () =>
+      charge({
+        data: {
+          type: type as "deposit" | "emi_payment",
+          amount: Number(amount),
+          origin: window.location.origin,
+        },
+      }),
+    onSuccess: (res) => {
+      if (res?.checkoutUrl) {
+        toast.success("Redirecting to secure checkout…");
+        window.location.href = res.checkoutUrl;
+      } else {
+        toast.error("Could not start checkout", {
+          description: "No checkout URL returned by the gateway.",
+        });
+      }
+    },
+    onError: (e) => toast.error("Payment failed", { description: (e as Error).message }),
+  });
+
+  const validateAmountOnly = () => {
+    const val = Number(amount);
+    if (!amount || Number.isNaN(val) || val <= 0) {
+      setErrors((p) => ({ ...p, amount: "Please enter a valid amount." }));
+      return false;
+    }
+    if (val < 10) {
+      setErrors((p) => ({ ...p, amount: "Minimum amount is ৳10." }));
+      return false;
+    }
+    if (val > 5_00_000) {
+      setErrors((p) => ({ ...p, amount: "Maximum amount is ৳5,00,000." }));
+      return false;
+    }
+    return true;
+  };
+
+  const payOnline = () => {
+    if (!user) {
+      toast.error("Please sign in to continue");
+      return;
+    }
+    if (!validateAmountOnly()) return;
+    onlineMut.mutate();
+  };
 
   const methodNumber = method === "bkash" ? config?.bkash_number : config?.nagad_number;
   const methodActive = method === "bkash" ? config?.bkash_active : config?.nagad_active;
