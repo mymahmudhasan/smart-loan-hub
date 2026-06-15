@@ -10,7 +10,6 @@ import {
   CalendarCheck,
   ArrowRight,
 } from "lucide-react";
-import { HeroTestimonials } from "@/components/home/HeroTestimonials";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
