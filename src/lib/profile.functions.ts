@@ -103,10 +103,8 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     const clean = Object.fromEntries(
       Object.entries(data).map(([k, v]) => [k, v === "" ? null : v]),
     );
-    const { error } = await supabaseAdmin
-      .from("profiles")
-      .update({ ...clean, updated_at: new Date().toISOString() })
-      .eq("id", context.userId);
+    const update = { ...clean, updated_at: new Date().toISOString() } as never;
+    const { error } = await supabaseAdmin.from("profiles").update(update).eq("id", context.userId);
     if (error) throw new Error(error.message);
     await logAudit({
       actorId: context.userId,
