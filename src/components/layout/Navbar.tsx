@@ -13,6 +13,7 @@ const links = [
   { to: "/membership", key: "nav_membership" as const },
   { to: "/calculator", key: "nav_calculator" as const },
   { to: "/dashboard", key: "nav_dashboard" as const },
+  { to: "/profile", key: "nav_profile" as const },
   { to: "/payments", key: "nav_payments" as const },
   { to: "/faq", key: "nav_faq" as const },
   { to: "/contact", key: "nav_contact" as const },

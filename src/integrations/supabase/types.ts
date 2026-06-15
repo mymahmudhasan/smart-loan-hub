@@ -363,45 +363,105 @@ export type Database = {
         Row: {
           address: string | null
           approval_started_at: string | null
+          bank_account_number: string | null
+          bank_name: string | null
+          city: string | null
           created_at: string
+          date_of_birth: string | null
           documents_requested: string | null
           email: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          employer_name: string | null
+          employment_type: string | null
+          father_name: string | null
           full_name: string | null
+          gender: string | null
           id: string
+          loan_purpose: string | null
+          marital_status: string | null
           member_balance: number
           member_status: string
+          mobile_banking_number: string | null
+          mobile_banking_provider: string | null
+          monthly_income: number | null
+          mother_name: string | null
           nid_number: string | null
+          occupation: string | null
+          permanent_address: string | null
           phone: string | null
+          photo_url: string | null
+          postal_code: string | null
           referral_code: string | null
           updated_at: string
         }
         Insert: {
           address?: string | null
           approval_started_at?: string | null
+          bank_account_number?: string | null
+          bank_name?: string | null
+          city?: string | null
           created_at?: string
+          date_of_birth?: string | null
           documents_requested?: string | null
           email?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          employer_name?: string | null
+          employment_type?: string | null
+          father_name?: string | null
           full_name?: string | null
+          gender?: string | null
           id: string
+          loan_purpose?: string | null
+          marital_status?: string | null
           member_balance?: number
           member_status?: string
+          mobile_banking_number?: string | null
+          mobile_banking_provider?: string | null
+          monthly_income?: number | null
+          mother_name?: string | null
           nid_number?: string | null
+          occupation?: string | null
+          permanent_address?: string | null
           phone?: string | null
+          photo_url?: string | null
+          postal_code?: string | null
           referral_code?: string | null
           updated_at?: string
         }
         Update: {
           address?: string | null
           approval_started_at?: string | null
+          bank_account_number?: string | null
+          bank_name?: string | null
+          city?: string | null
           created_at?: string
+          date_of_birth?: string | null
           documents_requested?: string | null
           email?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          employer_name?: string | null
+          employment_type?: string | null
+          father_name?: string | null
           full_name?: string | null
+          gender?: string | null
           id?: string
+          loan_purpose?: string | null
+          marital_status?: string | null
           member_balance?: number
           member_status?: string
+          mobile_banking_number?: string | null
+          mobile_banking_provider?: string | null
+          monthly_income?: number | null
+          mother_name?: string | null
           nid_number?: string | null
+          occupation?: string | null
+          permanent_address?: string | null
           phone?: string | null
+          photo_url?: string | null
+          postal_code?: string | null
           referral_code?: string | null
           updated_at?: string
         }

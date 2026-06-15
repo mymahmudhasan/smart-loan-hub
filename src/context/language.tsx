@@ -14,6 +14,7 @@ export const translations: Dict = {
   nav_membership: { en: "Membership", bn: "মেম্বারশিপ" },
   nav_calculator: { en: "Loan Calculator", bn: "লোন ক্যালকুলেটর" },
   nav_dashboard: { en: "Dashboard", bn: "ড্যাশবোর্ড" },
+  nav_profile: { en: "My Profile", bn: "আমার প্রোফাইল" },
   nav_payments: { en: "Payments", bn: "পেমেন্ট" },
   nav_faq: { en: "FAQ", bn: "জিজ্ঞাসা" },
   nav_contact: { en: "Contact", bn: "যোগাযোগ" },
