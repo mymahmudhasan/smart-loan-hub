@@ -34,6 +34,7 @@ import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminFraudRouteImport } from './routes/admin.fraud'
 import { Route as AdminFooterRouteImport } from './routes/admin.footer'
 import { Route as AdminDepositConfigRouteImport } from './routes/admin.deposit-config'
+import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 import { Route as ApiPublicPiprapayWebhookRouteImport } from './routes/api/public/piprapay-webhook'
@@ -164,6 +165,11 @@ const AdminDepositConfigRoute = AdminDepositConfigRouteImport.update({
   path: '/deposit-config',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminBrandingRoute = AdminBrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminBannersRoute = AdminBannersRouteImport.update({
   id: '/banners',
   path: '/banners',
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/branding': typeof AdminBrandingRoute
   '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
@@ -236,6 +243,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/branding': typeof AdminBrandingRoute
   '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
+  '/admin/branding': typeof AdminBrandingRoute
   '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
@@ -301,6 +310,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/branding'
     | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/branding'
     | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
@@ -362,6 +373,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/audit'
     | '/admin/banners'
+    | '/admin/branding'
     | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
@@ -572,6 +584,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDepositConfigRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/branding': {
+      id: '/admin/branding'
+      path: '/branding'
+      fullPath: '/admin/branding'
+      preLoaderRoute: typeof AdminBrandingRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/banners': {
       id: '/admin/banners'
       path: '/banners'
@@ -606,6 +625,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminBannersRoute: typeof AdminBannersRoute
+  AdminBrandingRoute: typeof AdminBrandingRoute
   AdminDepositConfigRoute: typeof AdminDepositConfigRoute
   AdminFooterRoute: typeof AdminFooterRoute
   AdminFraudRoute: typeof AdminFraudRoute
@@ -620,6 +640,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
   AdminBannersRoute: AdminBannersRoute,
+  AdminBrandingRoute: AdminBrandingRoute,
   AdminDepositConfigRoute: AdminDepositConfigRoute,
   AdminFooterRoute: AdminFooterRoute,
   AdminFraudRoute: AdminFraudRoute,

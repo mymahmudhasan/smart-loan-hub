@@ -13,6 +13,7 @@ import {
   PanelBottom,
   CreditCard,
   Star,
+  Image,
   Loader2,
   Lock,
 } from "lucide-react";
