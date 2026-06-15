@@ -178,7 +178,7 @@ function Signup() {
                   <ChevronDown className="h-4 w-4 text-muted-foreground" />
                 </button>
                 {professionOpen && (
-                  <div className="absolute z-10 mt-1 w-full rounded-xl border border-input bg-white py-1 shadow-lg">
+                  <div className="absolute z-10 mt-1 w-full rounded-xl border border-input bg-popover text-popover-foreground py-1 shadow-lg">
                     {PROFESSIONS.map((p) => (
                       <button
                         key={p.value}
