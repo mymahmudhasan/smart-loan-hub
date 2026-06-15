@@ -62,7 +62,11 @@ export const updateBranding = createServerFn({ method: "POST" })
       .limit(1)
       .maybeSingle();
 
-    const payload: Record<string, unknown> = {};
+    const payload: {
+      logo_url?: string | null;
+      favicon_url?: string | null;
+      brand_name?: string | null;
+    } = {};
     if (data.logoUrl !== undefined) payload.logo_url = data.logoUrl;
     if (data.faviconUrl !== undefined) payload.favicon_url = data.faviconUrl;
     if (data.brandName !== undefined) payload.brand_name = data.brandName;
