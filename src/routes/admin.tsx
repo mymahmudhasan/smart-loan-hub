@@ -11,7 +11,7 @@ import {
   ScrollText,
   Megaphone,
   PanelBottom,
-  Smartphone,
+  CreditCard,
   Star,
   Loader2,
   Lock,
