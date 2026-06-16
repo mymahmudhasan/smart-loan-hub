@@ -129,6 +129,19 @@ function Home() {
         </div>
       </section>
 
+      {/* Success stories banner */}
+      <section className="relative overflow-hidden bg-muted/40 py-10 lg:py-14">
+        <div className="mx-auto max-w-7xl px-4">
+          <img
+            src="/stories.png"
+            alt="Success Stories"
+            className="mx-auto w-full max-w-6xl rounded-2xl shadow-elegant"
+            width={1920}
+            height={880}
+          />
+        </div>
+      </section>
+
       {/* Bank-style offers banner */}
       <OffersBanner offers={offers} />
 
