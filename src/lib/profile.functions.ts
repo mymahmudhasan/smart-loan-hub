@@ -32,6 +32,7 @@ export type MemberProfile = {
   emergency_contact_phone: string | null;
   loan_purpose: string | null;
   member_status: string;
+  member_balance: number | null;
 };
 
 export type MyKyc = {

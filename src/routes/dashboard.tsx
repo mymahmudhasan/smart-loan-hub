@@ -13,8 +13,12 @@ import {
   HandCoins,
   Inbox,
 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/auth";
 import { useLanguage } from "@/context/language";
+import { getMyProfile } from "@/lib/profile.functions";
+import { formatBDT } from "@/lib/format";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -39,6 +43,14 @@ function Dashboard() {
     (user?.email ? user.email.split("@")[0] : null) ||
     "Member";
 
+  const fetchProfile = useServerFn(getMyProfile);
+  const { data: profileData, isLoading: balanceLoading } = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => fetchProfile(),
+    enabled: !!user,
+  });
+  const balance = Number(profileData?.profile?.member_balance ?? 0);
+
   const actions = [
     { key: "qa_loan_apply", icon: ShieldPlus, to: "/apply", tint: "text-primary bg-primary/10" },
     { key: "qa_cashout", icon: ShieldMinus, to: "/payments", tint: "text-destructive bg-destructive/10" },
@@ -53,38 +65,41 @@ function Dashboard() {
   return (
     <div className="mx-auto max-w-md pb-12">
       {/* Gradient header */}
-      <section className="gradient-hero text-primary-foreground">
+      <section className="gradient-hero text-on-hero">
         <div className="px-5 pt-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/40 bg-primary-foreground/15 text-lg font-bold">
+              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-white/40 bg-white/15 text-lg font-bold">
                 {displayName.charAt(0).toUpperCase()}
               </span>
               <span className="text-lg font-bold tracking-tight">{displayName}</span>
             </div>
-          </div>
 
-          <Link
-            to="/payments"
-            className="mt-4 inline-flex items-center gap-2 rounded-xl bg-card px-3 py-2 text-sm font-semibold text-foreground shadow-soft"
-          >
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg gradient-primary text-primary-foreground">
-              <Wallet className="h-4 w-4" />
-            </span>
-            {t("dash_view_balance")}
-          </Link>
+            <Link
+              to="/payments"
+              className="flex flex-col items-end rounded-xl bg-card px-4 py-2 text-right shadow-soft transition-transform hover:scale-[1.02]"
+            >
+              <span className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
+                <Wallet className="h-3.5 w-3.5" />
+                {t("dash_balance_label")}
+              </span>
+              <span className="text-lg font-extrabold leading-tight text-foreground">
+                {balanceLoading ? "…" : formatBDT(balance)}
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <div className="px-5 pb-10 pt-8 text-center [text-shadow:_0_1px_10px_rgb(0_0_0_/_40%)]">
+        <div className="px-5 pb-10 pt-8 text-center [text-shadow:_0_1px_10px_rgb(0_0_0_/_45%)]">
           <h1 className="text-xl font-bold leading-snug sm:text-2xl">
             {t("dash_hub_title")}
           </h1>
-          <p className="mx-auto mt-3 max-w-sm text-sm font-medium leading-relaxed text-primary-foreground/95">
+          <p className="mx-auto mt-3 max-w-sm text-sm font-medium leading-relaxed text-on-hero/90">
             {t("dash_hub_sub")}
           </p>
           <Link
             to="/apply"
-            className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-card px-6 py-3 text-sm font-bold text-primary shadow-elegant transition-transform hover:scale-[1.02]"
+            className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-card px-6 py-3 text-sm font-bold text-primary shadow-elegant transition-transform hover:scale-[1.02] [text-shadow:none]"
           >
             {t("dash_apply_cta")}
             <ArrowRight className="h-4 w-4" />
