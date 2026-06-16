@@ -131,7 +131,9 @@ function Apply() {
     return Math.round((filled / COMPLETION_KEYS.length) * 100);
   }, [profileData]);
 
-  const profileReady = completion >= 50;
+  const kyc = (profileData?.kyc ?? null) as { status: string } | null;
+  const kycReady = !!kyc && kyc.status !== "rejected";
+  const profileReady = completion >= 80 && kycReady;
 
   // Auto-sync saved profile data into the application form
   useEffect(() => {
