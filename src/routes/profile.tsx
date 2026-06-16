@@ -68,8 +68,6 @@ const PROFILE_KEYS = [
   "employment_type",
   "employer_name",
   "monthly_income",
-  "bank_name",
-  "bank_account_number",
   "mobile_banking_provider",
   "mobile_banking_number",
   "emergency_contact_name",
@@ -446,16 +444,6 @@ function ProfilePage() {
                     value={form.monthly_income ?? ""}
                     onChange={onInput("monthly_income")}
                     placeholder="25000"
-                  />
-                </Field>
-                <Field label={L("Bank Name", "ব্যাংকের নাম")}>
-                  <Input value={form.bank_name ?? ""} onChange={onInput("bank_name")} maxLength={120} />
-                </Field>
-                <Field label={L("Bank Account Number", "ব্যাংক হিসাব নম্বর")}>
-                  <Input
-                    value={form.bank_account_number ?? ""}
-                    onChange={onInput("bank_account_number")}
-                    maxLength={40}
                   />
                 </Field>
                 <Field label={L("Mobile Banking", "মোবাইল ব্যাংকিং")}>
