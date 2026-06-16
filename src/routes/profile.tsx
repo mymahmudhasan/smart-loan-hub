@@ -35,6 +35,7 @@ import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyProfile, updateMyProfile, submitKyc } from "@/lib/profile.functions";
+import { UserProfileBadge } from "@/components/shared/UserProfileBadge";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -265,7 +266,7 @@ function ProfilePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 lg:py-12">
       {/* Header */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold sm:text-3xl">{L("My Profile", "আমার প্রোফাইল")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -275,7 +276,10 @@ function ProfilePage() {
             )}
           </p>
         </div>
-        {kycBadge()}
+        <div className="flex items-center gap-3">
+          <UserProfileBadge />
+          {kycBadge()}
+        </div>
       </div>
 
       {/* Completion */}
