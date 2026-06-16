@@ -126,28 +126,6 @@ function Dashboard() {
         </div>
       </section>
 
-      {/* Quick navigation */}
-      <nav className="mx-4 rounded-2xl border border-border bg-card shadow-soft">
-        <div className="grid grid-cols-3">
-          {[
-            { to: "/", icon: Home, label: t("bnav_home"), exact: true },
-            { to: "/apply", icon: HandCoins, label: t("bnav_loan"), exact: false },
-            { to: "/contact", icon: Inbox, label: t("bnav_inbox"), exact: false },
-          ].map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.exact }}
-              activeProps={{ className: "text-primary" }}
-              inactiveProps={{ className: "text-muted-foreground" }}
-              className="flex flex-col items-center gap-1 py-3 text-xs font-medium"
-            >
-              <item.icon className="h-5 w-5" />
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
     </div>
   );
 }
