@@ -53,7 +53,7 @@ function Dashboard() {
     { key: "qa_cashout", icon: ShieldMinus, to: "/payments", tint: "text-destructive bg-destructive/10" },
     { key: "qa_deposit", icon: Wallet, to: "/payments", tint: "text-accent bg-accent/10" },
     { key: "qa_profile", icon: UserRound, to: "/profile", tint: "text-warning bg-warning/15" },
-    { key: "qa_myloans", icon: ClipboardList, to: "/apply", tint: "text-primary bg-primary/10" },
+    { key: "qa_myloans", icon: ClipboardList, to: "/my-loans", tint: "text-primary bg-primary/10" },
     { key: "qa_update", icon: RefreshCw, to: "/profile", tint: "text-accent bg-accent/10" },
     { key: "qa_contact", icon: MessageCircle, to: "/contact", tint: "text-success bg-success/15" },
     { key: "qa_about", icon: Info, to: "/membership", tint: "text-warning bg-warning/15" },
