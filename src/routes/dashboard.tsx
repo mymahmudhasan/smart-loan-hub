@@ -63,9 +63,7 @@ function Dashboard() {
               </span>
               <span className="text-lg font-bold tracking-tight">{displayName}</span>
             </div>
-            <div className="rounded-full bg-primary-foreground/15 border border-primary-foreground/20">
-              <UserProfileBadge />
-            </div>
+            <UserProfileBadge />
           </div>
 
           <Link
