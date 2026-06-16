@@ -9,9 +9,6 @@ import {
   MessageCircle,
   Info,
   ArrowRight,
-  Home,
-  HandCoins,
-  Inbox,
 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
