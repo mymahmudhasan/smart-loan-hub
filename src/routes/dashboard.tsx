@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth";
 import { useLanguage } from "@/context/language";
-import { UserProfileBadge } from "@/components/shared/UserProfileBadge";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -63,7 +62,6 @@ function Dashboard() {
               </span>
               <span className="text-lg font-bold tracking-tight">{displayName}</span>
             </div>
-            <UserProfileBadge />
           </div>
 
           <Link

@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { eligibleLoanAmount, ELIGIBILITY_MULTIPLIER } from "@/lib/loan";
 import { formatBDT } from "@/lib/format";
 import { useLanguage } from "@/context/language";
-import { UserProfileBadge } from "@/components/shared/UserProfileBadge";
 
 export const Route = createFileRoute("/membership")({
   head: () => ({
@@ -41,9 +40,6 @@ function Membership() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 lg:py-16">
-      <div className="mb-6 flex justify-end">
-        <UserProfileBadge />
-      </div>
       <div className="mb-10 text-center">
         <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
           <PiggyBank className="h-6 w-6" />
