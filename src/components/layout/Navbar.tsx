@@ -89,7 +89,7 @@ export function Navbar() {
                 onClick={handleSignOut}
                 className="hidden md:inline-flex"
               >
-                <LogOut className="h-4 w-4" /> Sign out
+                <LogOut className="h-4 w-4" /> সাইন আউট
               </Button>
             </>
           ) : (
