@@ -37,8 +37,7 @@ export const Route = createFileRoute("/apply")({
       { title: "লোন আবেদন ফর্ম | স্মার্ট লোন" },
       {
         name: "description",
-        content:
-          "অনলাইনে সহজে লোনের আবেদন করুন। আপনার জমার ১০ গুণ পর্যন্ত মাত্র ৮% বার্ষিক সুদে লোন নিন।",
+        content: "সহজে অনলাইন লোন আবেদন।",
       },
     ],
   }),
@@ -221,7 +220,7 @@ function Apply() {
         </span>
         <h1 className="mt-4 text-2xl font-bold">লগইন প্রয়োজন</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          লোনের আবেদন করতে অনুগ্রহ করে লগ ইন করুন।
+          আবেদন করতে লগ ইন করুন।
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <Button variant="hero" asChild>
@@ -251,10 +250,9 @@ function Apply() {
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
           <UserCog className="h-6 w-6" />
         </span>
-        <h1 className="mt-4 text-2xl font-bold">আগে প্রোফাইল পূরণ করুন</h1>
+        <h1 className="mt-4 text-2xl font-bold">প্রোফাইল পূরণ করুন</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          লোনের আবেদন করার আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করতে হবে। এতে
-          আপনার তথ্য স্বয়ংক্রিয়ভাবে আবেদন ফর্মে যুক্ত হবে।
+          কমপক্ষে ৫০% পূরণ করতে হবে।
         </p>
         <div className="mx-auto mt-6 max-w-xs">
           <div className="mb-2 flex items-center justify-between text-sm">
@@ -265,7 +263,7 @@ function Apply() {
         </div>
         <Button variant="hero" size="lg" className="mt-6" asChild>
           <Link to="/profile">
-            প্রোফাইল পূরণ করুন <ArrowRight className="h-4 w-4" />
+            প্রোফাইল <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
       </div>
@@ -281,16 +279,16 @@ function Apply() {
           <ShieldCheck className="h-6 w-6" />
         </span>
         <h1 className="mt-4 text-2xl font-bold">
-          {rejected ? "কেওয়াইসি পুনরায় জমা দিন" : "আগে কেওয়াইসি জমা দিন"}
+          {rejected ? "KYC পুনরায় জমা দিন" : "KYC জমা দিন"}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           {rejected
-            ? "আপনার কেওয়াইসি প্রত্যাখ্যাত হয়েছে। লোনের আবেদন করার আগে অনুগ্রহ করে সঠিক ডকুমেন্ট দিয়ে পুনরায় জমা দিন।"
-            : "লোনের আবেদন করার আগে আপনাকে জাতীয় পরিচয়পত্র দিয়ে কেওয়াইসি (KYC) যাচাই জমা দিতে হবে।"}
+            ? "সঠিক ডকুমেন্ট দিয়ে পুনরায় জমা দিন।"
+            : "জাতীয় পরিচয়পত্র দিয়ে KYC যাচাই করুন।"}
         </p>
         <Button variant="hero" size="lg" className="mt-6" asChild>
           <Link to="/profile">
-            কেওয়াইসি জমা দিন <ArrowRight className="h-4 w-4" />
+            KYC জমা দিন <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
       </div>
@@ -303,9 +301,9 @@ function Apply() {
         <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
           <HandCoins className="h-6 w-6" />
         </span>
-        <h1 className="mt-4 text-3xl font-bold sm:text-4xl">লোন আবেদন ফর্ম</h1>
+        <h1 className="mt-4 text-3xl font-bold sm:text-4xl">লোন আবেদন</h1>
         <p className="mt-2 text-muted-foreground">
-          আপনার সর্বোচ্চ লোন লিমিট:{" "}
+          লোন লিমিট:{" "}
           <span className="font-semibold text-foreground">{formatBDT(maxLoan)}</span>
         </p>
       </div>
@@ -313,20 +311,19 @@ function Apply() {
       <div className="grid gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle>আবেদনকারীর তথ্য</CardTitle>
+            <CardTitle>আবেদনকারী</CardTitle>
             <p className="text-sm text-muted-foreground">
-              আপনার প্রোফাইল থেকে তথ্য স্বয়ংক্রিয়ভাবে পূরণ হয়েছে। প্রয়োজনে
-              সম্পাদনা করুন।
+              প্রোফাইল থেকে স্বয়ংক্রিয়ভাবে পূরণ।
             </p>
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="fullName">পূর্ণ নাম</Label>
+              <Label htmlFor="fullName">নাম</Label>
               <Input
                 id="fullName"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                placeholder="আপনার পূর্ণ নাম"
+                placeholder="পূর্ণ নাম"
               />
               {errors.fullName && (
                 <p className="text-[0.8rem] text-destructive">{errors.fullName}</p>
@@ -335,7 +332,7 @@ function Apply() {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="phone">মোবাইল নম্বর</Label>
+                <Label htmlFor="phone">মোবাইল</Label>
                 <Input
                   id="phone"
                   inputMode="numeric"
