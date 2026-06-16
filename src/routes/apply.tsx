@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { HandCoins, ArrowRight, Loader2, Check, UserCog } from "lucide-react";
+import { HandCoins, ArrowRight, Loader2, Check, UserCog, ShieldCheck } from "lucide-react";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
