@@ -43,6 +43,14 @@ function Dashboard() {
     (user?.email ? user.email.split("@")[0] : null) ||
     "Member";
 
+  const fetchProfile = useServerFn(getMyProfile);
+  const { data: profileData, isLoading: balanceLoading } = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => fetchProfile(),
+    enabled: !!user,
+  });
+  const balance = Number(profileData?.profile?.member_balance ?? 0);
+
   const actions = [
     { key: "qa_loan_apply", icon: ShieldPlus, to: "/apply", tint: "text-primary bg-primary/10" },
     { key: "qa_cashout", icon: ShieldMinus, to: "/payments", tint: "text-destructive bg-destructive/10" },
