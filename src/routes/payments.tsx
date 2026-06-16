@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2 } from "lucide-react";
+import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -97,6 +97,10 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center gap-3 rounded-xl border bg-muted/40 p-4">
+        <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
+        <p className="text-sm font-medium">Secure online payment</p>
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
