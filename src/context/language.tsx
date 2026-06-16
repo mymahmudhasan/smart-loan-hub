@@ -163,6 +163,7 @@ export const translations: Dict = {
 
   // Dashboard quick-actions hub
   dash_view_balance: { en: "View Balance", bn: "ব্যালেন্স দেখুন" },
+  dash_balance_label: { en: "Available Balance", bn: "বর্তমান ব্যালেন্স" },
   dash_hub_title: {
     en: "Fast & easy loans, now on your mobile",
     bn: "দ্রুত ও সহজ লোন এখন আপনার মোবাইলেই",
