@@ -31,7 +31,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
-  const { user } = useLanguage ? useAuth() : useAuth();
+  const { user } = useAuth();
   const { t } = useLanguage();
 
   const displayName =
