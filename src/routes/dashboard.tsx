@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/auth";
 import { useLanguage } from "@/context/language";
+import { UserProfileBadge } from "@/components/shared/UserProfileBadge";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -55,11 +56,16 @@ function Dashboard() {
       {/* Gradient header */}
       <section className="gradient-hero text-primary-foreground">
         <div className="px-5 pt-6">
-          <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/40 bg-primary-foreground/15 text-lg font-bold">
-              {displayName.charAt(0).toUpperCase()}
-            </span>
-            <span className="text-lg font-bold tracking-tight">{displayName}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-primary-foreground/40 bg-primary-foreground/15 text-lg font-bold">
+                {displayName.charAt(0).toUpperCase()}
+              </span>
+              <span className="text-lg font-bold tracking-tight">{displayName}</span>
+            </div>
+            <div className="rounded-full bg-primary-foreground/15 border border-primary-foreground/20">
+              <UserProfileBadge />
+            </div>
           </div>
 
           <Link
