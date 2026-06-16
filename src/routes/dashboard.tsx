@@ -69,7 +69,7 @@ function Dashboard() {
         <div className="px-5 pt-6">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-on-hero/40 bg-on-hero/15 text-lg font-bold">
+              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-white/40 bg-white/15 text-lg font-bold">
                 {displayName.charAt(0).toUpperCase()}
               </span>
               <span className="text-lg font-bold tracking-tight">{displayName}</span>
