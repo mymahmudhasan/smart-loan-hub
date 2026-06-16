@@ -100,13 +100,7 @@ function Signup() {
       toast.error(L("Registration failed", "নিবন্ধন ব্যর্থ হয়েছে"), { description: error.message });
       return;
     }
-    toast.success(L("Account created!", "অ্যাকাউন্ট তৈরি হয়েছে!"), {
-      description: L(
-        "Next, complete your KYC verification to apply for a loan.",
-        "এরপর, ঋণের জন্য আবেদন করতে আপনার কেওয়াইসি যাচাই সম্পন্ন করুন।",
-      ),
-    });
-    navigate({ to: "/profile" });
+    setShowSuccess(true);
   };
 
   return (
