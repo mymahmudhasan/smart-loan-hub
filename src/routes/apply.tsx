@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { HandCoins, ArrowRight, Loader2, Check } from "lucide-react";
+import { HandCoins, ArrowRight, Loader2, Check, UserCog } from "lucide-react";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -28,6 +29,7 @@ import { calculateLoan, MAX_MONTHS, eligibleLoanAmount } from "@/lib/loan";
 import { formatBDT } from "@/lib/format";
 import { useAuth } from "@/context/auth";
 import { submitLoanApplication } from "@/lib/member.functions";
+import { getMyProfile } from "@/lib/profile.functions";
 
 export const Route = createFileRoute("/apply")({
   head: () => ({
@@ -44,6 +46,30 @@ export const Route = createFileRoute("/apply")({
 });
 
 const memberBalance = 50000;
+
+// Keys used to measure profile completeness (mirrors /profile, excluding loan_purpose)
+const COMPLETION_KEYS = [
+  "full_name",
+  "phone",
+  "date_of_birth",
+  "gender",
+  "marital_status",
+  "father_name",
+  "mother_name",
+  "nid_number",
+  "address",
+  "permanent_address",
+  "city",
+  "postal_code",
+  "occupation",
+  "employment_type",
+  "employer_name",
+  "monthly_income",
+  "mobile_banking_provider",
+  "mobile_banking_number",
+  "emergency_contact_name",
+  "emergency_contact_phone",
+] as const;
 
 const PURPOSES = [
   "ব্যবসা / Business",
@@ -69,7 +95,7 @@ const applicationSchema = z.object({
 });
 
 function Apply() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const maxLoan = eligibleLoanAmount(memberBalance);
   const [amount, setAmount] = useState(Math.min(300000, maxLoan));
   const [months, setMonths] = useState(24);
@@ -86,6 +112,39 @@ function Apply() {
 
   const result = useMemo(() => calculateLoan(amount, months), [amount, months]);
   const apply = useServerFn(submitLoanApplication);
+  const fetchProfile = useServerFn(getMyProfile);
+
+  const { data: profileData, isLoading: profileLoading } = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => fetchProfile(),
+    enabled: !!user,
+  });
+
+  // Profile completeness (same measure as /profile page)
+  const completion = useMemo(() => {
+    const p = (profileData?.profile ?? null) as Record<string, unknown> | null;
+    if (!p) return 0;
+    const filled = COMPLETION_KEYS.filter((k) => {
+      const v = p[k];
+      return v != null && String(v).trim() !== "";
+    }).length;
+    return Math.round((filled / COMPLETION_KEYS.length) * 100);
+  }, [profileData]);
+
+  const profileReady = completion >= 50;
+
+  // Auto-sync saved profile data into the application form
+  useEffect(() => {
+    const p = (profileData?.profile ?? null) as Record<string, unknown> | null;
+    if (!p) return;
+    const s = (k: string) => (p[k] == null ? "" : String(p[k]));
+    setFullName(s("full_name"));
+    setPhone(s("phone"));
+    setNid(s("nid_number"));
+    setAddress(s("address"));
+    setOccupation(s("occupation"));
+    setMonthlyIncome(s("monthly_income"));
+  }, [profileData]);
 
   const mut = useMutation({
     mutationFn: () =>
@@ -119,6 +178,10 @@ function Apply() {
       toast.error("লোনের আবেদন করতে অনুগ্রহ করে লগ ইন করুন");
       return;
     }
+    if (!profileReady) {
+      toast.error("আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করুন");
+      return;
+    }
     const parsed = applicationSchema.safeParse({
       fullName,
       phone,
@@ -141,6 +204,66 @@ function Apply() {
     mut.mutate();
   };
 
+  // ---- Gate: not logged in ----
+  if (!authLoading && !user) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-20 text-center">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
+          <HandCoins className="h-6 w-6" />
+        </span>
+        <h1 className="mt-4 text-2xl font-bold">লগইন প্রয়োজন</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          লোনের আবেদন করতে অনুগ্রহ করে লগ ইন করুন।
+        </p>
+        <div className="mt-6 flex justify-center gap-3">
+          <Button variant="hero" asChild>
+            <Link to="/login">লগ ইন</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/signup">শুরু করুন</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // ---- Loading profile ----
+  if (authLoading || profileLoading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  // ---- Gate: profile less than 50% complete ----
+  if (!profileReady) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-16 text-center">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
+          <UserCog className="h-6 w-6" />
+        </span>
+        <h1 className="mt-4 text-2xl font-bold">আগে প্রোফাইল পূরণ করুন</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          লোনের আবেদন করার আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করতে হবে। এতে
+          আপনার তথ্য স্বয়ংক্রিয়ভাবে আবেদন ফর্মে যুক্ত হবে।
+        </p>
+        <div className="mx-auto mt-6 max-w-xs">
+          <div className="mb-2 flex items-center justify-between text-sm">
+            <span className="font-medium">প্রোফাইল সম্পূর্ণতা</span>
+            <span className="font-semibold">{completion}%</span>
+          </div>
+          <Progress value={completion} />
+        </div>
+        <Button variant="hero" size="lg" className="mt-6" asChild>
+          <Link to="/profile">
+            প্রোফাইল পূরণ করুন <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 lg:py-16">
       <div className="mb-8 text-center">
@@ -158,6 +281,10 @@ function Apply() {
         <Card className="lg:col-span-3">
           <CardHeader>
             <CardTitle>আবেদনকারীর তথ্য</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              আপনার প্রোফাইল থেকে তথ্য স্বয়ংক্রিয়ভাবে পূরণ হয়েছে। প্রয়োজনে
+              সম্পাদনা করুন।
+            </p>
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="space-y-2">
