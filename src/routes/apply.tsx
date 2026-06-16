@@ -317,7 +317,7 @@ function Apply() {
             </CardContent>
           </Card>
 
-          <Card className="gradient-hero text-primary-foreground shadow-elegant">
+          <Card className="gradient-hero text-on-hero shadow-elegant">
             <CardHeader>
               <CardTitle>সারসংক্ষেপ</CardTitle>
             </CardHeader>
@@ -329,7 +329,7 @@ function Apply() {
               ].map((row) => (
                 <div
                   key={row.l}
-                  className="flex items-center justify-between border-b border-primary-foreground/20 pb-3"
+                  className="flex items-center justify-between border-b border-white/20 pb-3"
                 >
                   <span className="opacity-80">{row.l}</span>
                   <span className="text-lg font-bold">{row.v}</span>
