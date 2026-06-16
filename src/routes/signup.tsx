@@ -10,11 +10,18 @@ import {
   ChevronDown,
   ShieldCheck,
   Loader2,
+  Check,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { useLanguage } from "@/context/language";
 import { useBranding } from "@/context/branding";
 import { supabase } from "@/integrations/supabase/client";
@@ -49,6 +56,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [professionOpen, setProfessionOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -92,13 +100,7 @@ function Signup() {
       toast.error(L("Registration failed", "নিবন্ধন ব্যর্থ হয়েছে"), { description: error.message });
       return;
     }
-    toast.success(L("Account created!", "অ্যাকাউন্ট তৈরি হয়েছে!"), {
-      description: L(
-        "Next, complete your KYC verification to apply for a loan.",
-        "এরপর, ঋণের জন্য আবেদন করতে আপনার কেওয়াইসি যাচাই সম্পন্ন করুন।",
-      ),
-    });
-    navigate({ to: "/profile" });
+    setShowSuccess(true);
   };
 
   return (
@@ -268,6 +270,48 @@ function Signup() {
           </p>
         </CardContent>
       </Card>
+
+      {/* Success Modal */}
+      <Dialog open={showSuccess} onOpenChange={() => {}}>
+        <DialogContent
+          className="max-w-sm rounded-3xl border-none bg-white p-8 text-center shadow-elegant [&>button]:hidden"
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
+          <DialogTitle className="sr-only">
+            {L("Registration Successful", "নিবন্ধন সফল")}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            {L("Your registration has been completed successfully.", "আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে।")}
+          </DialogDescription>
+
+          <div className="flex flex-col items-center gap-5">
+            {/* Green checkmark circle */}
+            <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
+              <div className="absolute inset-0 rounded-full border-4 border-green-100" />
+              <div className="absolute inset-2 rounded-full border-2 border-green-200" />
+              <Check className="relative h-10 w-10 text-green-500" strokeWidth={3} />
+            </div>
+
+            <h2 className="text-2xl font-bold text-gray-700">
+              {L("Congratulations!", "অভিনন্দন!")}
+            </h2>
+            <p className="text-base text-gray-500">
+              {L(
+                "Registration completed successfully.",
+                "রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে।",
+              )}
+            </p>
+
+            <Button
+              onClick={() => navigate({ to: "/profile" })}
+              className="mt-2 h-12 w-full rounded-xl bg-[#E91E63] text-base font-semibold text-white shadow-soft hover:bg-[#C2185B]"
+            >
+              {L("OK", "ঠিক আছে")}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
