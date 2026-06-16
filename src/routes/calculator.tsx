@@ -16,7 +16,6 @@ import {
 import { calculateLoan, ANNUAL_RATE, MAX_MONTHS } from "@/lib/loan";
 import { formatBDT } from "@/lib/format";
 import { useLanguage } from "@/context/language";
-import { UserProfileBadge } from "@/components/shared/UserProfileBadge";
 
 
 export const Route = createFileRoute("/calculator")({
@@ -48,9 +47,6 @@ function CalculatorPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
-      <div className="mb-6 flex justify-end">
-        <UserProfileBadge />
-      </div>
       <div className="mb-8 text-center">
         <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
           <Calculator className="h-6 w-6" />

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Menu, ShieldCheck, LogOut, LayoutDashboard, User } from "lucide-react";
+import { Menu, ShieldCheck, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
 import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
 import { useBranding } from "@/context/branding";
+import { UserProfileBadge } from "@/components/shared/UserProfileBadge";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -79,11 +80,7 @@ export function Navbar() {
           )}
           {user ? (
             <>
-              <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
-                <Link to="/profile">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
+              <UserProfileBadge />
               <Button
                 variant="ghost"
                 size="sm"
@@ -136,11 +133,6 @@ export function Navbar() {
                   )}
                   {user ? (
                     <>
-                      <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                        <Link to="/profile">
-                          <User className="h-4 w-4" /> Profile
-                        </Link>
-                      </Button>
                       <Button variant="outline" onClick={handleSignOut}>
                         <LogOut className="h-4 w-4" /> Sign out
                       </Button>
