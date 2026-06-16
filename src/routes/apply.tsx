@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { HandCoins, ArrowRight, Loader2, Check, UserCog } from "lucide-react";
+import { HandCoins, ArrowRight, Loader2, Check, UserCog, ShieldCheck } from "lucide-react";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -131,7 +131,9 @@ function Apply() {
     return Math.round((filled / COMPLETION_KEYS.length) * 100);
   }, [profileData]);
 
-  const profileReady = completion >= 50;
+  const kyc = (profileData?.kyc ?? null) as { status: string } | null;
+  const kycReady = !!kyc && kyc.status !== "rejected";
+  const profileReady = completion >= 80 && kycReady;
 
   // Auto-sync saved profile data into the application form
   useEffect(() => {
@@ -179,7 +181,7 @@ function Apply() {
       return;
     }
     if (!profileReady) {
-      toast.error("আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করুন");
+      toast.error("আগে প্রোফাইল ৮০% এবং কেওয়াইসি সম্পূর্ণ করুন");
       return;
     }
     const parsed = applicationSchema.safeParse({
@@ -236,28 +238,39 @@ function Apply() {
     );
   }
 
-  // ---- Gate: profile less than 50% complete ----
+  // ---- Gate: profile less than 80% complete OR KYC not submitted ----
   if (!profileReady) {
+    const kycMissing = !kyc || kyc.status === "rejected";
     return (
       <div className="mx-auto max-w-md px-4 py-16 text-center">
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
           <UserCog className="h-6 w-6" />
         </span>
-        <h1 className="mt-4 text-2xl font-bold">আগে প্রোফাইল পূরণ করুন</h1>
+        <h1 className="mt-4 text-2xl font-bold">আগে প্রোফাইল ও কেওয়াইসি সম্পূর্ণ করুন</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          লোনের আবেদন করার আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করতে হবে। এতে
-          আপনার তথ্য স্বয়ংক্রিয়ভাবে আবেদন ফর্মে যুক্ত হবে।
+          লোনের আবেদন করার আগে আপনার প্রোফাইল কমপক্ষে ৮০% এবং কেওয়াইসি জমা দিতে
+          হবে। এতে আপনার তথ্য স্বয়ংক্রিয়ভাবে আবেদন ফর্মে যুক্ত হবে।
         </p>
-        <div className="mx-auto mt-6 max-w-xs">
-          <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="font-medium">প্রোফাইল সম্পূর্ণতা</span>
-            <span className="font-semibold">{completion}%</span>
+        <div className="mx-auto mt-6 max-w-xs space-y-4">
+          <div>
+            <div className="mb-2 flex items-center justify-between text-sm">
+              <span className="font-medium">প্রোফাইল সম্পূর্ণতা</span>
+              <span className="font-semibold">{completion}%</span>
+            </div>
+            <Progress value={completion} />
           </div>
-          <Progress value={completion} />
+          <div className="flex items-center justify-between rounded-lg border p-3 text-sm">
+            <span className="flex items-center gap-2 font-medium">
+              <ShieldCheck className="h-4 w-4 text-primary" /> কেওয়াইসি
+            </span>
+            <span className={kycMissing ? "text-destructive font-semibold" : "text-accent font-semibold"}>
+              {kycMissing ? "অসম্পূর্ণ" : "জমা হয়েছে"}
+            </span>
+          </div>
         </div>
         <Button variant="hero" size="lg" className="mt-6" asChild>
           <Link to="/profile">
-            প্রোফাইল পূরণ করুন <ArrowRight className="h-4 w-4" />
+            প্রোফাইল ও কেওয়াইসি সম্পূর্ণ করুন <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>
       </div>
