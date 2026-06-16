@@ -16,6 +16,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as PaymentStatusRouteImport } from './routes/payment-status'
+import { Route as MyLoansRouteImport } from './routes/my-loans'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -73,6 +74,11 @@ const PaymentsRoute = PaymentsRouteImport.update({
 const PaymentStatusRoute = PaymentStatusRouteImport.update({
   id: '/payment-status',
   path: '/payment-status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyLoansRoute = MyLoansRouteImport.update({
+  id: '/my-loans',
+  path: '/my-loans',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MembershipRoute = MembershipRouteImport.update({
@@ -203,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
+  '/my-loans': typeof MyLoansRoute
   '/payment-status': typeof PaymentStatusRoute
   '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
+  '/my-loans': typeof MyLoansRoute
   '/payment-status': typeof PaymentStatusRoute
   '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
+  '/my-loans': typeof MyLoansRoute
   '/payment-status': typeof PaymentStatusRoute
   '/payments': typeof PaymentsRoute
   '/privacy': typeof PrivacyRoute
@@ -301,6 +310,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/login'
     | '/membership'
+    | '/my-loans'
     | '/payment-status'
     | '/payments'
     | '/privacy'
@@ -332,6 +342,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/login'
     | '/membership'
+    | '/my-loans'
     | '/payment-status'
     | '/payments'
     | '/privacy'
@@ -364,6 +375,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/login'
     | '/membership'
+    | '/my-loans'
     | '/payment-status'
     | '/payments'
     | '/privacy'
@@ -397,6 +409,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   LoginRoute: typeof LoginRoute
   MembershipRoute: typeof MembershipRoute
+  MyLoansRoute: typeof MyLoansRoute
   PaymentStatusRoute: typeof PaymentStatusRoute
   PaymentsRoute: typeof PaymentsRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -456,6 +469,13 @@ declare module '@tanstack/react-router' {
       path: '/payment-status'
       fullPath: '/payment-status'
       preLoaderRoute: typeof PaymentStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-loans': {
+      id: '/my-loans'
+      path: '/my-loans'
+      fullPath: '/my-loans'
+      preLoaderRoute: typeof MyLoansRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/membership': {
@@ -665,6 +685,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   LoginRoute: LoginRoute,
   MembershipRoute: MembershipRoute,
+  MyLoansRoute: MyLoansRoute,
   PaymentStatusRoute: PaymentStatusRoute,
   PaymentsRoute: PaymentsRoute,
   PrivacyRoute: PrivacyRoute,
