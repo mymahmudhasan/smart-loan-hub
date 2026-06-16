@@ -186,6 +186,10 @@ function Apply() {
       toast.error("আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করুন");
       return;
     }
+    if (!kycReady) {
+      toast.error("আগে আপনার কেওয়াইসি (KYC) যাচাই জমা দিন");
+      return;
+    }
     const parsed = applicationSchema.safeParse({
       fullName,
       phone,
