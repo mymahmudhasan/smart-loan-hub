@@ -161,6 +161,29 @@ export const translations: Dict = {
   dash_transactions: { en: "Recent Transactions", bn: "সাম্প্রতিক লেনদেন" },
   dash_download: { en: "Download Statement", bn: "স্টেটমেন্ট ডাউনলোড" },
 
+  // Dashboard quick-actions hub
+  dash_view_balance: { en: "View Balance", bn: "ব্যালেন্স দেখুন" },
+  dash_hub_title: {
+    en: "Fast & easy loans, now on your mobile",
+    bn: "দ্রুত ও সহজ লোন এখন আপনার মোবাইলেই",
+  },
+  dash_hub_sub: {
+    en: "Apply with just your NID and mobile number — get your loan in your bKash/Nagad wallet within 10 minutes.",
+    bn: "জাতীয় পরিচয়পত্র ও মোবাইল নাম্বার দিয়েই করুন লোন আবেদন, ১০ মিনিটে লোনের টাকা বিকাশ/নগদ ওয়ালেটে নিন",
+  },
+  dash_apply_cta: { en: "Apply for a loan now", bn: "এখনই লোন আবেদন করুন" },
+  qa_loan_apply: { en: "Loan Application", bn: "লোন আবেদন" },
+  qa_cashout: { en: "Cash Out", bn: "ক্যাশ আউট" },
+  qa_deposit: { en: "Deposit", bn: "জমা দিন" },
+  qa_profile: { en: "Profile", bn: "প্রোফাইল" },
+  qa_myloans: { en: "My Loans", bn: "আমার লোন" },
+  qa_update: { en: "Update Info", bn: "তথ্য হালনাগাদ" },
+  qa_contact: { en: "Contact", bn: "যোগাযোগ" },
+  qa_about: { en: "About", bn: "সম্পর্কে" },
+  bnav_home: { en: "Home", bn: "হোম" },
+  bnav_loan: { en: "Loan", bn: "লোন" },
+  bnav_inbox: { en: "Inbox", bn: "ইনবক্স" },
+
   // Membership tier badges
   tier_heading: { en: "Membership Badge", bn: "মেম্বারশিপ ব্যাজ" },
   tier_free: { en: "Free", bn: "ফ্রি" },
