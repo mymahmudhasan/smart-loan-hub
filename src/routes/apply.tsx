@@ -181,7 +181,7 @@ function Apply() {
       return;
     }
     if (!profileReady) {
-      toast.error("আগে আপনার প্রোফাইল কমপক্ষে ৫০% পূরণ করুন");
+      toast.error("আগে প্রোফাইল ৮০% এবং কেওয়াইসি সম্পূর্ণ করুন");
       return;
     }
     const parsed = applicationSchema.safeParse({
