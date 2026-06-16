@@ -13,7 +13,8 @@ export function UserProfileBadge() {
   return (
     <Link
       to="/profile"
-      className="flex items-center gap-2 rounded-full bg-card/80 px-3 py-1.5 shadow-soft border border-border/50 hover:bg-card transition-colors"
+      title="My Profile"
+      className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 shadow-soft border border-border hover:bg-muted hover:shadow-md transition-colors cursor-pointer"
     >
       <Avatar className="h-8 w-8">
         <AvatarFallback className="bg-primary text-primary-foreground text-sm font-bold">
@@ -24,3 +25,4 @@ export function UserProfileBadge() {
     </Link>
   );
 }
+
