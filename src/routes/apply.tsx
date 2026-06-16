@@ -272,6 +272,31 @@ function Apply() {
     );
   }
 
+  // ---- Gate: KYC not submitted (or rejected) ----
+  if (!kycReady) {
+    const rejected = kyc?.status === "rejected";
+    return (
+      <div className="mx-auto max-w-md px-4 py-16 text-center">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl gradient-primary text-primary-foreground shadow-soft">
+          <ShieldCheck className="h-6 w-6" />
+        </span>
+        <h1 className="mt-4 text-2xl font-bold">
+          {rejected ? "কেওয়াইসি পুনরায় জমা দিন" : "আগে কেওয়াইসি জমা দিন"}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {rejected
+            ? "আপনার কেওয়াইসি প্রত্যাখ্যাত হয়েছে। লোনের আবেদন করার আগে অনুগ্রহ করে সঠিক ডকুমেন্ট দিয়ে পুনরায় জমা দিন।"
+            : "লোনের আবেদন করার আগে আপনাকে জাতীয় পরিচয়পত্র দিয়ে কেওয়াইসি (KYC) যাচাই জমা দিতে হবে।"}
+        </p>
+        <Button variant="hero" size="lg" className="mt-6" asChild>
+          <Link to="/profile">
+            কেওয়াইসি জমা দিন <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 lg:py-16">
       <div className="mb-8 text-center">
