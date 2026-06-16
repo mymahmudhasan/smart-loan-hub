@@ -133,6 +133,10 @@ function Apply() {
 
   const profileReady = completion >= 50;
 
+  const kyc = profileData?.kyc ?? null;
+  // KYC must be submitted (pending) or approved — rejected/none blocks the loan form
+  const kycReady = kyc?.status === "approved" || kyc?.status === "pending";
+
   // Auto-sync saved profile data into the application form
   useEffect(() => {
     const p = (profileData?.profile ?? null) as Record<string, unknown> | null;
