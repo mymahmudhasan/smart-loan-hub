@@ -56,6 +56,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [professionOpen, setProfessionOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
