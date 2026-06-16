@@ -51,7 +51,7 @@ function Dashboard() {
   ] as const;
 
   return (
-    <div className="mx-auto max-w-md pb-24">
+    <div className="mx-auto max-w-md pb-12">
       {/* Gradient header */}
       <section className="gradient-hero text-primary-foreground">
         <div className="px-5 pt-6">
@@ -75,11 +75,11 @@ function Dashboard() {
           </Link>
         </div>
 
-        <div className="px-5 pb-10 pt-8 text-center">
+        <div className="px-5 pb-10 pt-8 text-center [text-shadow:_0_1px_10px_rgb(0_0_0_/_40%)]">
           <h1 className="text-xl font-bold leading-snug sm:text-2xl">
             {t("dash_hub_title")}
           </h1>
-          <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-primary-foreground/85">
+          <p className="mx-auto mt-3 max-w-sm text-sm font-medium leading-relaxed text-primary-foreground/95">
             {t("dash_hub_sub")}
           </p>
           <Link
@@ -114,8 +114,8 @@ function Dashboard() {
         </div>
       </section>
 
-      {/* Bottom navigation */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto max-w-md border-t border-border bg-card/95 backdrop-blur">
+      {/* Quick navigation */}
+      <nav className="mx-4 rounded-2xl border border-border bg-card shadow-soft">
         <div className="grid grid-cols-3">
           {[
             { to: "/", icon: Home, label: t("bnav_home"), exact: true },
