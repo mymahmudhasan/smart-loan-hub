@@ -10,11 +10,18 @@ import {
   ChevronDown,
   ShieldCheck,
   Loader2,
+  Check,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { useLanguage } from "@/context/language";
 import { useBranding } from "@/context/branding";
 import { supabase } from "@/integrations/supabase/client";
