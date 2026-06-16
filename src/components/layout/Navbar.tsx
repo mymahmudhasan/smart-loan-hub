@@ -3,7 +3,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Menu, ShieldCheck, LogOut, LayoutDashboard, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
+import { ThemeToggle } from "@/components/layout/Toggles";
 import { useLanguage } from "@/context/language";
 import { useAuth } from "@/context/auth";
 import { useBranding } from "@/context/branding";
@@ -68,12 +68,11 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-1">
-          <LanguageToggle />
           <ThemeToggle />
           {isAdmin && (
             <Button variant="accent" size="sm" asChild className="hidden md:inline-flex">
               <Link to="/admin">
-                <LayoutDashboard className="h-4 w-4" /> Admin
+                <LayoutDashboard className="h-4 w-4" /> অ্যাডমিন
               </Link>
             </Button>
           )}
@@ -90,7 +89,7 @@ export function Navbar() {
                 onClick={handleSignOut}
                 className="hidden md:inline-flex"
               >
-                <LogOut className="h-4 w-4" /> Sign out
+                <LogOut className="h-4 w-4" /> সাইন আউট
               </Button>
             </>
           ) : (
@@ -130,7 +129,7 @@ export function Navbar() {
                   {isAdmin && (
                     <Button variant="accent" asChild onClick={() => setOpen(false)}>
                       <Link to="/admin">
-                        <LayoutDashboard className="h-4 w-4" /> Admin Panel
+                        <LayoutDashboard className="h-4 w-4" /> অ্যাডমিন প্যানেল
                       </Link>
                     </Button>
                   )}
@@ -138,11 +137,11 @@ export function Navbar() {
                     <>
                       <Button variant="outline" asChild onClick={() => setOpen(false)}>
                         <Link to="/profile">
-                          <User className="h-4 w-4" /> Profile
+                          <User className="h-4 w-4" /> প্রোফাইল
                         </Link>
                       </Button>
                       <Button variant="outline" onClick={handleSignOut}>
-                        <LogOut className="h-4 w-4" /> Sign out
+                        <LogOut className="h-4 w-4" /> সাইন আউট
                       </Button>
                     </>
                   ) : (

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 
 export type Lang = "en" | "bn";
 
@@ -369,20 +369,10 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("bn");
-
-
-  useEffect(() => {
-    const stored = localStorage.getItem("lang") as Lang | null;
-    if (stored) setLangState(stored);
-  }, []);
-
-  const setLang = (l: Lang) => {
-    setLangState(l);
-    localStorage.setItem("lang", l);
-  };
-
-  const toggleLang = () => setLang(lang === "en" ? "bn" : "en");
+  // The site is Bengali-only.
+  const lang: Lang = "bn";
+  const setLang = (_l: Lang) => {};
+  const toggleLang = () => {};
   const t = (key: keyof typeof translations) => translations[key]?.[lang] ?? String(key);
 
   return (
