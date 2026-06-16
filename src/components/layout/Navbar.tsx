@@ -80,11 +80,7 @@ export function Navbar() {
           )}
           {user ? (
             <>
-              <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
-                <Link to="/profile">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
+              <UserProfileBadge />
               <Button
                 variant="ghost"
                 size="sm"
@@ -137,11 +133,6 @@ export function Navbar() {
                   )}
                   {user ? (
                     <>
-                      <Button variant="outline" asChild onClick={() => setOpen(false)}>
-                        <Link to="/profile">
-                          <User className="h-4 w-4" /> Profile
-                        </Link>
-                      </Button>
                       <Button variant="outline" onClick={handleSignOut}>
                         <LogOut className="h-4 w-4" /> Sign out
                       </Button>
