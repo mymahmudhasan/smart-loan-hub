@@ -129,7 +129,7 @@ export function Navbar() {
                   {isAdmin && (
                     <Button variant="accent" asChild onClick={() => setOpen(false)}>
                       <Link to="/admin">
-                        <LayoutDashboard className="h-4 w-4" /> Admin Panel
+                        <LayoutDashboard className="h-4 w-4" /> অ্যাডমিন প্যানেল
                       </Link>
                     </Button>
                   )}
@@ -137,11 +137,11 @@ export function Navbar() {
                     <>
                       <Button variant="outline" asChild onClick={() => setOpen(false)}>
                         <Link to="/profile">
-                          <User className="h-4 w-4" /> Profile
+                          <User className="h-4 w-4" /> প্রোফাইল
                         </Link>
                       </Button>
                       <Button variant="outline" onClick={handleSignOut}>
-                        <LogOut className="h-4 w-4" /> Sign out
+                        <LogOut className="h-4 w-4" /> সাইন আউট
                       </Button>
                     </>
                   ) : (
