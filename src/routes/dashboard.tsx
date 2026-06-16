@@ -75,11 +75,11 @@ function Dashboard() {
           </Link>
         </div>
 
-        <div className="px-5 pb-10 pt-8 text-center">
+        <div className="px-5 pb-10 pt-8 text-center [text-shadow:_0_1px_10px_rgb(0_0_0_/_40%)]">
           <h1 className="text-xl font-bold leading-snug sm:text-2xl">
             {t("dash_hub_title")}
           </h1>
-          <p className="mx-auto mt-3 max-w-sm text-sm font-medium leading-relaxed text-primary-foreground">
+          <p className="mx-auto mt-3 max-w-sm text-sm font-medium leading-relaxed text-primary-foreground/95">
             {t("dash_hub_sub")}
           </p>
           <Link
