@@ -13,8 +13,12 @@ import {
   HandCoins,
   Inbox,
 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/auth";
 import { useLanguage } from "@/context/language";
+import { getMyProfile } from "@/lib/profile.functions";
+import { formatBDT } from "@/lib/format";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
