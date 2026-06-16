@@ -68,12 +68,11 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-1">
-          <LanguageToggle />
           <ThemeToggle />
           {isAdmin && (
             <Button variant="accent" size="sm" asChild className="hidden md:inline-flex">
               <Link to="/admin">
-                <LayoutDashboard className="h-4 w-4" /> Admin
+                <LayoutDashboard className="h-4 w-4" /> অ্যাডমিন
               </Link>
             </Button>
           )}
