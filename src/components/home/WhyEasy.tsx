@@ -1,7 +1,6 @@
 import {
   Landmark,
   FileX2,
-  ShieldOff,
   Zap,
   CalendarClock,
   RefreshCw,
@@ -21,10 +20,6 @@ const benefits: Benefit[] = [
   {
     icon: FileX2,
     title: { en: "No paperwork needed", bn: "কোনো কাগজপত্র লাগবে না" },
-  },
-  {
-    icon: ShieldOff,
-    title: { en: "No collateral needed", bn: "কোনো জামানত লাগবে না" },
   },
   {
     icon: Zap,
