@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Wallet, ArrowDownToLine, ArrowUpFromLine, Receipt, ShieldCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -27,11 +27,6 @@ export const Route = createFileRoute("/payments")({
   }),
   component: Payments,
 });
-
-const withdrawMethods = [
-  { id: "bkash", name: "bKash", hint: "Instant mobile wallet" },
-  { id: "nagad", name: "Nagad", hint: "Instant mobile wallet" },
-];
 
 const logs = [
   { label: "EMI Payment #8", method: "Online", date: "01 Jun 2026", amount: 13568, status: "Completed" },
@@ -135,9 +130,8 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
 
 // ---------- Manual withdrawal request form ----------
 function WithdrawForm() {
-  const [method, setMethod] = useState<"bkash" | "nagad">("bkash");
   const [amount, setAmount] = useState("");
-  const [errors, setErrors] = useState<{ amount?: string; method?: string }>({});
+  const [errors, setErrors] = useState<{ amount?: string }>({});
   const { user } = useAuth();
   const { t } = useLanguage();
   const request = useServerFn(requestTransaction);
@@ -152,18 +146,15 @@ function WithdrawForm() {
       else if (val < 10) next.amount = "Minimum amount is ৳10.";
       else if (val > 5_00_000) next.amount = "Maximum amount is ৳5,00,000.";
     }
-    if (!method || !["bkash", "nagad"].includes(method)) {
-      next.method = "Please select a valid payment method.";
-    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
   const mut = useMutation({
-    mutationFn: () => request({ data: { type: "withdrawal", amount: Number(amount), method } }),
+    mutationFn: () => request({ data: { type: "withdrawal", amount: Number(amount), method: "bkash" } }),
     onSuccess: () => {
       toast.success("Withdrawal request submitted", {
-        description: `${formatBDT(Number(amount))} via ${withdrawMethods.find((m) => m.id === method)?.name}. Awaiting verification.`,
+        description: `${formatBDT(Number(amount))} via bKash. Awaiting verification.`,
       });
       setAmount("");
       setErrors({});
@@ -198,34 +189,6 @@ function WithdrawForm() {
           }}
         />
         {errors.amount && <p className="text-xs text-destructive">{errors.amount}</p>}
-      </div>
-
-      <div className="space-y-2">
-        <Label>Withdraw To</Label>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {withdrawMethods.map((m) => (
-            <button
-              type="button"
-              key={m.id}
-              onClick={() => {
-                setMethod(m.id as "bkash" | "nagad");
-                if (errors.method) setErrors((p) => ({ ...p, method: undefined }));
-              }}
-              className={cn(
-                "rounded-xl border p-3 text-left transition-all",
-                method === m.id ? "border-primary bg-primary/5 ring-1 ring-primary" : "hover:border-primary/50",
-              )}
-              aria-pressed={method === m.id}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-semibold">{m.name}</span>
-                {method === m.id && <CheckCircle2 className="h-4 w-4 text-primary" />}
-              </div>
-              <span className="text-xs text-muted-foreground">{m.hint}</span>
-            </button>
-          ))}
-        </div>
-        {errors.method && <p className="text-xs text-destructive">{errors.method}</p>}
       </div>
 
       <Button type="submit" variant="outline" size="lg" className="w-full" disabled={mut.isPending}>
