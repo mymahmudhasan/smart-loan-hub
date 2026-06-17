@@ -39,7 +39,7 @@ export function BankPartners() {
           <p className="mt-3 text-sm text-muted-foreground">{t("bank_subtitle")}</p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {partners.map((p) => (
             <div
               key={p.abbr}
