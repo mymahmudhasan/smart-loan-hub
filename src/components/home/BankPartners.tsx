@@ -22,16 +22,24 @@ export function BankPartners() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {partners.map((p) => (
-            <div
-              key={p.abbr}
-              className="group flex items-center justify-center rounded-2xl border bg-background p-6 transition-all hover:-translate-y-0.5 hover:shadow-elegant"
-            >
-              <div className="h-12 w-full max-w-[150px] transition-transform group-hover:scale-105">
-                <p.Logo className="h-full w-full" />
+          {partners.map((key) => {
+            const logo = bankLogos[key];
+            return (
+              <div
+                key={key}
+                className="group flex items-center justify-center rounded-2xl border bg-background p-6 transition-all hover:-translate-y-0.5 hover:shadow-elegant"
+              >
+                <div className="h-14 w-full max-w-[160px] transition-transform group-hover:scale-105">
+                  <img
+                    src={logo.url}
+                    alt={logo.alt}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-3">
