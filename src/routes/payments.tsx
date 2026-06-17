@@ -137,8 +137,7 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
 function WithdrawForm() {
   const [method, setMethod] = useState<"bkash" | "nagad">("bkash");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
-  const [errors, setErrors] = useState<{ amount?: string; method?: string; date?: string }>({});
+  const [errors, setErrors] = useState<{ amount?: string; method?: string }>({});
   const { user } = useAuth();
   const { t } = useLanguage();
   const request = useServerFn(requestTransaction);
@@ -156,19 +155,6 @@ function WithdrawForm() {
     if (!method || !["bkash", "nagad"].includes(method)) {
       next.method = "Please select a valid payment method.";
     }
-    if (!date || date.trim() === "") {
-      next.date = "Please select a transaction date.";
-    } else {
-      const selected = new Date(date);
-      const now = new Date();
-      now.setHours(23, 59, 59, 999);
-      const minDate = new Date();
-      minDate.setDate(minDate.getDate() - 7);
-      minDate.setHours(0, 0, 0, 0);
-      if (Number.isNaN(selected.getTime())) next.date = "Invalid date selected.";
-      else if (selected > now) next.date = "Date cannot be in the future.";
-      else if (selected < minDate) next.date = "Date cannot be older than 7 days.";
-    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -180,7 +166,6 @@ function WithdrawForm() {
         description: `${formatBDT(Number(amount))} via ${withdrawMethods.find((m) => m.id === method)?.name}. Awaiting verification.`,
       });
       setAmount("");
-      setDate("");
       setErrors({});
     },
     onError: (e) => toast.error("Request failed", { description: (e as Error).message }),
@@ -213,21 +198,6 @@ function WithdrawForm() {
           }}
         />
         {errors.amount && <p className="text-xs text-destructive">{errors.amount}</p>}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="withdraw-date">Transaction Date</Label>
-        <Input
-          id="withdraw-date"
-          type="date"
-          value={date}
-          aria-invalid={!!errors.date}
-          onChange={(e) => {
-            setDate(e.target.value);
-            if (errors.date) setErrors((p) => ({ ...p, date: undefined }));
-          }}
-        />
-        {errors.date && <p className="text-xs text-destructive">{errors.date}</p>}
       </div>
 
       <div className="space-y-2">
