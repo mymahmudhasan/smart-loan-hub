@@ -27,7 +27,7 @@ export function BankPartners() {
             return (
               <div
                 key={key}
-                className="group flex items-center justify-center rounded-2xl border bg-background p-6 transition-all hover:-translate-y-0.5 hover:shadow-elegant"
+                className="group flex items-center justify-center rounded-2xl border border-white/10 bg-slate-950 p-6 transition-all hover:-translate-y-0.5 hover:shadow-elegant"
               >
                 <div className="h-14 w-full max-w-[160px] transition-transform group-hover:scale-105">
                   <img
