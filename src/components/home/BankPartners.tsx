@@ -1,13 +1,8 @@
 import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/context/language";
-import { BkashLogo, NagadLogo, RocketLogo, UpayLogo } from "./BankLogos";
+import { bankLogos } from "./BankLogos";
 
-const partners = [
-  { abbr: "BKASH", Logo: BkashLogo },
-  { abbr: "NAGAD", Logo: NagadLogo },
-  { abbr: "ROCKET", Logo: RocketLogo },
-  { abbr: "UPAY", Logo: UpayLogo },
-];
+const partners = ["BKASH", "NAGAD", "ROCKET", "UPAY"] as const;
 
 export function BankPartners() {
   const { t } = useLanguage();
