@@ -1,19 +1,21 @@
 import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/context/language";
 import {
+  BkashLogo,
+  NagadLogo,
+  RocketLogo,
+  CityBankLogo,
   BracBankLogo,
   DbblLogo,
-  IslamiBankLogo,
-  SonaliBankLogo,
-  CityBankLogo,
 } from "./BankLogos";
 
 const partners = [
-  { name: "BRAC Bank", abbr: "BRAC", Logo: BracBankLogo },
-  { name: "Dutch-Bangla Bank", abbr: "DBBL", Logo: DbblLogo },
-  { name: "Islami Bank Bangladesh", abbr: "IBBL", Logo: IslamiBankLogo },
-  { name: "Sonali Bank", abbr: "SONALI", Logo: SonaliBankLogo },
-  { name: "City Bank", abbr: "CITY", Logo: CityBankLogo },
+  { abbr: "BKASH", Logo: BkashLogo },
+  { abbr: "NAGAD", Logo: NagadLogo },
+  { abbr: "ROCKET", Logo: RocketLogo },
+  { abbr: "CITY", Logo: CityBankLogo },
+  { abbr: "BRAC", Logo: BracBankLogo },
+  { abbr: "DBBL", Logo: DbblLogo },
 ];
 
 export function BankPartners() {
