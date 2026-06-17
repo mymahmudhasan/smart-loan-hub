@@ -33,7 +33,7 @@ export const textStyleLabel: Record<TextStyle, string> = {
 
 const ctaClass: Record<CtaStyle, string> = {
   glass:
-    "border border-white/30 bg-white/20 text-on-hero backdrop-blur-sm hover:bg-white/30",
+    "border border-white/30 bg-white/15 text-on-hero backdrop-blur-md hover:bg-white/25",
   solid: "bg-white text-slate-900 shadow-elegant hover:bg-white/90",
   outline:
     "border-2 border-white/70 bg-transparent text-on-hero hover:bg-white/10",
@@ -44,7 +44,7 @@ const ctaClass: Record<CtaStyle, string> = {
 
 function ctaBaseClass(style: CtaStyle) {
   return cn(
-    "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors",
+    "inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors",
     ctaClass[style],
   );
 }
@@ -54,7 +54,7 @@ function textLayout(style: TextStyle) {
     case "centered":
       return {
         wrap: "items-center text-center",
-        title: "text-2xl font-extrabold leading-tight sm:text-3xl",
+        title: "text-3xl font-extrabold leading-tight sm:text-4xl",
         actions: "justify-center",
       };
     case "spotlight":
@@ -74,7 +74,7 @@ function textLayout(style: TextStyle) {
     default:
       return {
         wrap: "items-start",
-        title: "text-2xl font-extrabold leading-tight sm:text-3xl",
+        title: "text-3xl font-extrabold leading-tight sm:text-4xl",
         actions: "justify-between",
       };
   }
@@ -99,30 +99,34 @@ export function OfferCard({
   return (
     <div
       className={cn(
-        "relative flex min-h-[230px] flex-col justify-between overflow-hidden rounded-3xl p-6 shadow-elegant sm:p-8",
+        "relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-[2rem] p-7 shadow-elegant sm:min-h-[320px] sm:p-9",
         themeClass[offer.theme] ?? themeClass.primary,
       )}
     >
-      {/* decorative bank-card flourishes */}
-      <div className="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-2xl" />
-      <div className="pointer-events-none absolute right-6 top-6 h-9 w-12 rounded-md bg-white/25" />
-      <div className="pointer-events-none absolute -bottom-12 -left-6 h-40 w-40 rounded-full bg-black/10 blur-2xl" />
+      {/* decorative card chip */}
+      <div className="pointer-events-none absolute right-7 top-7 h-10 w-14 rounded-lg bg-white/20 backdrop-blur-sm sm:right-9 sm:top-9" />
 
-      <div className={cn("relative flex flex-col", layout.wrap)}>
+      {/* decorative glow spots */}
+      <div className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-10 -left-8 h-40 w-40 rounded-full bg-black/10 blur-2xl" />
+
+      <div className={cn("relative z-10 flex flex-col", layout.wrap)}>
         {offer.badge && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-on-hero backdrop-blur">
+          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-semibold text-on-hero backdrop-blur-sm">
             <Sparkles className="h-3.5 w-3.5" /> {offer.badge}
           </span>
         )}
-        <h3 className={cn("mt-4 max-w-xl text-on-hero", layout.title)}>{offer.title}</h3>
+        <h3 className={cn("mt-5 max-w-xl text-on-hero", layout.title)}>
+          {offer.title}
+        </h3>
         {offer.subtitle && (
-          <p className="mt-2 max-w-lg text-sm text-on-hero/80 sm:text-base">
+          <p className="mt-3 max-w-lg text-sm text-on-hero/85 sm:text-base">
             {offer.subtitle}
           </p>
         )}
       </div>
 
-      <div className={cn("relative mt-6 flex items-center gap-4", layout.actions)}>
+      <div className={cn("relative z-10 mt-8 flex items-center gap-4", layout.actions)}>
         {preview ? (
           <span className={ctaBaseClass(cta)}>{ctaInner}</span>
         ) : (
@@ -131,7 +135,7 @@ export function OfferCard({
           </a>
         )}
         {offer.text_style !== "minimal" && (
-          <span className="hidden font-mono text-sm tracking-[0.3em] text-on-hero/70 sm:block">
+          <span className="hidden font-mono text-sm tracking-[0.35em] text-on-hero/60 sm:block">
             •••• •••• •••• 5000
           </span>
         )}
@@ -139,3 +143,4 @@ export function OfferCard({
     </div>
   );
 }
+
