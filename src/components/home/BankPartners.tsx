@@ -24,12 +24,12 @@ export function BankPartners() {
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {partners.map((key) => {
             const logo = bankLogos[key];
-            const isBkash = key === "BKASH";
+            const needsWhiteBg = key === "BKASH" || key === "NAGAD" || key === "BRAC";
             return (
               <div
                 key={key}
                 className={`group flex items-center justify-center overflow-hidden rounded-full border transition-all hover:-translate-y-0.5 hover:shadow-elegant ${
-                  isBkash ? "bg-white p-4" : "bg-background p-6"
+                  needsWhiteBg ? "bg-white p-4" : "bg-background p-6"
                 }`}
               >
                 <div className="h-14 w-full max-w-[160px] transition-transform group-hover:scale-105">
