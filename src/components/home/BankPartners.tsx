@@ -1,12 +1,19 @@
 import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/context/language";
+import {
+  BracBankLogo,
+  DbblLogo,
+  IslamiBankLogo,
+  SonaliBankLogo,
+  CityBankLogo,
+} from "./BankLogos";
 
 const partners = [
-  { name: "BRAC Bank", abbr: "BRAC", colors: "from-[#00A651] to-[#007A3D]" },
-  { name: "Dutch-Bangla Bank", abbr: "DBBL", colors: "from-[#ED1C24] to-[#B30000]" },
-  { name: "Islami Bank Bangladesh", abbr: "IBBL", colors: "from-[#1B4D3E] to-[#0F2E24]" },
-  { name: "Sonali Bank", abbr: "SONALI", colors: "from-[#0055A5] to-[#003D75]" },
-  { name: "City Bank", abbr: "CITY", colors: "from-[#F57C00] to-[#E65100]" },
+  { name: "BRAC Bank", abbr: "BRAC", Logo: BracBankLogo },
+  { name: "Dutch-Bangla Bank", abbr: "DBBL", Logo: DbblLogo },
+  { name: "Islami Bank Bangladesh", abbr: "IBBL", Logo: IslamiBankLogo },
+  { name: "Sonali Bank", abbr: "SONALI", Logo: SonaliBankLogo },
+  { name: "City Bank", abbr: "CITY", Logo: CityBankLogo },
 ];
 
 export function BankPartners() {
@@ -26,18 +33,16 @@ export function BankPartners() {
           <p className="mt-3 text-sm text-muted-foreground">{t("bank_subtitle")}</p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {partners.map((p) => (
             <div
               key={p.abbr}
-              className="group flex flex-col items-center justify-center gap-3 rounded-xl border bg-background p-5 text-center transition-all hover:-translate-y-0.5 hover:shadow-elegant"
+              className="group flex flex-col items-center justify-center gap-4 rounded-2xl border bg-background p-6 text-center transition-all hover:-translate-y-0.5 hover:shadow-elegant"
             >
-              <span
-                className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${p.colors} text-sm font-extrabold text-white shadow-soft transition-transform group-hover:scale-105`}
-              >
-                {p.abbr.slice(0, 2)}
-              </span>
-              <span className="text-xs font-semibold leading-tight text-foreground">{p.name}</span>
+              <div className="h-14 w-14 transition-transform group-hover:scale-105">
+                <p.Logo className="h-full w-full" />
+              </div>
+              <span className="text-sm font-semibold leading-tight text-foreground">{p.name}</span>
             </div>
           ))}
         </div>
