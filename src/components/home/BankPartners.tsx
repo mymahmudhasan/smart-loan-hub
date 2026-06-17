@@ -1,21 +1,25 @@
 import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/context/language";
 import {
-  BkashLogo,
-  NagadLogo,
-  RocketLogo,
-  CityBankLogo,
+  StandardCharteredLogo,
   BracBankLogo,
+  CityBankLogo,
   DbblLogo,
+  BankAsiaLogo,
+  PrimeBankLogo,
+  AbBankLogo,
+  IslamiBankLogo,
 } from "./BankLogos";
 
 const partners = [
-  { abbr: "BKASH", Logo: BkashLogo },
-  { abbr: "NAGAD", Logo: NagadLogo },
-  { abbr: "ROCKET", Logo: RocketLogo },
-  { abbr: "CITY", Logo: CityBankLogo },
+  { abbr: "SCB", Logo: StandardCharteredLogo },
   { abbr: "BRAC", Logo: BracBankLogo },
+  { abbr: "CITY", Logo: CityBankLogo },
   { abbr: "DBBL", Logo: DbblLogo },
+  { abbr: "BANKASIA", Logo: BankAsiaLogo },
+  { abbr: "PRIME", Logo: PrimeBankLogo },
+  { abbr: "AB", Logo: AbBankLogo },
+  { abbr: "IBBL", Logo: IslamiBankLogo },
 ];
 
 export function BankPartners() {
@@ -35,7 +39,7 @@ export function BankPartners() {
           <p className="mt-3 text-sm text-muted-foreground">{t("bank_subtitle")}</p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {partners.map((p) => (
             <div
               key={p.abbr}

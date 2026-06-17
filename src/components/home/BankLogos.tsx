@@ -1,113 +1,117 @@
-// Brand-style logo marks for popular Bangladeshi banks & MFS providers.
-// Recreated as inline SVG approximations of the real brand identities.
+// Brand-style logo marks for popular Bangladeshi banks.
+// Recreated as inline SVG approximations of the real brand identities,
+// designed to render on a white/light card like the reference sheet.
 
 type LogoProps = { className?: string };
 
-// bKash — pink rounded square with stylized "b" + wordmark
-export function BkashLogo({ className }: LogoProps) {
+// Standard Chartered — green + blue interlocking "S" marks + wordmark
+export function StandardCharteredLogo({ className }: LogoProps) {
   return (
-    <svg viewBox="0 0 120 64" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="8" width="48" height="48" rx="12" fill="#E2136E" />
-      <path
-        d="M20 18v28M20 32c0-5 3-9 9-9 5 0 9 4 9 9s-4 9-9 9c-3 0-5-1-7-3"
-        stroke="#fff"
-        strokeWidth="4"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <text x="56" y="40" fontFamily="Arial, sans-serif" fontSize="22" fontWeight="700" fill="#E2136E">
-        bKash
-      </text>
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 12c-7 0-12 4-12 10 0 5 4 7 9 8 3 1 5 1 5 3s-2 3-5 3-6-1-8-3" stroke="#0473EA" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <path d="M30 16c-7 0-12 4-12 10 0 5 4 7 9 8 3 1 5 1 5 3s-2 3-5 3" stroke="#38B449" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <text x="50" y="26" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="400" fill="#333">standard</text>
+      <text x="50" y="42" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="400" fill="#333">chartered</text>
     </svg>
   );
 }
 
-// Nagad — orange flame swoosh + wordmark
-export function NagadLogo({ className }: LogoProps) {
-  return (
-    <svg viewBox="0 0 120 64" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M24 10c-7 7-12 13-12 22 0 9 6 16 14 16s14-7 14-16c0-5-2-9-5-13 1 5-1 9-4 9-4 0-5-4-3-8 1-3 1-6-4-10z"
-        fill="#F7941D"
-      />
-      <path d="M26 30c-3 3-5 6-5 10 0 4 2 7 5 7s5-3 5-7c0-3-1-5-3-8 0 2-1 3-2 3s-2-2 0-5z" fill="#ED1C24" />
-      <text x="46" y="40" fontFamily="Arial, sans-serif" fontSize="22" fontWeight="700" fill="#F7941D">
-        Nagad
-      </text>
-    </svg>
-  );
-}
-
-// Rocket (DBBL Mobile Banking) — purple rocket diamond + wordmark
-export function RocketLogo({ className }: LogoProps) {
-  return (
-    <svg viewBox="0 0 120 64" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <path d="M24 8l14 24-14 24-14-24z" fill="#8C228F" />
-      <path d="M24 8l14 24h-28z" fill="#B14FB3" />
-      <circle cx="24" cy="28" r="5" fill="#fff" />
-      <text x="46" y="40" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="700" fill="#8C228F">
-        Rocket
-      </text>
-    </svg>
-  );
-}
-
-// City Bank — red square emblem + wordmark
-export function CityBankLogo({ className }: LogoProps) {
-  return (
-    <svg viewBox="0 0 120 64" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="12" width="40" height="40" rx="6" fill="#ED1C24" />
-      <path d="M12 42V22h6v20zM22 42V22h6v20zM32 42V22h6v20z" fill="#fff" />
-      <path d="M8 20l14-8 14 8z" fill="#fff" />
-      <text x="48" y="30" fontFamily="Georgia, serif" fontSize="14" fontWeight="700" fill="#ED1C24">
-        City Bank
-      </text>
-      <text x="48" y="46" fontFamily="Arial, sans-serif" fontSize="9" fill="#555">
-        Make Life Simple
-      </text>
-    </svg>
-  );
-}
-
-// BRAC Bank — navy + magenta squares + wordmark
+// BRAC Bank — blue square block + bold wordmark
 export function BracBankLogo({ className }: LogoProps) {
   return (
-    <svg viewBox="0 0 120 64" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <rect x="4" y="14" width="16" height="16" rx="2" fill="#00529B" />
-      <rect x="22" y="14" width="16" height="16" rx="2" fill="#E6007E" />
-      <rect x="4" y="32" width="16" height="16" rx="2" fill="#E6007E" />
-      <rect x="22" y="32" width="16" height="16" rx="2" fill="#00529B" />
-      <text x="44" y="32" fontFamily="Arial, sans-serif" fontSize="14" fontWeight="800" fill="#00529B">
-        BRAC
-      </text>
-      <text x="44" y="47" fontFamily="Arial, sans-serif" fontSize="12" fontWeight="600" fill="#E6007E">
-        Bank
-      </text>
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="14" width="22" height="22" rx="2" fill="#0067B1" />
+      <path d="M9 19h10v4H9zM9 25h12v4H9zM9 31h8v3H9z" fill="#fff" />
+      <text x="32" y="28" fontFamily="Arial, sans-serif" fontSize="17" fontWeight="800" fill="#0067B1">BRAC BANK</text>
+      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="10" fill="#E6007E">আস্থা অর্জন</text>
     </svg>
   );
 }
 
-// Dutch-Bangla Bank — blue/red tulip emblem + wordmark
+// City Bank — red folded ribbon mark + wordmark
+export function CityBankLogo({ className }: LogoProps) {
+  return (
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 14l20 6-20 6z" fill="#ED1C24" />
+      <path d="M8 26l20 6-20 6z" fill="#9E1B20" />
+      <text x="6" y="50" fontFamily="Arial, sans-serif" fontSize="15" fontWeight="800" fill="#333">city bank</text>
+    </svg>
+  );
+}
+
+// Dutch-Bangla Bank — multicolor oval globe + wordmark
 export function DbblLogo({ className }: LogoProps) {
   return (
-    <svg viewBox="0 0 120 64" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <path d="M22 12c-6 6-10 12-10 20 0 8 5 14 12 14s12-6 12-14c0-8-4-14-10-20-1 6-3 9-2 14-3-3-3-8-2-14z" fill="#0061A8" />
-      <path d="M24 22c4 4 6 8 6 12 0 4-2 6-6 6s-6-2-6-6c0-4 2-8 6-12z" fill="#ED1C24" />
-      <text x="40" y="32" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="700" fill="#0061A8">
-        Dutch-Bangla
-      </text>
-      <text x="40" y="46" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="700" fill="#ED1C24">
-        Bank
-      </text>
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(6 16)">
+        <ellipse cx="18" cy="12" rx="18" ry="11" fill="#1a1a1a" />
+        <path d="M2 9c6-3 12-3 18-1s12 3 14 1" stroke="#ED1C24" strokeWidth="2.5" fill="none" />
+        <path d="M1 13c7-2 13-1 19 1s11 2 14 0" stroke="#00A651" strokeWidth="2.5" fill="none" />
+        <path d="M3 17c6-1 12 0 17 2s10 1 13-1" stroke="#0061A8" strokeWidth="2.5" fill="none" />
+      </g>
+      <text x="48" y="26" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="700" fill="#333">Dutch-Bangla</text>
+      <text x="48" y="42" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="700" fill="#333">Bank</text>
+    </svg>
+  );
+}
+
+// Bank Asia — blue square emblem + wordmark
+export function BankAsiaLogo({ className }: LogoProps) {
+  return (
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="14" width="22" height="22" rx="2" fill="#1B75BC" />
+      <path d="M9 20h5v10H9zM16 20h5v10h-5z" fill="#fff" />
+      <path d="M9 18h12v2H9z" fill="#fff" />
+      <text x="32" y="30" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="800" fill="#1B75BC">Bank Asia</text>
+      <text x="32" y="43" fontFamily="Arial, sans-serif" fontSize="8" fill="#666">FOR A BETTER TOMORROW</text>
+    </svg>
+  );
+}
+
+// Prime Bank — tricolor triangle + wordmark
+export function PrimeBankLogo({ className }: LogoProps) {
+  return (
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 14l8 14H10z" fill="#E31E24" />
+      <path d="M14 22l6 10H8z" fill="#00A651" />
+      <path d="M22 22l6 10H16z" fill="#0067B1" />
+      <text x="36" y="38" fontFamily="Georgia, serif" fontSize="18" fontWeight="700" fill="#333">Prime Bank</text>
+    </svg>
+  );
+}
+
+// AB Bank — red pinwheel mark + wordmark
+export function AbBankLogo({ className }: LogoProps) {
+  return (
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(18 28)" fill="#ED1C24">
+        <path d="M0 0l4-12 4 6zM0 0l12-4-6 4zM0 0l-4 12-4-6zM0 0l-12 4 6-4zM0 0l9-9 1 7zM0 0l9 9-7-1zM0 0l-9 9-1-7zM0 0l-9-9 7 1z" />
+      </g>
+      <text x="40" y="38" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="700" fill="#333">AB Bank</text>
+    </svg>
+  );
+}
+
+// Islami Bank Bangladesh — green circle emblem + wordmark
+export function IslamiBankLogo({ className }: LogoProps) {
+  return (
+    <svg viewBox="0 0 160 56" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="28" r="14" fill="#0a7d3e" />
+      <path d="M24 22a9 9 0 1 0 0 12 7 7 0 1 1 0-12z" fill="#fff" />
+      <circle cx="22" cy="23" r="1.8" fill="#fff" />
+      <text x="38" y="26" fontFamily="Georgia, serif" fontSize="14" fontWeight="700" fill="#0a7d3e">Islami Bank</text>
+      <text x="38" y="40" fontFamily="Arial, sans-serif" fontSize="11" fill="#333">Bangladesh Limited</text>
     </svg>
   );
 }
 
 export const bankLogos: Record<string, React.FC<LogoProps>> = {
-  BKASH: BkashLogo,
-  NAGAD: NagadLogo,
-  ROCKET: RocketLogo,
-  CITY: CityBankLogo,
+  SCB: StandardCharteredLogo,
   BRAC: BracBankLogo,
+  CITY: CityBankLogo,
   DBBL: DbblLogo,
+  BANKASIA: BankAsiaLogo,
+  PRIME: PrimeBankLogo,
+  AB: AbBankLogo,
+  IBBL: IslamiBankLogo,
 };
