@@ -141,41 +141,52 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
 // ---------- Manual withdrawal request form ----------
 function WithdrawForm() {
   const [amount, setAmount] = useState("");
-  const [errors, setErrors] = useState<{ amount?: string }>({});
+  const [method, setMethod] = useState<"bkash" | "nagad" | "">("");
+  const [account, setAccount] = useState("");
+  const [errors, setErrors] = useState<{ amount?: string; method?: string; account?: string }>({});
   const { user } = useAuth();
-  const { t } = useLanguage();
   const request = useServerFn(requestTransaction);
+
+  const fetchProfile = useServerFn(getMyProfile);
+  const { data: profileData } = useQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => fetchProfile(),
+    enabled: !!user,
+  });
+  const balance = Number(profileData?.profile?.member_balance ?? 0);
 
   const validate = () => {
     const next: typeof errors = {};
-    if (!amount || amount.trim() === "") {
-      next.amount = "Please enter an amount.";
-    } else {
-      const val = Number(amount);
-      if (Number.isNaN(val) || val <= 0) next.amount = "Amount must be a positive number.";
-      else if (val < 10) next.amount = "Minimum amount is ৳10.";
-      else if (val > 5_00_000) next.amount = "Maximum amount is ৳5,00,000.";
-    }
+    const val = Number(amount);
+    if (!amount || amount.trim() === "") next.amount = "পরিমাণ লিখুন।";
+    else if (Number.isNaN(val) || val <= 0) next.amount = "সঠিক পরিমাণ লিখুন।";
+    else if (val < MIN_WITHDRAW) next.amount = `সর্বনিম্ন উত্তোলন ৳${MIN_WITHDRAW}।`;
+    else if (val > 5_00_000) next.amount = "সর্বোচ্চ ৳৫,০০,০০০।";
+    if (!method) next.method = "মাধ্যম নির্বাচন করুন।";
+    if (!account || account.trim().length < 11) next.account = "সঠিক একাউন্ট নম্বর লিখুন।";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
   const mut = useMutation({
-    mutationFn: () => request({ data: { type: "withdrawal", amount: Number(amount), method: "bkash" } }),
+    mutationFn: () =>
+      request({ data: { type: "withdrawal", amount: Number(amount), method: (method || "bkash") as "bkash" | "nagad" } }),
     onSuccess: () => {
-      toast.success("Withdrawal request submitted", {
-        description: `${formatBDT(Number(amount))} via bKash. Awaiting verification.`,
+      toast.success("উত্তোলনের অনুরোধ জমা হয়েছে", {
+        description: `${formatBDT(Number(amount))} — যাচাইয়ের অপেক্ষায়।`,
       });
       setAmount("");
+      setMethod("");
+      setAccount("");
       setErrors({});
     },
-    onError: (e) => toast.error("Request failed", { description: (e as Error).message }),
+    onError: (e) => toast.error("অনুরোধ ব্যর্থ হয়েছে", { description: (e as Error).message }),
   });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      toast.error("Please sign in to continue");
+      toast.error("চালিয়ে যেতে সাইন ইন করুন");
       return;
     }
     if (!validate()) return;
@@ -184,29 +195,100 @@ function WithdrawForm() {
 
   return (
     <form onSubmit={submit} className="space-y-5" noValidate>
-      <div className="space-y-2">
-        <Label htmlFor="withdraw-amount">Amount (BDT)</Label>
-        <Input
-          id="withdraw-amount"
-          type="number"
-          placeholder="0"
-          value={amount}
-          min={1}
-          aria-invalid={!!errors.amount}
-          onChange={(e) => {
-            setAmount(e.target.value);
-            if (errors.amount) setErrors((p) => ({ ...p, amount: undefined }));
-          }}
-        />
-        {errors.amount && <p className="text-xs text-destructive">{errors.amount}</p>}
+      {/* Notice banner */}
+      <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center">
+        <p className="text-sm font-medium leading-relaxed text-primary">
+          উত্তোলনের সর্বোচ্চ ২-৩ মিনিটের মধ্যে টাকা আপনার বিকাশ বা নগদ একাউন্টে পেয়ে যাবেন
+        </p>
       </div>
 
-      <Button type="submit" variant="outline" size="lg" className="w-full" disabled={mut.isPending}>
-        {mut.isPending ? "Processing…" : t("withdraw")}
+      {/* Current balance */}
+      <div className="space-y-2">
+        <Label>আপনার বর্তমান ব্যালেন্স</Label>
+        <div className="flex items-center justify-center rounded-xl border border-primary/20 bg-primary/5 py-5">
+          <span className="text-2xl font-bold text-primary">৳ {formatBDT(balance).replace("৳", "").trim()}</span>
+        </div>
+      </div>
+
+      {/* Amount */}
+      <div className="space-y-2">
+        <Label htmlFor="withdraw-amount">উত্তোলনের পরিমাণ লিখুন</Label>
+        <div className="relative">
+          <Coins className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            id="withdraw-amount"
+            type="number"
+            placeholder="যেমনঃ ১০০০"
+            value={amount}
+            min={MIN_WITHDRAW}
+            className="pl-9"
+            aria-invalid={!!errors.amount}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              if (errors.amount) setErrors((p) => ({ ...p, amount: undefined }));
+            }}
+          />
+        </div>
+        {errors.amount ? (
+          <p className="text-xs text-destructive">{errors.amount}</p>
+        ) : (
+          <p className="text-xs font-medium text-primary">Minimum withdraw {MIN_WITHDRAW} BDT</p>
+        )}
+      </div>
+
+      {/* Method */}
+      <div className="space-y-2">
+        <Label>উত্তোলনের মাধ্যম</Label>
+        <Select
+          value={method}
+          onValueChange={(v) => {
+            setMethod(v as "bkash" | "nagad");
+            if (errors.method) setErrors((p) => ({ ...p, method: undefined }));
+          }}
+        >
+          <SelectTrigger aria-invalid={!!errors.method} className="w-full">
+            <span className="flex items-center gap-2">
+              <ArrowLeftRight className="h-4 w-4 text-muted-foreground" />
+              <SelectValue placeholder="নির্বাচন করুন" />
+            </span>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="bkash">বিকাশ (bKash)</SelectItem>
+            <SelectItem value="nagad">নগদ (Nagad)</SelectItem>
+          </SelectContent>
+        </Select>
+        {errors.method && <p className="text-xs text-destructive">{errors.method}</p>}
+      </div>
+
+      {/* Account number */}
+      <div className="space-y-2">
+        <Label htmlFor="withdraw-account">একাউন্ট/নম্বর</Label>
+        <div className="relative">
+          <IdCard className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            id="withdraw-account"
+            type="tel"
+            inputMode="numeric"
+            placeholder="01XXXXXXXXX"
+            value={account}
+            className="pl-9"
+            aria-invalid={!!errors.account}
+            onChange={(e) => {
+              setAccount(e.target.value);
+              if (errors.account) setErrors((p) => ({ ...p, account: undefined }));
+            }}
+          />
+        </div>
+        {errors.account && <p className="text-xs text-destructive">{errors.account}</p>}
+      </div>
+
+      <Button type="submit" variant="hero" size="lg" className="w-full" disabled={mut.isPending}>
+        {mut.isPending ? "প্রসেসিং…" : "উত্তোলন করুন"}
       </Button>
     </form>
   );
 }
+
 
 function Payments() {
   const { t } = useLanguage();
