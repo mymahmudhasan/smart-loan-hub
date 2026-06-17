@@ -14,8 +14,6 @@ import {
   CalendarClock,
   FileText,
   Receipt,
-  TrendingUp,
-  Percent,
   CheckCircle2,
   AlertCircle,
   ListChecks,
