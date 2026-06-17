@@ -21,18 +21,18 @@ export function BankPartners() {
           <p className="mt-3 text-sm text-muted-foreground">{t("bank_subtitle")}</p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {partners.map((key) => {
             const logo = bankLogos[key];
             const needsWhiteBg = key === "BKASH" || key === "NAGAD" || key === "BRAC";
             return (
               <div
                 key={key}
-                className={`group flex items-center justify-center overflow-hidden rounded-full border transition-all hover:-translate-y-0.5 hover:shadow-elegant ${
-                  needsWhiteBg ? "bg-white p-4" : "bg-background p-6"
+                className={`group flex items-center justify-center overflow-hidden rounded-2xl border transition-all hover:-translate-y-0.5 hover:shadow-elegant ${
+                  needsWhiteBg ? "bg-white p-3" : "bg-background p-3"
                 }`}
               >
-                <div className="h-14 w-full max-w-[160px] transition-transform group-hover:scale-105">
+                <div className="h-16 w-full max-w-[180px] transition-transform group-hover:scale-105">
                   <img
                     src={logo.url}
                     alt={logo.alt}
