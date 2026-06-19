@@ -2,7 +2,7 @@
 // Based on official brand identities: bKash, Nagad, Rocket, Upay, BRAC Bank.
 
 import bkashAsset from "@/assets/bkash-logo.png.asset.json";
-import nagadAsset from "@/assets/nagad-logo.png.asset.json";
+import nagadAsset from "@/assets/nagad-logo.svg.asset.json";
 import rocketAsset from "@/assets/rocket-logo.png.asset.json";
 import upayAsset from "@/assets/upay-logo.png.asset.json";
 import bracAsset from "@/assets/brac-bank-logo.png.asset.json";
