@@ -21,15 +21,15 @@ export function BankPartners() {
           <p className="mt-3 text-sm text-muted-foreground">{t("bank_subtitle")}</p>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-8 sm:gap-12 lg:gap-16">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-8 lg:gap-10">
           {partners.map((key) => {
             const logo = bankLogos[key];
             return (
               <div
                 key={key}
-                className="group flex items-center justify-center transition-all hover:-translate-y-0.5"
+                className="group flex items-center justify-center rounded-xl bg-white p-4 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elegant"
               >
-                <div className="h-20 w-full max-w-[200px] transition-transform group-hover:scale-105 sm:h-24 sm:max-w-[240px]">
+                <div className="h-16 w-full max-w-[180px] transition-transform group-hover:scale-105 sm:h-20 sm:max-w-[200px]">
                   <img
                     src={logo.url}
                     alt={logo.alt}
