@@ -47,7 +47,7 @@ export function BankPartners() {
             (key) => (
               <span
                 key={key}
-                className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-soft"
+                className="inline-flex items-center gap-1.5 rounded-full border bg-muted px-3 py-1.5 text-xs font-medium text-foreground shadow-soft"
               >
                 <CheckCircle className="h-3.5 w-3.5 text-accent" />
                 {t(key)}
