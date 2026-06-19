@@ -8,7 +8,7 @@ export function BankPartners() {
   const { t } = useLanguage();
 
   return (
-    <section className="border-y bg-white">
+    <section className="border-y bg-muted">
       <div className="mx-auto max-w-7xl px-4 py-14 lg:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border bg-background px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-soft">
