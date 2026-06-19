@@ -60,7 +60,7 @@ export const translations: Dict = {
   f4_d: { en: "See your loan limit update live with your balance.", bn: "ব্যালেন্সের সাথে লোন লিমিট লাইভ দেখুন।" },
 
   cta_title: { en: "Ready to unlock your loan limit?", bn: "আপনার লোন লিমিট আনলক করতে প্রস্তুত?" },
-  cta_subtitle: { en: "Join thousands of verified members across Bangladesh.", bn: "বাংলাদেশজুড়ে হাজারো ভেরিফায়েড সদস্যের সাথে যোগ দিন।" },
+  cta_subtitle: { en: "Join thousands of verified members across Bangladesh.", bn: "বাংলাদেশ জুড়ে হাজারো ভেরিফায়েড সদস্যের সাথে যোগ দিন।" },
 
   // Why it's easy
   why_easy_title: { en: "Loans made simple", bn: "লোন এখন সহজ" },
@@ -76,7 +76,7 @@ export const translations: Dict = {
   refer_title: { en: "Refer a friend, earn ৳500 each", bn: "বন্ধুকে রেফার করুন, প্রতি একাউন্টে ৳৫০০" },
   refer_subtitle: {
     en: "Share your code. When a friend opens a verified account, you both move closer to free money — ৳500 per successful referral.",
-    bn: "আপনার কোড শেয়ার করুন। বন্ধু ভেরিফায়েড একাউন্ট খুললে আপনি পাবেন প্রতি সফল রেফারেলে ৳৫০০।",
+    bn: "আপনার কোড শেয়ার করুন। বন্ধু ভেরিফায়েড একাউন্ট খুললে আপনি পাবেন প্রতি সফল রেফারেলে ৳৫০০ ।",
   },
   refer_reward: { en: "৳500 free per account", bn: "প্রতি একাউন্টে ৳৫০০ ফ্রি" },
   refer_s1_t: { en: "Share your code", bn: "কোড শেয়ার করুন" },
