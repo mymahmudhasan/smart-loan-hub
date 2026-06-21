@@ -53,57 +53,14 @@ export function Navbar() {
           <span className="hidden sm:inline">{brandName ?? t("brand")}</span>
         </Link>
 
-        <div className="hidden items-center gap-1 lg:flex">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted",
-                pathname === l.to && "text-primary bg-primary/10",
-              )}
-            >
-              {t(l.key)}
-            </Link>
-          ))}
-        </div>
-
         <div className="flex items-center gap-1">
           <LanguageToggle />
           <ThemeToggle />
-          {isAdmin && (
-            <Button variant="accent" size="sm" asChild className="hidden md:inline-flex">
-              <Link to="/admin">
-                <LayoutDashboard className="h-4 w-4" /> Admin
-              </Link>
-            </Button>
-          )}
-          {user ? (
-            <>
-              <UserProfileBadge />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleSignOut}
-                className="hidden md:inline-flex"
-              >
-                <LogOut className="h-4 w-4" /> Sign out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
-                <Link to="/login">{t("nav_login")}</Link>
-              </Button>
-              <Button variant="hero" size="sm" asChild className="hidden md:inline-flex">
-                <Link to="/signup">{t("nav_signup")}</Link>
-              </Button>
-            </>
-          )}
+          {user && <UserProfileBadge />}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Menu">
+              <Button variant="ghost" size="icon" aria-label="Menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
