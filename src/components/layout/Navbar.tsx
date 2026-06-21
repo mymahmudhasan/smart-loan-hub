@@ -57,6 +57,14 @@ export function Navbar() {
           <LanguageToggle />
           <ThemeToggle />
 
+          {isAdmin && (
+            <Button variant="accent" size="sm" className="hidden sm:inline-flex gap-1.5" asChild>
+              <Link to="/admin">
+                <LayoutDashboard className="h-4 w-4" /> Admin Panel
+              </Link>
+            </Button>
+          )}
+
           {user ? (
             <UserProfileBadge />
           ) : (
@@ -94,13 +102,6 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-4 flex flex-col gap-2">
-                  {isAdmin && (
-                    <Button variant="accent" asChild onClick={() => setOpen(false)}>
-                      <Link to="/admin">
-                        <LayoutDashboard className="h-4 w-4" /> Admin Panel
-                      </Link>
-                    </Button>
-                  )}
                   {user ? (
                     <>
                       <Button variant="outline" onClick={handleSignOut}>
