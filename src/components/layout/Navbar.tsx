@@ -57,6 +57,14 @@ export function Navbar() {
           <LanguageToggle />
           <ThemeToggle />
 
+          {isAdmin && (
+            <Button variant="accent" size="sm" className="hidden sm:inline-flex gap-1.5" asChild>
+              <Link to="/admin">
+                <LayoutDashboard className="h-4 w-4" /> Admin Panel
+              </Link>
+            </Button>
+          )}
+
           {user ? (
             <UserProfileBadge />
           ) : (
