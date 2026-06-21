@@ -63,7 +63,6 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="hidden lg:inline-flex"
               asChild
             >
               <Link to="/login" aria-label={t("nav_login")}>
