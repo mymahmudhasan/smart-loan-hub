@@ -60,7 +60,7 @@ export const Route = createFileRoute("/apply")({
 });
 
 const memberBalance = 50000;
-const COLLATERAL_RATE = 0.1; // 10% collateral / জামানত
+const COLLATERAL_RATE = 0.15; // 15% collateral (10% × 1.5) / জামানত
 
 // Keys used to measure profile completeness (mirrors /profile)
 const COMPLETION_KEYS = [
