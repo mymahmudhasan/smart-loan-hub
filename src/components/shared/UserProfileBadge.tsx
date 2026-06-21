@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const profileMenuItems = [
+  { label: "My Profile", to: "/profile", icon: User },
+  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
   { label: "Membership", to: "/membership", icon: Crown },
   { label: "Loan Calculator", to: "/calculator", icon: Calculator },
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-  { label: "My Profile", to: "/profile", icon: User },
   { label: "Payment", to: "/payments", icon: CreditCard },
 ] as const;
 
