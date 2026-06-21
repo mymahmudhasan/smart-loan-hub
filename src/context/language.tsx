@@ -149,6 +149,9 @@ export const translations: Dict = {
   mem_balance: { en: "Member Balance", bn: "সদস্য ব্যালেন্স" },
   mem_eligible: { en: "Eligible Loan", bn: "যোগ্য লোন" },
   mem_status: { en: "Membership Status", bn: "সদস্যপদ অবস্থা" },
+  mem_upgrade: { en: "Upgrade Membership", bn: "মেম্বারশিপ আপগ্রেড করুন" },
+  mem_apply_loan: { en: "Apply for Loan", bn: "লোনের আবেদন করুন" },
+  mem_complete_verification: { en: "Complete Verification", bn: "যাচাইকরণ সম্পূর্ণ করুন" },
 
   // Dashboard
   dash_welcome: { en: "Welcome back", bn: "স্বাগতম" },

@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { PiggyBank, ShieldCheck, CheckCircle2, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { PiggyBank, ShieldCheck, CheckCircle2, ArrowRight, TrendingUp, Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
@@ -8,6 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { eligibleLoanAmount, ELIGIBILITY_MULTIPLIER } from "@/lib/loan";
 import { formatBDT } from "@/lib/format";
 import { useLanguage } from "@/context/language";
+import { useAuth } from "@/context/auth";
+import { getMyProfile } from "@/lib/profile.functions";
+import { MemberBadge } from "@/components/dashboard/MemberBadge";
 
 export const Route = createFileRoute("/membership")({
   head: () => ({
@@ -16,7 +21,7 @@ export const Route = createFileRoute("/membership")({
       {
         name: "description",
         content:
-          "Membership unlocks loans up to 10× your deposited balance. Become a verified member to access secure lending in Bangladesh.",
+          "Membership unlocks loans up to 10× your deposited balance. Become a verified member or upgrade your existing membership to access secure lending in Bangladesh.",
       },
     ],
   }),
@@ -27,7 +32,26 @@ const examples = [10000, 20000, 50000];
 
 function Membership() {
   const { t } = useLanguage();
+  const { user, loading: authLoading } = useAuth();
+  const fetchProfile = useServerFn(getMyProfile);
+
+  const { data: profileData, isLoading: profileLoading } = useQuery({
+    queryKey: ["my-profile-membership", user?.id],
+    queryFn: () => fetchProfile(),
+    enabled: !!user && !authLoading,
+  });
+
+  const profile = profileData?.profile;
+  const actualBalance = Number(profile?.member_balance ?? 0);
+  const isMember = profile?.member_status === "verified";
+
   const [balance, setBalance] = useState(20000);
+
+  useEffect(() => {
+    if (user && !profileLoading) {
+      setBalance(actualBalance || 20000);
+    }
+  }, [user, actualBalance, profileLoading]);
 
   const benefits = [
     "Loans up to 10× your member balance",
@@ -37,6 +61,12 @@ function Membership() {
     "Priority approval for verified members",
     "Full transaction history & statements",
   ];
+
+  const cta = !user
+    ? { to: "/signup", label: t("hero_cta_primary"), icon: ArrowRight }
+    : isMember
+      ? { to: "/payments", label: t("mem_upgrade"), icon: TrendingUp }
+      : { to: "/profile", label: t("mem_complete_verification"), icon: Sparkles };
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 lg:py-16">
@@ -56,7 +86,9 @@ function Membership() {
           <CardContent className="space-y-6">
             <div className="rounded-2xl gradient-hero p-6 text-on-hero shadow-soft">
               <div className="text-sm opacity-80">{t("mem_balance")}</div>
-              <div className="text-3xl font-extrabold">{formatBDT(balance)}</div>
+              <div className="text-3xl font-extrabold">
+                {profileLoading ? "…" : formatBDT(balance)}
+              </div>
               <div className="mt-4 border-t border-white/20 pt-4">
                 <div className="text-sm opacity-80">
                   {t("mem_eligible")} ({ELIGIBILITY_MULTIPLIER}×)
@@ -70,13 +102,15 @@ function Membership() {
               max={500000}
               step={5000}
               onValueChange={(v) => setBalance(v[0])}
+              disabled={profileLoading}
             />
             <div className="grid grid-cols-3 gap-2">
               {examples.map((e) => (
                 <button
                   key={e}
                   onClick={() => setBalance(e)}
-                  className="rounded-lg border bg-card px-2 py-3 text-center transition-colors hover:border-primary hover:bg-primary/5"
+                  disabled={profileLoading}
+                  className="rounded-lg border bg-card px-2 py-3 text-center transition-colors hover:border-primary hover:bg-primary/5 disabled:opacity-50"
                 >
                   <div className="text-xs text-muted-foreground">{formatBDT(e)}</div>
                   <div className="text-sm font-semibold text-primary">
@@ -85,15 +119,26 @@ function Membership() {
                 </button>
               ))}
             </div>
-            <Button variant="hero" size="lg" className="w-full" asChild>
-              <Link to="/signup">
-                {t("hero_cta_primary")} <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+            <div className="flex flex-col gap-3">
+              <Button variant="hero" size="lg" className="w-full" asChild>
+                <Link to={cta.to}>
+                  {cta.label} <cta.icon className="h-4 w-4" />
+                </Link>
+              </Button>
+              {user && isMember && (
+                <Button variant="outline" size="lg" className="w-full" asChild>
+                  <Link to="/apply">
+                    {t("mem_apply_loan")} <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+            </div>
           </CardContent>
         </Card>
 
         <div className="space-y-6">
+          {user && <MemberBadge />}
+
           <Card>
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base">{t("mem_status")}</CardTitle>
