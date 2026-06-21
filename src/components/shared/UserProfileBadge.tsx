@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { Calculator, CreditCard, Crown, LayoutDashboard, User } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Calculator, Crown, LogOut } from "lucide-react";
 import { useAuth } from "@/context/auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -12,20 +12,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const profileMenuItems = [
-  { label: "Profile", to: "/profile", icon: User },
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
   { label: "Loan Calculator", to: "/calculator", icon: Calculator },
-  { label: "Payment", to: "/payments", icon: CreditCard },
-  { label: "Membership", to: "/membership", icon: Crown },
+  { label: "Update Plan", to: "/membership", icon: Crown },
 ] as const;
 
 export function UserProfileBadge() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const displayName =
     (user?.user_metadata?.full_name as string | undefined) ||
     (user?.email ? user.email.split("@")[0] : null) ||
     "Member";
   const initial = displayName.charAt(0).toUpperCase();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate({ to: "/" });
+  };
 
   return (
     <DropdownMenu>
@@ -57,8 +60,12 @@ export function UserProfileBadge() {
             </DropdownMenuItem>
           );
         })}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+          <LogOut className="h-4 w-4" />
+          <span>Sign out</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
-
