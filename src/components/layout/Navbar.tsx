@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, ShieldCheck, LayoutDashboard, User, Crown } from "lucide-react";
+import { Menu, ShieldCheck, LayoutDashboard, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
@@ -12,11 +12,6 @@ import { cn } from "@/lib/utils";
 
 const links = [
   { to: "/", key: "nav_home" as const },
-  { to: "/membership", key: "nav_membership" as const },
-  { to: "/calculator", key: "nav_calculator" as const },
-  { to: "/dashboard", key: "nav_dashboard" as const },
-  { to: "/profile", key: "nav_profile" as const },
-  { to: "/payments", key: "nav_payments" as const },
   { to: "/faq", key: "nav_faq" as const },
   { to: "/contact", key: "nav_contact" as const },
 ];
