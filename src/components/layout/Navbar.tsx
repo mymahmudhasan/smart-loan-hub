@@ -102,13 +102,6 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="mt-4 flex flex-col gap-2">
-                  {isAdmin && (
-                    <Button variant="accent" asChild onClick={() => setOpen(false)}>
-                      <Link to="/admin">
-                        <LayoutDashboard className="h-4 w-4" /> Admin Panel
-                      </Link>
-                    </Button>
-                  )}
                   {user ? (
                     <>
                       <Button variant="outline" onClick={handleSignOut}>
