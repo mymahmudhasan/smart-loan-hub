@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, ShieldCheck, LayoutDashboard, User } from "lucide-react";
+import { Menu, ShieldCheck, LayoutDashboard, User, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { ThemeToggle, LanguageToggle } from "@/components/layout/Toggles";
@@ -59,7 +59,19 @@ export function Navbar() {
           )}
 
           {user ? (
-            <UserProfileBadge />
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                asChild
+                aria-label="Update Plan"
+              >
+                <Link to="/membership">
+                  <Crown className="h-5 w-5" />
+                </Link>
+              </Button>
+              <UserProfileBadge />
+            </div>
           ) : (
             <Button
               variant="ghost"

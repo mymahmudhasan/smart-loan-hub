@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Calculator, Crown, LogOut } from "lucide-react";
+import { Calculator, LogOut } from "lucide-react";
 import { useAuth } from "@/context/auth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -13,7 +13,6 @@ import {
 
 const profileMenuItems = [
   { label: "Loan Calculator", to: "/calculator", icon: Calculator },
-  { label: "Update Plan", to: "/membership", icon: Crown },
 ] as const;
 
 export function UserProfileBadge() {
