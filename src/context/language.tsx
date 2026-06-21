@@ -150,7 +150,6 @@ export const translations: Dict = {
   mem_eligible: { en: "Eligible Loan", bn: "যোগ্য লোন" },
   mem_status: { en: "Membership Status", bn: "সদস্যপদ অবস্থা" },
   mem_upgrade: { en: "Upgrade Membership", bn: "মেম্বারশিপ আপগ্রেড করুন" },
-  mem_deposit_upgrade: { en: "Deposit to Upgrade", bn: "আপগ্রেড করতে জমা দিন" },
   mem_apply_loan: { en: "Apply for Loan", bn: "লোনের আবেদন করুন" },
   mem_complete_verification: { en: "Complete Verification", bn: "যাচাইকরণ সম্পূর্ণ করুন" },
 
