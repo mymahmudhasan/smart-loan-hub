@@ -54,19 +54,7 @@ export function Navbar() {
           )}
 
           {user ? (
-            <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                aria-label="Update Plan"
-              >
-                <Link to="/membership">
-                  <Crown className="h-5 w-5" />
-                </Link>
-              </Button>
-              <UserProfileBadge />
-            </div>
+            <UserProfileBadge />
           ) : (
             <Button
               variant="ghost"
