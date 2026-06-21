@@ -56,7 +56,21 @@ export function Navbar() {
         <div className="flex items-center gap-1">
           <LanguageToggle />
           <ThemeToggle />
-          {user && <UserProfileBadge />}
+
+          {user ? (
+            <UserProfileBadge />
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden lg:inline-flex"
+              asChild
+            >
+              <Link to="/login" aria-label={t("nav_login")}>
+                <User className="h-5 w-5" />
+              </Link>
+            </Button>
+          )}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
