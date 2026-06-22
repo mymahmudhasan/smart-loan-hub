@@ -31,7 +31,8 @@ export const Route = createFileRoute("/membership")({
 const examples = [10000, 20000, 50000];
 
 function Membership() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const { user, loading: authLoading } = useAuth();
   const fetchProfile = useServerFn(getMyProfile);
 
