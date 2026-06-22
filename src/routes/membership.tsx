@@ -144,7 +144,7 @@ function Membership() {
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base">{t("mem_status")}</CardTitle>
               <Badge className="bg-accent/15 text-accent hover:bg-accent/15">
-                <ShieldCheck className="mr-1 h-3.5 w-3.5" /> Secure
+                <ShieldCheck className="mr-1 h-3.5 w-3.5" /> {L("Secure", "নিরাপদ")}
               </Badge>
             </CardHeader>
             <CardContent>
