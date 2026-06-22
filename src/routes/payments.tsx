@@ -134,7 +134,7 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
         onClick={payOnline}
         disabled={onlineMut.isPending}
       >
-        {onlineMut.isPending ? "Starting checkout…" : "Pay Online Now"}
+        {onlineMut.isPending ? L("Starting checkout…", "চেকআউট শুরু হচ্ছে…") : L("Pay Online Now", "এখনই অনলাইনে পেমেন্ট করুন")}
       </Button>
     </div>
   );
