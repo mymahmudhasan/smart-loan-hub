@@ -145,8 +145,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (name.trim().length < 2) e.name = "Min 2 characters";
-    if (content.trim().length < 10) e.content = "Min 10 characters";
+    if (name.trim().length < 2) e.name = L("Min 2 characters", "ন্যূনতম ২ অক্ষর");
+    if (content.trim().length < 10) e.content = L("Min 10 characters", "ন্যূনতম ১০ অক্ষর");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
