@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { Loader2, Check, X, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -120,7 +120,7 @@ function AdminLoans() {
   );
 }
 
-function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
+function DetailRow({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-border/60 py-2 text-sm last:border-0">
       <span className="text-muted-foreground">{label}</span>
