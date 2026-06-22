@@ -120,6 +120,38 @@ function AdminContactInfo() {
             />
           </div>
 
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 text-primary" /> WhatsApp Number
+            </Label>
+            <Input
+              value={form.whatsappNumber}
+              onChange={(e) => set("whatsappNumber", e.target.value)}
+              placeholder="8801712345678 (international format, no +)"
+              maxLength={40}
+            />
+            <p className="text-xs text-muted-foreground">
+              Used by the floating WhatsApp button. Enter the full number in international format, digits only.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 text-primary" /> WhatsApp Default Message
+            </Label>
+            <Textarea
+              value={form.whatsappMessage}
+              onChange={(e) => set("whatsappMessage", e.target.value)}
+              placeholder="Hello! I want to know more about your loans."
+              maxLength={500}
+              rows={3}
+            />
+            <p className="text-xs text-muted-foreground">
+              This message is pre-filled in the chat when a visitor taps the WhatsApp button.
+            </p>
+          </div>
+
+
           <Button
             variant="hero"
             onClick={() => mutation.mutate(form)}
