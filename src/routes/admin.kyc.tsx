@@ -3,14 +3,15 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Check, X } from "lucide-react";
+import { Loader2, Check, X, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { StatusBadge } from "@/components/admin/StatusBadge";
-import { listKyc, reviewKyc } from "@/lib/admin.functions";
+import { listKyc, reviewKyc, getKycDocuments } from "@/lib/admin.functions";
 import { formatDistanceToNow } from "date-fns";
 
 export const Route = createFileRoute("/admin/kyc")({
