@@ -55,6 +55,8 @@ function Dashboard() {
     enabled: !!user,
   });
   const balance = Number(profileData?.profile?.member_balance ?? 0);
+  const photoUrl = profileData?.photoUrl ?? null;
+  const isVerified = profileData?.profile?.member_status === "verified";
 
   const fetchReferral = useServerFn(getMyReferral);
   const { data: referralData, isLoading: referralLoading } = useQuery({
