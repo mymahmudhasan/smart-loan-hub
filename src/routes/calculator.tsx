@@ -33,7 +33,8 @@ export const Route = createFileRoute("/calculator")({
 });
 
 function CalculatorPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const [amount, setAmount] = useState(200000);
   const [months, setMonths] = useState(24);
 
