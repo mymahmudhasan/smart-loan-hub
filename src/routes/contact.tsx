@@ -79,7 +79,7 @@ function Contact() {
         </div>
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle>Send us a message</CardTitle>
+            <CardTitle>{L("Send us a message", "আমাদের একটি বার্তা পাঠান")}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={submit} className="space-y-4">
