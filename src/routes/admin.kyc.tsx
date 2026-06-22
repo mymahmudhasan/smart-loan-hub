@@ -61,6 +61,7 @@ function AdminKyc() {
                 <TableRow>
                   <TableHead>Applicant</TableHead>
                   <TableHead>NID</TableHead>
+                  <TableHead>Documents</TableHead>
                   <TableHead>Submitted</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Review</TableHead>
