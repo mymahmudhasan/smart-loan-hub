@@ -130,6 +130,13 @@ function Home() {
         </div>
       </section>
 
+      {/* Live deposits feed */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 lg:pb-14">
+        <LiveDeposits />
+      </section>
+
+
+
       {/* Bank-style offers banner */}
       <OffersBanner offers={offers} />
 
