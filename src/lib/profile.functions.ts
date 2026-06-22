@@ -61,9 +61,27 @@ export const getMyProfile = createServerFn({ method: "GET" })
         .maybeSingle(),
     ]);
     if (profileR.error) throw new Error(profileR.error.message);
+
+    const profile = profileR.data as MemberProfile;
+
+    // The profile photo (live pic from approved KYC) lives in a private bucket,
+    // so hand the client a short-lived signed URL it can render directly.
+    let photoUrl: string | null = null;
+    if (profile?.photo_url) {
+      if (/^https?:\/\//i.test(profile.photo_url)) {
+        photoUrl = profile.photo_url;
+      } else {
+        const { data: signed } = await supabaseAdmin.storage
+          .from("kyc-documents")
+          .createSignedUrl(profile.photo_url, 60 * 60);
+        photoUrl = signed?.signedUrl ?? null;
+      }
+    }
+
     return {
-      profile: profileR.data as MemberProfile,
+      profile,
       kyc: (kycR.data ?? null) as MyKyc,
+      photoUrl,
     };
   });
 
