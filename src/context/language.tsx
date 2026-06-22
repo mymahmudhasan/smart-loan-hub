@@ -229,6 +229,8 @@ export const translations: Dict = {
   withdraw: { en: "Withdraw", bn: "উত্তোলন" },
   pay_emi: { en: "Pay EMI", bn: "ইএমআই দিন" },
   learn_more: { en: "Learn more", bn: "বিস্তারিত" },
+  global_cta_loan: { en: "Apply for loan now", bn: "এখনি লোনের আবেদন করুন" },
+  whatsapp_label: { en: "Chat on WhatsApp", bn: "হোয়াটসঅ্যাপে চ্যাট করুন" },
 
   footer_tagline: { en: "Secure, membership-based lending for Bangladesh.", bn: "বাংলাদেশের জন্য নিরাপদ মেম্বারশিপ লোন।" },
   footer_rights: { en: "All rights reserved.", bn: "সর্বস্বত্ব সংরক্ষিত।" },
