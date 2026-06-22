@@ -36,7 +36,7 @@ function normalize(row: Record<string, unknown> | null): ContactInfo | null {
           message: String(item.message ?? ""),
         };
       })
-      .filter((q): q is WhatsappQuestion => q !== null && (q.label.en.trim() || q.label.bn.trim()));
+      .filter((q): q is WhatsappQuestion => q !== null && Boolean(q.label.en.trim() || q.label.bn.trim()));
   }
   return {
     id: String(row.id),
