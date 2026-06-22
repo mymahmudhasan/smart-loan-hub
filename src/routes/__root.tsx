@@ -17,6 +17,7 @@ import { AuthProvider } from "../context/auth";
 import { BrandingProvider } from "../context/branding";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
+import { GlobalActions } from "../components/layout/GlobalActions";
 import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
@@ -140,11 +141,12 @@ function RootComponent() {
             <BrandingProvider>
               <div className="flex min-h-screen flex-col">
                 <Navbar />
-                <main className="flex-1">
+                <main className="flex-1 pb-24 sm:pb-28">
                   <Outlet />
                 </main>
                 <Footer />
               </div>
+              <GlobalActions />
               <Toaster />
             </BrandingProvider>
           </AuthProvider>
