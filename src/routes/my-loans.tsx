@@ -43,7 +43,8 @@ function statusClasses(status: string) {
 
 function MyLoans() {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const fetchAccount = useServerFn(getMyAccount);
 
   const { data, isLoading } = useQuery({
