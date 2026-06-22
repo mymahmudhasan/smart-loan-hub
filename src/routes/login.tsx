@@ -56,7 +56,7 @@ function Login() {
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
-              <Label>Email</Label>
+              <Label>{L("Email", "ইমেইল")}</Label>
               <Input
                 type="email"
                 placeholder="you@example.com"
