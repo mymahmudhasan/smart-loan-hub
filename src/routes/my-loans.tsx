@@ -64,7 +64,7 @@ function MyLoans() {
         <div>
           <h1 className="text-xl font-bold">{t("qa_myloans")}</h1>
           <p className="text-sm text-muted-foreground">
-            {loans.length} {loans.length === 1 ? "application" : "applications"}
+            {loans.length} {L(loans.length === 1 ? "application" : "applications", "টি আবেদন")}
           </p>
         </div>
       </div>
