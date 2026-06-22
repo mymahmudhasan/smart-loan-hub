@@ -124,6 +124,8 @@ function ProfilePage() {
   }, [form]);
 
   const kyc = data?.kyc ?? null;
+  const photoUrl = data?.photoUrl ?? null;
+  const isVerified = kyc?.status === "approved";
 
   const handleSave = async () => {
     if (!form.full_name || form.full_name.trim().length < 2) {
