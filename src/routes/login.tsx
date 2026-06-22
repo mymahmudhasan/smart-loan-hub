@@ -66,7 +66,7 @@ function Login() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Password</Label>
+              <Label>{L("Password", "পাসওয়ার্ড")}</Label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
