@@ -264,6 +264,45 @@ export const listKyc = createServerFn({ method: "GET" })
     return data ?? [];
   });
 
+// Generate short-lived signed URLs so admins can view a member's KYC documents.
+export const getKycDocuments = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string }) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.userId);
+    const { data: row, error } = await supabaseAdmin
+      .from("kyc_submissions")
+      .select("nid_number, nid_front_url, nid_back_url, selfie_url, status, reviewer_notes, created_at")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!row) throw new Error("KYC submission not found");
+
+    const sign = async (path: string | null) => {
+      if (!path) return null;
+      const { data: signed } = await supabaseAdmin.storage
+        .from("kyc-documents")
+        .createSignedUrl(path, 60 * 10);
+      return signed?.signedUrl ?? null;
+    };
+
+    const [nidFront, nidBack, selfie] = await Promise.all([
+      sign(row.nid_front_url),
+      sign(row.nid_back_url),
+      sign(row.selfie_url),
+    ]);
+
+    return {
+      nidNumber: row.nid_number,
+      status: row.status,
+      reviewerNotes: row.reviewer_notes,
+      createdAt: row.created_at,
+      nidFront,
+      nidBack,
+      selfie,
+    };
+  });
+
 export const reviewKyc = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { id: string; status: string; notes?: string }) =>
