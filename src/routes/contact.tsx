@@ -93,7 +93,7 @@ function Contact() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Email</Label>
+                <Label>{L("Email", "ইমেইল")}</Label>
                 <Input
                   type="email"
                   value={form.email}
