@@ -128,8 +128,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         data: {
           reviewer_name: name.trim(),
           reviewer_role: role.trim() || null,
-          review_title: title.trim() || null,
-          avatar_url: avatarUrl.trim() || null,
+          review_title: null,
+          avatar_url: null,
           rating,
           content: content.trim(),
         },
