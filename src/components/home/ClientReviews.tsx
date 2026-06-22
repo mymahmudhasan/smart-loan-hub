@@ -173,27 +173,7 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         />
       </div>
       <div className="space-y-2">
-        <Label>{t("review_title_label")}</Label>
-        <Input
-          value={title}
-          maxLength={120}
-          placeholder={t("review_title_ph")}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label>{t("review_avatar_label")}</Label>
-        <Input
-          value={avatarUrl}
-          maxLength={500}
-          type="url"
-          inputMode="url"
-          placeholder={t("review_avatar_ph")}
-          onChange={(e) => setAvatarUrl(e.target.value)}
-        />
-        {errors.avatar && <p className="text-xs text-destructive">{errors.avatar}</p>}
-      </div>
-      <div className="space-y-2">
+
         <Label>{t("review_rating_label")}</Label>
         <div className="flex gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
