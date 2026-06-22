@@ -35,6 +35,7 @@ import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminFraudRouteImport } from './routes/admin.fraud'
 import { Route as AdminFooterRouteImport } from './routes/admin.footer'
 import { Route as AdminDepositConfigRouteImport } from './routes/admin.deposit-config'
+import { Route as AdminContactRouteImport } from './routes/admin.contact'
 import { Route as AdminBrandingRouteImport } from './routes/admin.branding'
 import { Route as AdminBannersRouteImport } from './routes/admin.banners'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
@@ -171,6 +172,11 @@ const AdminDepositConfigRoute = AdminDepositConfigRouteImport.update({
   path: '/deposit-config',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminContactRoute = AdminContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminBrandingRoute = AdminBrandingRouteImport.update({
   id: '/branding',
   path: '/branding',
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/branding': typeof AdminBrandingRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/branding': typeof AdminBrandingRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
@@ -286,6 +294,7 @@ export interface FileRoutesById {
   '/admin/audit': typeof AdminAuditRoute
   '/admin/banners': typeof AdminBannersRoute
   '/admin/branding': typeof AdminBrandingRoute
+  '/admin/contact': typeof AdminContactRoute
   '/admin/deposit-config': typeof AdminDepositConfigRoute
   '/admin/footer': typeof AdminFooterRoute
   '/admin/fraud': typeof AdminFraudRoute
@@ -321,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin/audit'
     | '/admin/banners'
     | '/admin/branding'
+    | '/admin/contact'
     | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
@@ -353,6 +363,7 @@ export interface FileRouteTypes {
     | '/admin/audit'
     | '/admin/banners'
     | '/admin/branding'
+    | '/admin/contact'
     | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
@@ -386,6 +397,7 @@ export interface FileRouteTypes {
     | '/admin/audit'
     | '/admin/banners'
     | '/admin/branding'
+    | '/admin/contact'
     | '/admin/deposit-config'
     | '/admin/footer'
     | '/admin/fraud'
@@ -604,6 +616,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDepositConfigRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/contact': {
+      id: '/admin/contact'
+      path: '/contact'
+      fullPath: '/admin/contact'
+      preLoaderRoute: typeof AdminContactRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/branding': {
       id: '/admin/branding'
       path: '/branding'
@@ -646,6 +665,7 @@ interface AdminRouteChildren {
   AdminAuditRoute: typeof AdminAuditRoute
   AdminBannersRoute: typeof AdminBannersRoute
   AdminBrandingRoute: typeof AdminBrandingRoute
+  AdminContactRoute: typeof AdminContactRoute
   AdminDepositConfigRoute: typeof AdminDepositConfigRoute
   AdminFooterRoute: typeof AdminFooterRoute
   AdminFraudRoute: typeof AdminFraudRoute
@@ -661,6 +681,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAuditRoute: AdminAuditRoute,
   AdminBannersRoute: AdminBannersRoute,
   AdminBrandingRoute: AdminBrandingRoute,
+  AdminContactRoute: AdminContactRoute,
   AdminDepositConfigRoute: AdminDepositConfigRoute,
   AdminFooterRoute: AdminFooterRoute,
   AdminFraudRoute: AdminFraudRoute,

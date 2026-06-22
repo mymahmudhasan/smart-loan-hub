@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
@@ -8,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language";
+import { getContactInfo } from "@/lib/contact-info.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,15 +22,27 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-const info = [
-  { icon: Phone, label: "Hotline", value: "+880 1700-000000" },
-  { icon: Mail, label: "Email", value: "support@smartloan.com.bd" },
-  { icon: MapPin, label: "Office", value: "Gulshan-1, Dhaka, Bangladesh" },
-];
+const fallback = {
+  hotline: "+880 1700-000000",
+  email: "support@smartloan.com.bd",
+  office: "Gulshan-1, Dhaka, Bangladesh",
+};
 
 function Contact() {
   const { t } = useLanguage();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+
+  const fetchInfo = useServerFn(getContactInfo);
+  const { data: contact } = useQuery({
+    queryKey: ["contact-info"],
+    queryFn: () => fetchInfo(),
+  });
+
+  const info = [
+    { icon: Phone, label: "Hotline", value: contact?.hotline || fallback.hotline },
+    { icon: Mail, label: "Email", value: contact?.email || fallback.email },
+    { icon: MapPin, label: "Office", value: contact?.office || fallback.office },
+  ];
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
