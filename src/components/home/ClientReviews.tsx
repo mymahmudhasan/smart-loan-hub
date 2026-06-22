@@ -118,8 +118,6 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     (user?.user_metadata?.full_name as string | undefined) ?? user?.email?.split("@")[0] ?? "";
   const [name, setName] = useState(defaultName);
   const [role, setRole] = useState("");
-  const [title, setTitle] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -130,8 +128,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         data: {
           reviewer_name: name.trim(),
           reviewer_role: role.trim() || null,
-          review_title: title.trim() || null,
-          avatar_url: avatarUrl.trim() || null,
+          review_title: null,
+          avatar_url: null,
           rating,
           content: content.trim(),
         },
@@ -148,8 +146,6 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     const e: Record<string, string> = {};
     if (name.trim().length < 2) e.name = "Min 2 characters";
     if (content.trim().length < 10) e.content = "Min 10 characters";
-    if (avatarUrl.trim() && !/^https:\/\/\S+$/i.test(avatarUrl.trim()))
-      e.avatar = t("review_avatar_error");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -177,27 +173,7 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         />
       </div>
       <div className="space-y-2">
-        <Label>{t("review_title_label")}</Label>
-        <Input
-          value={title}
-          maxLength={120}
-          placeholder={t("review_title_ph")}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="space-y-2">
-        <Label>{t("review_avatar_label")}</Label>
-        <Input
-          value={avatarUrl}
-          maxLength={500}
-          type="url"
-          inputMode="url"
-          placeholder={t("review_avatar_ph")}
-          onChange={(e) => setAvatarUrl(e.target.value)}
-        />
-        {errors.avatar && <p className="text-xs text-destructive">{errors.avatar}</p>}
-      </div>
-      <div className="space-y-2">
+
         <Label>{t("review_rating_label")}</Label>
         <div className="flex gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
