@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Gift, Share2, UserCheck, Coins, ArrowRight, Users, TrendingUp, Wallet } from "lucide-react";
+import { Gift, Share2, UserCheck, Coins, ArrowRight, Users, TrendingUp, Wallet, Wallet2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
@@ -11,7 +11,8 @@ export function ReferralSection({ stats }: { stats?: PublicReferralStats }) {
   const steps = [
     { icon: Share2, title: t("refer_s1_t"), desc: t("refer_s1_d") },
     { icon: UserCheck, title: t("refer_s2_t"), desc: t("refer_s2_d") },
-    { icon: Coins, title: t("refer_s3_t"), desc: t("refer_s3_d") },
+    { icon: Wallet2, title: t("refer_s3_t"), desc: t("refer_s3_d") },
+    { icon: Coins, title: t("refer_s4_t"), desc: t("refer_s4_d") },
   ];
 
   const formatBDT = (n: number) =>
