@@ -336,15 +336,15 @@ function Payments() {
 
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle className="text-base">Transaction Logs</CardTitle>
+            <CardTitle className="text-base">{L("Transaction Logs", "লেনদেনের তালিকা")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
               {logs.map((l, i) => (
                 <li key={i} className="flex items-center justify-between gap-2 rounded-lg border p-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium">{l.label}</p>
-                    <p className="text-xs text-muted-foreground">{l.method} · {l.date}</p>
+                    <p className="truncate text-sm font-medium">{l.label[lang]}</p>
+                    <p className="text-xs text-muted-foreground">{l.method[lang]} · {l.date}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold">{formatBDT(l.amount)}</p>
@@ -352,10 +352,10 @@ function Payments() {
                       variant="secondary"
                       className={cn(
                         "text-[10px]",
-                        l.status === "Completed" ? "text-accent" : "text-warning",
+                        l.status === "completed" ? "text-accent" : "text-warning",
                       )}
                     >
-                      {l.status}
+                      {l.status === "completed" ? L("Completed", "সম্পন্ন") : L("Pending", "অপেক্ষমাণ")}
                     </Badge>
                   </div>
                 </li>
