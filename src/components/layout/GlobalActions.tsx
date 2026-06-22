@@ -18,15 +18,28 @@ function WhatsAppIcon({ className }: { className?: string }) {
 export function GlobalActions() {
   const { t } = useLanguage();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const fetchInfo = useServerFn(getContactInfo);
+
+  const { data: contact } = useQuery({
+    queryKey: ["contact-info"],
+    queryFn: () => fetchInfo(),
+    staleTime: 5 * 60 * 1000,
+  });
 
   // Keep admin workspaces clean; the buttons remain global on all public/member pages.
   if (pathname.startsWith("/admin")) return null;
 
-  const waNumber = SITE_CONFIG.whatsappNumber.replace(/\D/g, "");
-  const waLink = waNumber ? `https://wa.me/${waNumber}` : "#";
+  const configured = (contact?.whatsappNumber || "").replace(/\D/g, "");
+  const fallback = SITE_CONFIG.whatsappNumber.replace(/\D/g, "");
+  const waNumber = configured || (fallback.includes("X") ? "" : fallback);
+  const waMessage = contact?.whatsappMessage?.trim() || "";
+  const waLink = waNumber
+    ? `https://wa.me/${waNumber}${waMessage ? `?text=${encodeURIComponent(waMessage)}` : ""}`
+    : "#";
 
   return (
     <>
+
       {/* Mobile sticky bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-card/95 p-3 shadow-elegant backdrop-blur-md sm:hidden">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-2">
