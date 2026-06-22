@@ -12,10 +12,10 @@ type Deposit = {
   amount: number;
 };
 
-// 20 demo deposits — gives the feed a lively, "people are active" feel.
+// 40 demo deposits — gives the feed a lively, "people are active" feel.
 const POOL: Deposit[] = [
   { district: "ঢা", name: "তানিয়া ***", badge: "live_badge_membership", amount: 1180 },
-  { district: "চ", name: "রাকিব ***", badge: "live_badge_emi", amount: 1240 },
+  { district: "চট", name: "রাকিব ***", badge: "live_badge_emi", amount: 1240 },
   { district: "সি", name: "আমিনা ***", badge: "live_badge_savings", amount: 540 },
   { district: "রা", name: "সামির ***", badge: "live_badge_membership", amount: 320 },
   { district: "খু", name: "আলী ***৮২", badge: "live_badge_emi", amount: 4820 },
@@ -30,10 +30,30 @@ const POOL: Deposit[] = [
   { district: "দি", name: "সাদিয়া ***", badge: "live_badge_emi", amount: 870 },
   { district: "ফ", name: "হাসান ***", badge: "live_badge_savings", amount: 2600 },
   { district: "ঢা", name: "মিতু ***", badge: "live_badge_membership", amount: 430 },
-  { district: "চ", name: "রনি ***", badge: "live_badge_emi", amount: 1950 },
+  { district: "চট", name: "রনি ***", badge: "live_badge_emi", amount: 1950 },
   { district: "সি", name: "পপি ***", badge: "live_badge_savings", amount: 720 },
   { district: "খু", name: "শাকিল ***", badge: "live_badge_membership", amount: 3850 },
   { district: "রা", name: "লামিয়া ***", badge: "live_badge_emi", amount: 1280 },
+  { district: "ঢা", name: "ফাহিম ***", badge: "live_badge_savings", amount: 2250 },
+  { district: "রা", name: "রুবাইয়া ***", badge: "live_badge_membership", amount: 890 },
+  { district: "চট", name: "জুনায়েদ ***", badge: "live_badge_emi", amount: 3450 },
+  { district: "খুল", name: "তাসনিম ***", badge: "live_badge_savings", amount: 670 },
+  { district: "বরি", name: "আরিফ ***", badge: "live_badge_membership", amount: 4100 },
+  { district: "সি", name: "মাহিন ***", badge: "live_badge_emi", amount: 1560 },
+  { district: "গা", name: "প্রিয়াংকা ***", badge: "live_badge_savings", amount: 910 },
+  { district: "রং", name: "ইফতি ***", badge: "live_badge_membership", amount: 2750 },
+  { district: "ম", name: "তাহসিন ***", badge: "live_badge_emi", amount: 1820 },
+  { district: "না", name: "সাবরিন ***", badge: "live_badge_savings", amount: 1340 },
+  { district: "বগ", name: "মুশফিক ***", badge: "live_badge_membership", amount: 2380 },
+  { district: "যশ", name: "মেহজাবিন ***", badge: "live_badge_emi", amount: 760 },
+  { district: "দি", name: "তারেক ***", badge: "live_badge_savings", amount: 4120 },
+  { district: "ফ", name: "নাইমা ***", badge: "live_badge_membership", amount: 590 },
+  { district: "ঢা", name: "রাফি ***", badge: "live_badge_emi", amount: 3680 },
+  { district: "চট", name: "সুমাইয়া ***", badge: "live_badge_savings", amount: 820 },
+  { district: "খুল", name: "মাহফুজ ***", badge: "live_badge_membership", amount: 1950 },
+  { district: "বরি", name: "অর্ণব ***", badge: "live_badge_emi", amount: 2470 },
+  { district: "সি", name: "তাসফিয়া ***", badge: "live_badge_savings", amount: 1130 },
+  { district: "রং", name: "নাঈম ***", badge: "live_badge_membership", amount: 3040 },
 ];
 
 const VISIBLE = 6;
