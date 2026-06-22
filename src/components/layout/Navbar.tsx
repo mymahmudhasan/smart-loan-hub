@@ -17,7 +17,8 @@ const links = [
 ];
 
 export function Navbar() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user, isAdmin } = useAuth();
@@ -48,7 +49,7 @@ export function Navbar() {
           {isAdmin && (
             <Button variant="accent" size="sm" className="hidden sm:inline-flex gap-1.5" asChild>
               <Link to="/admin">
-                <LayoutDashboard className="h-4 w-4" /> Admin Panel
+                <LayoutDashboard className="h-4 w-4" /> {L("Admin Panel", "অ্যাডমিন প্যানেল")}
               </Link>
             </Button>
           )}
@@ -69,7 +70,7 @@ export function Navbar() {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Menu">
+              <Button variant="ghost" size="icon" aria-label={L("Menu", "মেনু")}>
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>

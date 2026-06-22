@@ -109,7 +109,8 @@ function ReviewCard({
 }
 
 function ReviewForm({ onDone }: { onDone: () => void }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const { user } = useAuth();
   const qc = useQueryClient();
   const submit = useServerFn(submitReview);
@@ -144,8 +145,8 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (name.trim().length < 2) e.name = "Min 2 characters";
-    if (content.trim().length < 10) e.content = "Min 10 characters";
+    if (name.trim().length < 2) e.name = L("Min 2 characters", "ন্যূনতম ২ অক্ষর");
+    if (content.trim().length < 10) e.content = L("Min 10 characters", "ন্যূনতম ১০ অক্ষর");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -168,7 +169,7 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         <Input
           value={role}
           maxLength={120}
-          placeholder="Small business owner, Dhaka"
+          placeholder={L("Small business owner, Dhaka", "ক্ষুদ্র ব্যবসায়ী, ঢাকা")}
           onChange={(e) => setRole(e.target.value)}
         />
       </div>

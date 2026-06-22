@@ -11,7 +11,8 @@ import { useLanguage } from "@/context/language";
 import { getMyReferral, type MyReferral } from "@/lib/referral.functions";
 
 export function ReferralWidget() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const fetchReferral = useServerFn(getMyReferral);
   const { data, isLoading } = useQuery({
     queryKey: ["my", "referral"],
@@ -132,7 +133,7 @@ export function ReferralWidget() {
                 {data.referrals.map((r) => (
                   <li key={r.id} className="flex items-center justify-between gap-3 py-2.5">
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{r.referred_name ?? "New member"}</p>
+                      <p className="truncate text-sm font-medium">{r.referred_name ?? L("New member", "নতুন সদস্য")}</p>
                       <p className="text-xs text-muted-foreground">
                         {new Date(r.created_at).toLocaleDateString()}
                       </p>
@@ -142,7 +143,7 @@ export function ReferralWidget() {
                         +{formatBDT(r.reward_amount)}
                       </span>
                       <Badge variant={r.status === "credited" ? "default" : "outline"}>
-                        {r.status}
+                        {r.status === "credited" ? L("Credited", "ক্রেডিটেড") : L("Pending", "অপেক্ষমাণ")}
                       </Badge>
                     </div>
                   </li>

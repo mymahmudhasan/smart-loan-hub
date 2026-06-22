@@ -33,7 +33,8 @@ export const Route = createFileRoute("/calculator")({
 });
 
 function CalculatorPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const [amount, setAmount] = useState(200000);
   const [months, setMonths] = useState(24);
 
@@ -90,7 +91,7 @@ function CalculatorPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>{t("calc_duration")}</Label>
-                <span className="font-semibold">{months} mo</span>
+                <span className="font-semibold">{months} {L("mo", "মাস")}</span>
               </div>
               <Slider
                 value={[months]}
@@ -101,18 +102,18 @@ function CalculatorPage() {
               />
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>3</span>
-                <span>{MAX_MONTHS} months</span>
+                <span>{MAX_MONTHS} {L("months", "মাস")}</span>
               </div>
             </div>
 
             <div className="rounded-xl bg-muted/60 p-4 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("stat_rate")}</span>
-                <span className="font-semibold">{(ANNUAL_RATE * 100).toFixed(0)}% / yr</span>
+                <span className="font-semibold">{(ANNUAL_RATE * 100).toFixed(0)}% / {L("yr", "বছর")}</span>
               </div>
               <div className="mt-1 flex justify-between">
-                <span className="text-muted-foreground">Method</span>
-                <span className="font-semibold">Reducing balance</span>
+                <span className="text-muted-foreground">{L("Method", "পদ্ধতি")}</span>
+                <span className="font-semibold">{L("Reducing balance", "রিডিউসিং ব্যালেন্স")}</span>
               </div>
             </div>
           </CardContent>

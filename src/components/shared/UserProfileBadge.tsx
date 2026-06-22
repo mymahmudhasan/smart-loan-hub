@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Calculator, CreditCard, Crown, LayoutDashboard, LogOut, User } from "lucide-react";
 import { useAuth } from "@/context/auth";
+import { useLanguage } from "@/context/language";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,21 +12,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const profileMenuItems = [
-  { label: "My Profile", to: "/profile", icon: User },
-  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
-  { label: "Membership", to: "/membership", icon: Crown },
-  { label: "Loan Calculator", to: "/calculator", icon: Calculator },
-  { label: "Payment", to: "/payments", icon: CreditCard },
-] as const;
-
 export function UserProfileBadge() {
   const { user, signOut } = useAuth();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const navigate = useNavigate();
+
+  const profileMenuItems = [
+    { label: t("nav_profile"), to: "/profile", icon: User },
+    { label: t("nav_dashboard"), to: "/dashboard", icon: LayoutDashboard },
+    { label: t("nav_membership"), to: "/membership", icon: Crown },
+    { label: t("nav_calculator"), to: "/calculator", icon: Calculator },
+    { label: t("nav_payments"), to: "/payments", icon: CreditCard },
+  ] as const;
+
   const displayName =
     (user?.user_metadata?.full_name as string | undefined) ||
     (user?.email ? user.email.split("@")[0] : null) ||
-    "Member";
+    L("Member", "সদস্য");
   const initial = displayName.charAt(0).toUpperCase();
 
   const handleSignOut = async () => {
@@ -38,7 +42,7 @@ export function UserProfileBadge() {
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          title="User menu"
+          title={L("User menu", "ব্যবহারকারী মেনু")}
           className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1.5 shadow-soft border border-border hover:bg-muted hover:shadow-md transition-colors cursor-pointer"
         >
           <Avatar className="h-8 w-8">
@@ -66,7 +70,7 @@ export function UserProfileBadge() {
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
           <LogOut className="h-4 w-4" />
-          <span>Sign out</span>
+          <span>{L("Sign out", "সাইন আউট")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -29,7 +29,8 @@ const fallback = {
 };
 
 function Contact() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const fetchInfo = useServerFn(getContactInfo);
@@ -39,18 +40,18 @@ function Contact() {
   });
 
   const info = [
-    { icon: Phone, label: "Hotline", value: contact?.hotline || fallback.hotline },
-    { icon: Mail, label: "Email", value: contact?.email || fallback.email },
-    { icon: MapPin, label: "Office", value: contact?.office || fallback.office },
+    { icon: Phone, label: L("Hotline", "হটলাইন"), value: contact?.hotline || fallback.hotline },
+    { icon: Mail, label: L("Email", "ইমেইল"), value: contact?.email || fallback.email },
+    { icon: MapPin, label: L("Office", "অফিস"), value: contact?.office || fallback.office },
   ];
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.message.trim()) {
-      toast.error("Please fill in your name and message");
+      toast.error(L("Please fill in your name and message", "অনুগ্রহ করে আপনার নাম ও বার্তা পূরণ করুন"));
       return;
     }
-    toast.success("Message sent", { description: "Our team will get back to you within 24 hours." });
+    toast.success(L("Message sent", "বার্তা পাঠানো হয়েছে"), { description: L("Our team will get back to you within 24 hours.", "আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার সাথে যোগাযোগ করবে।") });
     setForm({ name: "", email: "", message: "" });
   };
 
@@ -58,7 +59,7 @@ function Contact() {
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">{t("nav_contact")}</h1>
-        <p className="mt-2 text-muted-foreground">We're here to help, every step of the way.</p>
+        <p className="mt-2 text-muted-foreground">{L("We're here to help, every step of the way.", "প্রতিটি ধাপে আমরা আপনাকে সাহায্য করতে এখানে আছি।")}</p>
       </div>
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
@@ -78,21 +79,21 @@ function Contact() {
         </div>
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle>Send us a message</CardTitle>
+            <CardTitle>{L("Send us a message", "আমাদের একটি বার্তা পাঠান")}</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={submit} className="space-y-4">
               <div className="space-y-2">
-                <Label>Full Name</Label>
+                <Label>{L("Full Name", "পুরো নাম")}</Label>
                 <Input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Your name"
+                  placeholder={L("Your name", "আপনার নাম")}
                   maxLength={100}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Email</Label>
+                <Label>{L("Email", "ইমেইল")}</Label>
                 <Input
                   type="email"
                   value={form.email}
@@ -102,17 +103,17 @@ function Contact() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Message</Label>
+                <Label>{L("Message", "বার্তা")}</Label>
                 <Textarea
                   rows={5}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  placeholder="How can we help?"
+                  placeholder={L("How can we help?", "আমরা কীভাবে সাহায্য করতে পারি?")}
                   maxLength={1000}
                 />
               </div>
               <Button type="submit" variant="hero" size="lg" className="w-full">
-                <Send className="h-4 w-4" /> Send Message
+                <Send className="h-4 w-4" /> {L("Send Message", "বার্তা পাঠান")}
               </Button>
             </form>
           </CardContent>

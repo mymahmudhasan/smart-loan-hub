@@ -31,7 +31,8 @@ export const Route = createFileRoute("/membership")({
 const examples = [10000, 20000, 50000];
 
 function Membership() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const { user, loading: authLoading } = useAuth();
   const fetchProfile = useServerFn(getMyProfile);
 
@@ -54,12 +55,12 @@ function Membership() {
   }, [user, actualBalance, profileLoading]);
 
   const benefits = [
-    "Loans up to 10× your member balance",
-    "Fixed 8% annual interest, reducing balance",
-    "Flexible terms up to 36 months",
-    "bKash, Nagad & bank transfer support",
-    "Priority approval for verified members",
-    "Full transaction history & statements",
+    L("Loans up to 10× your member balance", "সদস্য ব্যালেন্সের ১০ গুণ পর্যন্ত লোন"),
+    L("Fixed 8% annual interest, reducing balance", "নির্ধারিত বার্ষিক ৮% সুদ, রিডিউসিং ব্যালেন্স"),
+    L("Flexible terms up to 36 months", "সর্বোচ্চ ৩৬ মাস পর্যন্ত নমনীয় মেয়াদ"),
+    L("bKash, Nagad & bank transfer support", "বিকাশ, নগদ ও ব্যাংক ট্রান্সফার সাপোর্ট"),
+    L("Priority approval for verified members", "ভেরিফায়েড সদস্যদের জন্য অগ্রাধিকার অনুমোদন"),
+    L("Full transaction history & statements", "সম্পূর্ণ লেনদেন ইতিহাস ও স্টেটমেন্ট"),
   ];
 
   const cta = !user
@@ -143,7 +144,7 @@ function Membership() {
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <CardTitle className="text-base">{t("mem_status")}</CardTitle>
               <Badge className="bg-accent/15 text-accent hover:bg-accent/15">
-                <ShieldCheck className="mr-1 h-3.5 w-3.5" /> Secure
+                <ShieldCheck className="mr-1 h-3.5 w-3.5" /> {L("Secure", "নিরাপদ")}
               </Badge>
             </CardHeader>
             <CardContent>
@@ -162,8 +163,10 @@ function Membership() {
             <CardContent className="p-6">
               <h3 className="font-semibold">{t("mem_balance")} × {ELIGIBILITY_MULTIPLIER} = {t("mem_eligible")}</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your borrowing power scales directly with your deposited balance. Top up anytime to
-                instantly increase your available loan limit.
+                {L(
+                  "Your borrowing power scales directly with your deposited balance. Top up anytime to instantly increase your available loan limit.",
+                  "আপনার ঋণ ক্ষমতা সরাসরি আপনার জমা ব্যালেন্সের সাথে বাড়ে। যেকোনো সময় টপ আপ করে তাৎক্ষণিকভাবে আপনার উপলব্ধ লোন লিমিট বাড়ান।",
+                )}
               </p>
             </CardContent>
           </Card>

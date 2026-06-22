@@ -39,9 +39,9 @@ export const Route = createFileRoute("/payments")({
 });
 
 const logs = [
-  { label: "EMI Payment #8", method: "Online", date: "01 Jun 2026", amount: 13568, status: "Completed" },
-  { label: "Deposit", method: "Online", date: "20 May 2026", amount: 15000, status: "Completed" },
-  { label: "Withdraw", method: "bKash", date: "10 May 2026", amount: 5000, status: "Pending" },
+  { label: { en: "EMI Payment #8", bn: "ইএমআই পেমেন্ট #৮" }, method: { en: "Online", bn: "অনলাইন" }, date: "01 Jun 2026", amount: 13568, status: "completed" as const },
+  { label: { en: "Deposit", bn: "জমা" }, method: { en: "Online", bn: "অনলাইন" }, date: "20 May 2026", amount: 15000, status: "completed" as const },
+  { label: { en: "Withdraw", bn: "উত্তোলন" }, method: { en: "bKash", bn: "বিকাশ" }, date: "10 May 2026", amount: 5000, status: "pending" as const },
 ];
 
 // ---------- Online (gateway) deposit / EMI form ----------
@@ -49,6 +49,8 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState<string | undefined>();
   const { user } = useAuth();
+  const { lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const charge = useServerFn(createPaymentCharge);
 
   const onlineMut = useMutation({
@@ -62,29 +64,29 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
       }),
     onSuccess: (res) => {
       if (res?.checkoutUrl) {
-        toast.success("Redirecting to secure checkout…");
+        toast.success(L("Redirecting to secure checkout…", "নিরাপদ চেকআউটে রিডাইরেক্ট করা হচ্ছে…"));
         window.location.href = res.checkoutUrl;
       } else {
-        toast.error("Could not start checkout", {
-          description: "No checkout URL returned by the gateway.",
+        toast.error(L("Could not start checkout", "চেকআউট শুরু করা যায়নি"), {
+          description: L("No checkout URL returned by the gateway.", "গেটওয়ে থেকে কোনো চেকআউট ইউআরএল পাওয়া যায়নি।"),
         });
       }
     },
-    onError: (e) => toast.error("Payment failed", { description: (e as Error).message }),
+    onError: (e) => toast.error(L("Payment failed", "পেমেন্ট ব্যর্থ হয়েছে"), { description: (e as Error).message }),
   });
 
   const validate = () => {
     const val = Number(amount);
     if (!amount || Number.isNaN(val) || val <= 0) {
-      setAmountError("Please enter a valid amount.");
+      setAmountError(L("Please enter a valid amount.", "সঠিক পরিমাণ লিখুন।"));
       return false;
     }
     if (val < 10) {
-      setAmountError("Minimum amount is ৳10.");
+      setAmountError(L("Minimum amount is ৳10.", "সর্বনিম্ন পরিমাণ ৳১০।"));
       return false;
     }
     if (val > 5_00_000) {
-      setAmountError("Maximum amount is ৳5,00,000.");
+      setAmountError(L("Maximum amount is ৳5,00,000.", "সর্বোচ্চ পরিমাণ ৳৫,০০,০০০।"));
       return false;
     }
     setAmountError(undefined);
@@ -93,7 +95,7 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
 
   const payOnline = () => {
     if (!user) {
-      toast.error("Please sign in to continue");
+      toast.error(L("Please sign in to continue", "চালিয়ে যেতে সাইন ইন করুন"));
       return;
     }
     if (!validate()) return;
@@ -104,11 +106,11 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
     <div className="space-y-5">
       <div className="flex items-center gap-3 rounded-xl border bg-muted/40 p-4">
         <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
-        <p className="text-sm font-medium">Secure online payment</p>
+        <p className="text-sm font-medium">{L("Secure online payment", "নিরাপদ অনলাইন পেমেন্ট")}</p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
+        <Label htmlFor={`${type}-amount`}>{L("Amount (BDT)", "পরিমাণ (টাকা)")}</Label>
         <Input
           id={`${type}-amount`}
           type="number"
@@ -132,7 +134,7 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
         onClick={payOnline}
         disabled={onlineMut.isPending}
       >
-        {onlineMut.isPending ? "Starting checkout…" : "Pay Online Now"}
+        {onlineMut.isPending ? L("Starting checkout…", "চেকআউট শুরু হচ্ছে…") : L("Pay Online Now", "এখনই অনলাইনে পেমেন্ট করুন")}
       </Button>
     </div>
   );
@@ -232,7 +234,7 @@ function WithdrawForm() {
         {errors.amount ? (
           <p className="text-xs text-destructive">{errors.amount}</p>
         ) : (
-          <p className="text-xs font-medium text-primary">Minimum withdraw {MIN_WITHDRAW} BDT</p>
+          <p className="text-xs font-medium text-primary">সর্বনিম্ন উত্তোলন {MIN_WITHDRAW} টাকা</p>
         )}
       </div>
 
@@ -291,7 +293,8 @@ function WithdrawForm() {
 
 
 function Payments() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
@@ -300,7 +303,7 @@ function Payments() {
           <Wallet className="h-6 w-6" />
         </span>
         <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("nav_payments")}</h1>
-        <p className="mt-2 text-muted-foreground">Manage deposits, withdrawals and EMI payments.</p>
+        <p className="mt-2 text-muted-foreground">{L("Manage deposits, withdrawals and EMI payments.", "জমা, উত্তোলন ও ইএমআই পেমেন্ট পরিচালনা করুন।")}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-5">
@@ -333,15 +336,15 @@ function Payments() {
 
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle className="text-base">Transaction Logs</CardTitle>
+            <CardTitle className="text-base">{L("Transaction Logs", "লেনদেনের তালিকা")}</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
               {logs.map((l, i) => (
                 <li key={i} className="flex items-center justify-between gap-2 rounded-lg border p-3">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium">{l.label}</p>
-                    <p className="text-xs text-muted-foreground">{l.method} · {l.date}</p>
+                    <p className="truncate text-sm font-medium">{l.label[lang]}</p>
+                    <p className="text-xs text-muted-foreground">{l.method[lang]} · {l.date}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold">{formatBDT(l.amount)}</p>
@@ -349,10 +352,10 @@ function Payments() {
                       variant="secondary"
                       className={cn(
                         "text-[10px]",
-                        l.status === "Completed" ? "text-accent" : "text-warning",
+                        l.status === "completed" ? "text-accent" : "text-warning",
                       )}
                     >
-                      {l.status}
+                      {l.status === "completed" ? L("Completed", "সম্পন্ন") : L("Pending", "অপেক্ষমাণ")}
                     </Badge>
                   </div>
                 </li>

@@ -20,7 +20,8 @@ export const Route = createFileRoute("/login")({
 });
 
 function Login() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -35,10 +36,10 @@ function Login() {
     });
     setLoading(false);
     if (error) {
-      toast.error("Sign in failed", { description: error.message });
+      toast.error(L("Sign in failed", "সাইন ইন ব্যর্থ হয়েছে"), { description: error.message });
       return;
     }
-    toast.success("Welcome back!");
+    toast.success(L("Welcome back!", "আবার স্বাগতম!"));
     navigate({ to: "/dashboard" });
   };
 
@@ -50,12 +51,12 @@ function Login() {
             <ShieldCheck className="h-6 w-6" />
           </span>
           <CardTitle className="mt-3 text-2xl">{t("nav_login")}</CardTitle>
-          <p className="text-sm text-muted-foreground">Welcome back to {t("brandFull")}</p>
+          <p className="text-sm text-muted-foreground">{L("Welcome back to", "আবার স্বাগতম")} {t("brandFull")}</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
-              <Label>Email</Label>
+              <Label>{L("Email", "ইমেইল")}</Label>
               <Input
                 type="email"
                 placeholder="you@example.com"
@@ -65,7 +66,7 @@ function Login() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Password</Label>
+              <Label>{L("Password", "পাসওয়ার্ড")}</Label>
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
@@ -78,7 +79,7 @@ function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((s) => !s)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-label={showPassword ? L("Hide password", "পাসওয়ার্ড লুকান") : L("Show password", "পাসওয়ার্ড দেখান")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -91,7 +92,7 @@ function Login() {
             </Button>
           </form>
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            New here?{" "}
+            {L("New here?", "নতুন এখানে?")}{" "}
             <Link to="/signup" className="font-semibold text-primary hover:underline">
               {t("nav_signup")}
             </Link>

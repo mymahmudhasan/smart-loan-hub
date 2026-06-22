@@ -43,7 +43,8 @@ function statusClasses(status: string) {
 
 function MyLoans() {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const fetchAccount = useServerFn(getMyAccount);
 
   const { data, isLoading } = useQuery({
@@ -63,7 +64,7 @@ function MyLoans() {
         <div>
           <h1 className="text-xl font-bold">{t("qa_myloans")}</h1>
           <p className="text-sm text-muted-foreground">
-            {loans.length} {loans.length === 1 ? "application" : "applications"}
+            {loans.length} {L(loans.length === 1 ? "application" : "applications", "টি আবেদন")}
           </p>
         </div>
       </div>
@@ -71,17 +72,17 @@ function MyLoans() {
       {!user ? (
         <Card>
           <CardContent className="p-6 text-center text-sm text-muted-foreground">
-            Please sign in to view your loans.
+            {L("Please sign in to view your loans.", "আপনার লোন দেখতে অনুগ্রহ করে সাইন ইন করুন।")}
           </CardContent>
         </Card>
       ) : isLoading ? (
         <Card>
-          <CardContent className="p-6 text-center text-sm text-muted-foreground">Loading…</CardContent>
+          <CardContent className="p-6 text-center text-sm text-muted-foreground">{L("Loading…", "লোড হচ্ছে…")}</CardContent>
         </Card>
       ) : loans.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center gap-4 p-8 text-center">
-            <p className="text-sm text-muted-foreground">You have no loan applications yet.</p>
+            <p className="text-sm text-muted-foreground">{L("You have no loan applications yet.", "আপনার এখনো কোনো লোন আবেদন নেই।")}</p>
             <Link
               to="/apply"
               className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
@@ -100,11 +101,15 @@ function MyLoans() {
                   <div className="min-w-0">
                     <p className="text-lg font-extrabold leading-tight">{formatBDT(l.amount)}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      {l.purpose || "—"} · {l.months} mo
+                      {l.purpose || "—"} · {l.months} {L("mo", "মাস")}
                     </p>
                   </div>
                   <Badge variant="outline" className={cn("shrink-0 capitalize", statusClasses(l.status))}>
-                    {l.status}
+                    {l.status === "approved"
+                      ? L("Approved", "অনুমোদিত")
+                      : l.status === "rejected"
+                        ? L("Rejected", "প্রত্যাখ্যাত")
+                        : L("Pending", "অপেক্ষমাণ")}
                   </Badge>
                 </div>
                 <div className="mt-3 flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
