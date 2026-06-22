@@ -106,11 +106,11 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
     <div className="space-y-5">
       <div className="flex items-center gap-3 rounded-xl border bg-muted/40 p-4">
         <ShieldCheck className="h-5 w-5 text-primary shrink-0" />
-        <p className="text-sm font-medium">Secure online payment</p>
+        <p className="text-sm font-medium">{L("Secure online payment", "নিরাপদ অনলাইন পেমেন্ট")}</p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor={`${type}-amount`}>Amount (BDT)</Label>
+        <Label htmlFor={`${type}-amount`}>{L("Amount (BDT)", "পরিমাণ (টাকা)")}</Label>
         <Input
           id={`${type}-amount`}
           type="number"
