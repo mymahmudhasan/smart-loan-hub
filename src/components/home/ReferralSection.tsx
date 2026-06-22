@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
 import type { PublicReferralStats } from "@/lib/referral-stats.functions";
-import { LiveDeposits } from "@/components/home/LiveDeposits";
 
 export function ReferralSection({ stats }: { stats?: PublicReferralStats }) {
   const { t } = useLanguage();
