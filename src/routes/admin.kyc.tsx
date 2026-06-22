@@ -88,6 +88,9 @@ function AdminKyc() {
                         <div className="text-xs text-muted-foreground">{k.profiles?.phone || k.profiles?.email || "—"}</div>
                       </TableCell>
                       <TableCell className="text-sm">{k.nid_number || "—"}</TableCell>
+                      <TableCell>
+                        <ViewDocuments kyc={k} />
+                      </TableCell>
                       <TableCell className="text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(k.created_at), { addSuffix: true })}
                       </TableCell>
