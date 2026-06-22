@@ -146,8 +146,6 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     const e: Record<string, string> = {};
     if (name.trim().length < 2) e.name = "Min 2 characters";
     if (content.trim().length < 10) e.content = "Min 10 characters";
-    if (avatarUrl.trim() && !/^https:\/\/\S+$/i.test(avatarUrl.trim()))
-      e.avatar = t("review_avatar_error");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
