@@ -169,7 +169,7 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
         <Input
           value={role}
           maxLength={120}
-          placeholder="Small business owner, Dhaka"
+          placeholder={L("Small business owner, Dhaka", "ক্ষুদ্র ব্যবসায়ী, ঢাকা")}
           onChange={(e) => setRole(e.target.value)}
         />
       </div>
