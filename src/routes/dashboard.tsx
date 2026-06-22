@@ -9,13 +9,21 @@ import {
   MessageCircle,
   Info,
   ArrowRight,
+  Users,
+  Coins,
+  Copy,
+  Check,
 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useAuth } from "@/context/auth";
 import { useLanguage } from "@/context/language";
 import { getMyProfile } from "@/lib/profile.functions";
+import { getMyReferral } from "@/lib/referral.functions";
 import { formatBDT } from "@/lib/format";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -47,6 +55,25 @@ function Dashboard() {
     enabled: !!user,
   });
   const balance = Number(profileData?.profile?.member_balance ?? 0);
+
+  const fetchReferral = useServerFn(getMyReferral);
+  const { data: referralData, isLoading: referralLoading } = useQuery({
+    queryKey: ["my-referral"],
+    queryFn: () => fetchReferral(),
+    enabled: !!user,
+  });
+
+  const [copied, setCopied] = useState(false);
+  const referralLink = referralData?.code
+    ? `${window.location.origin}/signup?ref=${encodeURIComponent(referralData.code)}`
+    : "";
+
+  const copyLink = async () => {
+    if (!referralLink) return;
+    await navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const actions = [
     { key: "qa_loan_apply", icon: ShieldPlus, to: "/apply", tint: "text-primary bg-primary/10" },
@@ -124,6 +151,71 @@ function Dashboard() {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* Referral count card */}
+      <section className="px-4 pb-12">
+        <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-5">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+                <Users className="h-4 w-4" />
+                {t("refer_widget_title")}
+              </div>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-3xl font-extrabold">
+                  {referralLoading ? "…" : referralData?.totalReferrals ?? 0}
+                </span>
+                <span className="text-sm text-muted-foreground">{t("refer_total")}</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-muted-foreground">{t("refer_earned")}</div>
+              <div className="text-lg font-extrabold text-success">
+                {referralLoading
+                  ? "…"
+                  : formatBDT(referralData?.creditedAmount ?? 0)}
+              </div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                {t("refer_pending")}: {" "}
+                <span className="font-medium text-warning">
+                  {referralLoading
+                    ? "…"
+                    : formatBDT(referralData?.pendingAmount ?? 0)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {referralData?.code && (
+            <div className="mt-4 flex items-center gap-2">
+              <div className="flex flex-1 items-center gap-2 rounded-xl border bg-card px-3 py-2">
+                <Coins className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium">{referralData.code}</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0"
+                onClick={copyLink}
+                disabled={!referralLink}
+              >
+                {copied ? (
+                  <Check className="h-4 w-4 text-success" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+                <span className="ml-1.5 hidden sm:inline">
+                  {copied ? t("refer_copied") : t("refer_copy")}
+                </span>
+              </Button>
+            </div>
+          )}
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            {t("refer_invite_message")}
+          </p>
+        </Card>
       </section>
 
     </div>
