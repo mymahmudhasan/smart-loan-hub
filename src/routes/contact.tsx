@@ -48,10 +48,10 @@ function Contact() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.message.trim()) {
-      toast.error("Please fill in your name and message");
+      toast.error(L("Please fill in your name and message", "অনুগ্রহ করে আপনার নাম ও বার্তা পূরণ করুন"));
       return;
     }
-    toast.success("Message sent", { description: "Our team will get back to you within 24 hours." });
+    toast.success(L("Message sent", "বার্তা পাঠানো হয়েছে"), { description: L("Our team will get back to you within 24 hours.", "আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার সাথে যোগাযোগ করবে।") });
     setForm({ name: "", email: "", message: "" });
   };
 
