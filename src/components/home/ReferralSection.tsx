@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/language";
 import type { PublicReferralStats } from "@/lib/referral-stats.functions";
+import { LiveDeposits } from "@/components/home/LiveDeposits";
 
 export function ReferralSection({ stats }: { stats?: PublicReferralStats }) {
   const { t } = useLanguage();
@@ -94,28 +95,10 @@ export function ReferralSection({ stats }: { stats?: PublicReferralStats }) {
             </div>
           ))}
 
-          {/* Top referrers */}
-          {hasStats && stats.topReferrers.length > 0 && (
-            <Card className="p-5">
-              <h4 className="text-sm font-semibold">{t("refer_top_title")}</h4>
-              <div className="mt-3 space-y-2">
-                {stats.topReferrers.map((r, i) => (
-                  <div key={i} className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                        {i + 1}
-                      </span>
-                      <span className="truncate">{r.name ?? "Member"}</span>
-                    </div>
-                    <span className="text-xs font-medium text-muted-foreground">
-                      {r.referrals} referrals
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          )}
+          {/* Live deposits feed */}
+          <LiveDeposits />
         </div>
+
       </div>
     </section>
   );
