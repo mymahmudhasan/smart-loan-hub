@@ -21,6 +21,7 @@ import { TrustBadges } from "@/components/home/TrustBadges";
 import { BankPartners } from "@/components/home/BankPartners";
 import { ClientReviews } from "@/components/home/ClientReviews";
 import { WhyEasy } from "@/components/home/WhyEasy";
+import { LiveDeposits } from "@/components/home/LiveDeposits";
 
 export const Route = createFileRoute("/")({
   head: () => ({
