@@ -3,14 +3,15 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Check, X } from "lucide-react";
+import { Loader2, Check, X, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { StatusBadge } from "@/components/admin/StatusBadge";
-import { listKyc, reviewKyc } from "@/lib/admin.functions";
+import { listKyc, reviewKyc, getKycDocuments } from "@/lib/admin.functions";
 import { formatDistanceToNow } from "date-fns";
 
 export const Route = createFileRoute("/admin/kyc")({
@@ -60,6 +61,7 @@ function AdminKyc() {
                 <TableRow>
                   <TableHead>Applicant</TableHead>
                   <TableHead>NID</TableHead>
+                  <TableHead>Documents</TableHead>
                   <TableHead>Submitted</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Review</TableHead>
@@ -68,7 +70,7 @@ function AdminKyc() {
               <TableBody>
                 {rows.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="py-8 text-center text-muted-foreground">
+                    <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
                       No submissions.
                     </TableCell>
                   </TableRow>
@@ -86,6 +88,9 @@ function AdminKyc() {
                         <div className="text-xs text-muted-foreground">{k.profiles?.phone || k.profiles?.email || "—"}</div>
                       </TableCell>
                       <TableCell className="text-sm">{k.nid_number || "—"}</TableCell>
+                      <TableCell>
+                        <ViewDocuments kyc={k} />
+                      </TableCell>
                       <TableCell className="text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(k.created_at), { addSuffix: true })}
                       </TableCell>
@@ -146,5 +151,63 @@ function ReviewKyc({ kyc, onDone }: { kyc: Kyc; onDone: () => void }) {
         </Button>
       </div>
     </div>
+  );
+}
+
+function ViewDocuments({ kyc }: { kyc: Kyc }) {
+  const fetchDocs = useServerFn(getKycDocuments);
+  const [open, setOpen] = useState(false);
+  const { data, isLoading } = useQuery({
+    queryKey: ["admin", "kyc", "docs", kyc.id],
+    queryFn: () => fetchDocs({ data: { id: kyc.id } }),
+    enabled: open,
+  });
+
+  const docs: { label: string; url: string | null | undefined }[] = [
+    { label: "NID Front", url: data?.nidFront },
+    { label: "NID Back", url: data?.nidBack },
+    { label: "Selfie", url: data?.selfie },
+  ];
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
+        <Eye className="h-4 w-4" /> View
+      </Button>
+      <DialogContent className="max-w-3xl">
+        <DialogHeader>
+          <DialogTitle>
+            {kyc.profiles?.full_name || "KYC documents"}
+            {kyc.nid_number ? ` · NID ${kyc.nid_number}` : ""}
+          </DialogTitle>
+        </DialogHeader>
+        {isLoading ? (
+          <div className="flex justify-center py-10">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-3">
+            {docs.map((d) => (
+              <div key={d.label} className="space-y-2">
+                <p className="text-sm font-medium">{d.label}</p>
+                {d.url ? (
+                  <a href={d.url} target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={d.url}
+                      alt={d.label}
+                      className="aspect-[3/2] w-full rounded-md border object-cover"
+                    />
+                  </a>
+                ) : (
+                  <div className="flex aspect-[3/2] w-full items-center justify-center rounded-md border text-xs text-muted-foreground">
+                    Not provided
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
