@@ -109,7 +109,8 @@ function ReviewCard({
 }
 
 function ReviewForm({ onDone }: { onDone: () => void }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const { user } = useAuth();
   const qc = useQueryClient();
   const submit = useServerFn(submitReview);
