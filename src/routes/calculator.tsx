@@ -109,11 +109,11 @@ function CalculatorPage() {
             <div className="rounded-xl bg-muted/60 p-4 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("stat_rate")}</span>
-                <span className="font-semibold">{(ANNUAL_RATE * 100).toFixed(0)}% / yr</span>
+                <span className="font-semibold">{(ANNUAL_RATE * 100).toFixed(0)}% / {L("yr", "বছর")}</span>
               </div>
               <div className="mt-1 flex justify-between">
-                <span className="text-muted-foreground">Method</span>
-                <span className="font-semibold">Reducing balance</span>
+                <span className="text-muted-foreground">{L("Method", "পদ্ধতি")}</span>
+                <span className="font-semibold">{L("Reducing balance", "রিডিউসিং ব্যালেন্স")}</span>
               </div>
             </div>
           </CardContent>
