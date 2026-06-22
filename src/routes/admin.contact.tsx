@@ -77,6 +77,35 @@ function AdminContactInfo() {
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
 
+  const updateQuestion = (index: number, field: "label_en" | "label_bn" | "message", value: string) => {
+    setForm((f) => {
+      const next = [...f.whatsappQuestions];
+      const item = { ...next[index] };
+      if (field === "label_en") item.label = { ...item.label, en: value };
+      else if (field === "label_bn") item.label = { ...item.label, bn: value };
+      else item.message = value;
+      next[index] = item;
+      return { ...f, whatsappQuestions: next };
+    });
+  };
+
+  const addQuestion = () => {
+    setForm((f) => ({
+      ...f,
+      whatsappQuestions: [
+        ...f.whatsappQuestions,
+        { label: { en: "", bn: "" }, message: "" },
+      ],
+    }));
+  };
+
+  const removeQuestion = (index: number) => {
+    setForm((f) => ({
+      ...f,
+      whatsappQuestions: f.whatsappQuestions.filter((_, i) => i !== index),
+    }));
+  };
+
   if (isLoading) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
