@@ -93,10 +93,8 @@ export function ReferralSection({ stats }: { stats?: PublicReferralStats }) {
               </div>
             </div>
           ))}
-
-          {/* Live deposits feed */}
-          <LiveDeposits />
         </div>
+
 
       </div>
     </section>
