@@ -72,17 +72,17 @@ function MyLoans() {
       {!user ? (
         <Card>
           <CardContent className="p-6 text-center text-sm text-muted-foreground">
-            Please sign in to view your loans.
+            {L("Please sign in to view your loans.", "আপনার লোন দেখতে অনুগ্রহ করে সাইন ইন করুন।")}
           </CardContent>
         </Card>
       ) : isLoading ? (
         <Card>
-          <CardContent className="p-6 text-center text-sm text-muted-foreground">Loading…</CardContent>
+          <CardContent className="p-6 text-center text-sm text-muted-foreground">{L("Loading…", "লোড হচ্ছে…")}</CardContent>
         </Card>
       ) : loans.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center gap-4 p-8 text-center">
-            <p className="text-sm text-muted-foreground">You have no loan applications yet.</p>
+            <p className="text-sm text-muted-foreground">{L("You have no loan applications yet.", "আপনার এখনো কোনো লোন আবেদন নেই।")}</p>
             <Link
               to="/apply"
               className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-soft transition-transform hover:scale-[1.02]"
