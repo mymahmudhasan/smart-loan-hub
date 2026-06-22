@@ -84,11 +84,11 @@ function Contact() {
           <CardContent>
             <form onSubmit={submit} className="space-y-4">
               <div className="space-y-2">
-                <Label>Full Name</Label>
+                <Label>{L("Full Name", "পুরো নাম")}</Label>
                 <Input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Your name"
+                  placeholder={L("Your name", "আপনার নাম")}
                   maxLength={100}
                 />
               </div>
