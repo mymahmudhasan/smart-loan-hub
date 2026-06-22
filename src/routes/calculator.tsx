@@ -102,7 +102,7 @@ function CalculatorPage() {
               />
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>3</span>
-                <span>{MAX_MONTHS} months</span>
+                <span>{MAX_MONTHS} {L("months", "মাস")}</span>
               </div>
             </div>
 
