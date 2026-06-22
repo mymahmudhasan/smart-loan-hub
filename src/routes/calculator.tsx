@@ -91,7 +91,7 @@ function CalculatorPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>{t("calc_duration")}</Label>
-                <span className="font-semibold">{months} mo</span>
+                <span className="font-semibold">{months} {L("mo", "মাস")}</span>
               </div>
               <Slider
                 value={[months]}
