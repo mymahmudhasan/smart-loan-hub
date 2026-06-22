@@ -21,6 +21,7 @@ import { TrustBadges } from "@/components/home/TrustBadges";
 import { BankPartners } from "@/components/home/BankPartners";
 import { ClientReviews } from "@/components/home/ClientReviews";
 import { WhyEasy } from "@/components/home/WhyEasy";
+import { LiveDeposits } from "@/components/home/LiveDeposits";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -128,6 +129,13 @@ function Home() {
           />
         </div>
       </section>
+
+      {/* Live deposits feed */}
+      <section className="mx-auto max-w-7xl px-4 pb-10 lg:pb-14">
+        <LiveDeposits />
+      </section>
+
+
 
       {/* Bank-style offers banner */}
       <OffersBanner offers={offers} />
