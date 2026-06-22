@@ -3,9 +3,10 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Save, Phone, Mail, MapPin } from "lucide-react";
+import { Loader2, Save, Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { getContactInfo, updateContactInfo } from "@/lib/contact-info.functions";
@@ -14,9 +15,21 @@ export const Route = createFileRoute("/admin/contact")({
   component: AdminContactInfo,
 });
 
-type FormState = { hotline: string; email: string; office: string };
+type FormState = {
+  hotline: string;
+  email: string;
+  office: string;
+  whatsappNumber: string;
+  whatsappMessage: string;
+};
 
-const emptyForm: FormState = { hotline: "", email: "", office: "" };
+const emptyForm: FormState = {
+  hotline: "",
+  email: "",
+  office: "",
+  whatsappNumber: "",
+  whatsappMessage: "",
+};
 
 function AdminContactInfo() {
   const fetchInfo = useServerFn(getContactInfo);
@@ -32,7 +45,13 @@ function AdminContactInfo() {
 
   useEffect(() => {
     if (data) {
-      setForm({ hotline: data.hotline, email: data.email, office: data.office });
+      setForm({
+        hotline: data.hotline,
+        email: data.email,
+        office: data.office,
+        whatsappNumber: data.whatsappNumber,
+        whatsappMessage: data.whatsappMessage,
+      });
     }
   }, [data]);
 
@@ -100,6 +119,38 @@ function AdminContactInfo() {
               maxLength={240}
             />
           </div>
+
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 text-primary" /> WhatsApp Number
+            </Label>
+            <Input
+              value={form.whatsappNumber}
+              onChange={(e) => set("whatsappNumber", e.target.value)}
+              placeholder="8801712345678 (international format, no +)"
+              maxLength={40}
+            />
+            <p className="text-xs text-muted-foreground">
+              Used by the floating WhatsApp button. Enter the full number in international format, digits only.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 text-primary" /> WhatsApp Default Message
+            </Label>
+            <Textarea
+              value={form.whatsappMessage}
+              onChange={(e) => set("whatsappMessage", e.target.value)}
+              placeholder="Hello! I want to know more about your loans."
+              maxLength={500}
+              rows={3}
+            />
+            <p className="text-xs text-muted-foreground">
+              This message is pre-filled in the chat when a visitor taps the WhatsApp button.
+            </p>
+          </div>
+
 
           <Button
             variant="hero"

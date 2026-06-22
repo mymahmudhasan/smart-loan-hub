@@ -9,6 +9,8 @@ export type ContactInfo = {
   hotline: string;
   email: string;
   office: string;
+  whatsappNumber: string;
+  whatsappMessage: string;
 };
 
 function normalize(row: Record<string, unknown> | null): ContactInfo | null {
@@ -18,6 +20,8 @@ function normalize(row: Record<string, unknown> | null): ContactInfo | null {
     hotline: String(row.hotline ?? ""),
     email: String(row.email ?? ""),
     office: String(row.office ?? ""),
+    whatsappNumber: String(row.whatsapp_number ?? ""),
+    whatsappMessage: String(row.whatsapp_message ?? ""),
   };
 }
 
@@ -25,7 +29,7 @@ function normalize(row: Record<string, unknown> | null): ContactInfo | null {
 export const getContactInfo = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin
     .from("contact_info")
-    .select("id, hotline, email, office")
+    .select("id, hotline, email, office, whatsapp_number, whatsapp_message")
     .order("created_at", { ascending: true })
     .limit(1)
     .maybeSingle();
@@ -37,6 +41,8 @@ const contactInput = z.object({
   hotline: z.string().max(120),
   email: z.string().max(200),
   office: z.string().max(240),
+  whatsappNumber: z.string().max(40),
+  whatsappMessage: z.string().max(500),
 });
 
 // ---------- Admin: update contact info ----------
@@ -49,6 +55,8 @@ export const updateContactInfo = createServerFn({ method: "POST" })
       hotline: data.hotline,
       email: data.email,
       office: data.office,
+      whatsapp_number: data.whatsappNumber,
+      whatsapp_message: data.whatsappMessage,
     };
     const { data: existing } = await supabaseAdmin
       .from("contact_info")
