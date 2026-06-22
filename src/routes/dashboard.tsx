@@ -56,6 +56,25 @@ function Dashboard() {
   });
   const balance = Number(profileData?.profile?.member_balance ?? 0);
 
+  const fetchReferral = useServerFn(getMyReferral);
+  const { data: referralData, isLoading: referralLoading } = useQuery({
+    queryKey: ["my-referral"],
+    queryFn: () => fetchReferral(),
+    enabled: !!user,
+  });
+
+  const [copied, setCopied] = useState(false);
+  const referralLink = referralData?.code
+    ? `${window.location.origin}/signup?ref=${encodeURIComponent(referralData.code)}`
+    : "";
+
+  const copyLink = async () => {
+    if (!referralLink) return;
+    await navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   const actions = [
     { key: "qa_loan_apply", icon: ShieldPlus, to: "/apply", tint: "text-primary bg-primary/10" },
     { key: "qa_cashout", icon: ShieldMinus, to: "/payments", tint: "text-destructive bg-destructive/10" },
