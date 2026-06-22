@@ -9,13 +9,21 @@ import {
   MessageCircle,
   Info,
   ArrowRight,
+  Users,
+  Coins,
+  Copy,
+  Check,
 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useAuth } from "@/context/auth";
 import { useLanguage } from "@/context/language";
 import { getMyProfile } from "@/lib/profile.functions";
+import { getMyReferral } from "@/lib/referral.functions";
 import { formatBDT } from "@/lib/format";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
