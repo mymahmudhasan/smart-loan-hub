@@ -45,7 +45,13 @@ function AdminContactInfo() {
 
   useEffect(() => {
     if (data) {
-      setForm({ hotline: data.hotline, email: data.email, office: data.office });
+      setForm({
+        hotline: data.hotline,
+        email: data.email,
+        office: data.office,
+        whatsappNumber: data.whatsappNumber,
+        whatsappMessage: data.whatsappMessage,
+      });
     }
   }, [data]);
 
