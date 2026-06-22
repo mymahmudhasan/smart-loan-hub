@@ -175,6 +175,13 @@ function Home() {
             </Card>
           ))}
         </div>
+        <div className="mt-12 flex justify-center">
+          <Button size="lg" variant="hero" className="gap-2" asChild>
+            <Link to="/apply">
+              {t("global_cta_loan")} <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
       </section>
 
       {/* Features */}
