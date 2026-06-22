@@ -118,8 +118,6 @@ function ReviewForm({ onDone }: { onDone: () => void }) {
     (user?.user_metadata?.full_name as string | undefined) ?? user?.email?.split("@")[0] ?? "";
   const [name, setName] = useState(defaultName);
   const [role, setRole] = useState("");
-  const [title, setTitle] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
   const [rating, setRating] = useState(5);
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
