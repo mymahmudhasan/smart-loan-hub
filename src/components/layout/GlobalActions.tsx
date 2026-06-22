@@ -26,8 +26,8 @@ export function GlobalActions() {
     <>
       {/* Mobile sticky bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-card/95 p-3 shadow-elegant backdrop-blur-md sm:hidden">
-        <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <Button variant="hero" size="lg" className="flex-1 gap-2" asChild>
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-2">
+          <Button variant="hero" size="lg" className="w-full gap-2" asChild>
             <Link to="/apply">
               {t("global_cta_loan")} <ArrowRight className="h-4 w-4" />
             </Link>
@@ -35,7 +35,7 @@ export function GlobalActions() {
           <Button
             variant="whatsapp"
             size="icon"
-            className="h-11 w-11 shrink-0"
+            className="h-11 w-11 shrink-0 rounded-full"
             aria-label={t("whatsapp_label")}
             asChild
           >
@@ -47,7 +47,12 @@ export function GlobalActions() {
       </div>
 
       {/* Desktop floating actions */}
-      <div className="fixed bottom-6 right-6 z-40 hidden sm:flex items-center gap-2 rounded-2xl border bg-card/95 p-2 shadow-elegant backdrop-blur-md">
+      <div className="fixed bottom-6 right-6 z-40 hidden sm:flex flex-col items-center gap-2 rounded-2xl border bg-card/95 p-2 shadow-elegant backdrop-blur-md">
+        <Button variant="hero" size="lg" className="w-full gap-2" asChild>
+          <Link to="/apply">
+            {t("global_cta_loan")} <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
         <Button
           variant="whatsapp"
           size="icon"
@@ -58,11 +63,6 @@ export function GlobalActions() {
           <a href={waLink} target="_blank" rel="noopener noreferrer">
             <WhatsAppIcon className="h-5 w-5" />
           </a>
-        </Button>
-        <Button variant="hero" size="lg" className="gap-2" asChild>
-          <Link to="/apply">
-            {t("global_cta_loan")} <ArrowRight className="h-4 w-4" />
-          </Link>
         </Button>
       </div>
     </>
