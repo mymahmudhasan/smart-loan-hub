@@ -133,7 +133,7 @@ export function ReferralWidget() {
                 {data.referrals.map((r) => (
                   <li key={r.id} className="flex items-center justify-between gap-3 py-2.5">
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{r.referred_name ?? "New member"}</p>
+                      <p className="truncate text-sm font-medium">{r.referred_name ?? L("New member", "নতুন সদস্য")}</p>
                       <p className="text-xs text-muted-foreground">
                         {new Date(r.created_at).toLocaleDateString()}
                       </p>
