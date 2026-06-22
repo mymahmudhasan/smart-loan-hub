@@ -101,11 +101,15 @@ function MyLoans() {
                   <div className="min-w-0">
                     <p className="text-lg font-extrabold leading-tight">{formatBDT(l.amount)}</p>
                     <p className="truncate text-xs text-muted-foreground">
-                      {l.purpose || "—"} · {l.months} mo
+                      {l.purpose || "—"} · {l.months} {L("mo", "মাস")}
                     </p>
                   </div>
                   <Badge variant="outline" className={cn("shrink-0 capitalize", statusClasses(l.status))}>
-                    {l.status}
+                    {l.status === "approved"
+                      ? L("Approved", "অনুমোদিত")
+                      : l.status === "rejected"
+                        ? L("Rejected", "প্রত্যাখ্যাত")
+                        : L("Pending", "অপেক্ষমাণ")}
                   </Badge>
                 </div>
                 <div className="mt-3 flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
