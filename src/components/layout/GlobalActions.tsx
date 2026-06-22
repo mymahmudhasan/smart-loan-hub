@@ -1,7 +1,8 @@
+import { useState, useRef, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, X, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language";
 import { SITE_CONFIG } from "@/config/site";
@@ -15,10 +16,29 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+function useClickOutside(ref: React.RefObject<HTMLElement | null>, handler: () => void) {
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) return;
+      handler();
+    };
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, handler]);
+}
+
 export function GlobalActions() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const fetchInfo = useServerFn(getContactInfo);
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState("");
+  const widgetRef = useRef<HTMLDivElement>(null);
+  useClickOutside(widgetRef, () => setOpen(false));
 
   const { data: contact } = useQuery({
     queryKey: ["contact-info"],
@@ -33,13 +53,32 @@ export function GlobalActions() {
   const fallback = SITE_CONFIG.whatsappNumber.replace(/\D/g, "");
   const waNumber = configured || (fallback.includes("X") ? "" : fallback);
   const waMessage = contact?.whatsappMessage?.trim() || "";
-  const waLink = waNumber
-    ? `https://wa.me/${waNumber}${waMessage ? `?text=${encodeURIComponent(waMessage)}` : ""}`
-    : "#";
+  const questions = contact?.whatsappQuestions ?? [];
+
+  const makeLink = (text: string) => {
+    if (!waNumber) return "#";
+    const encoded = encodeURIComponent(text || waMessage);
+    return `https://wa.me/${waNumber}${encoded ? `?text=${encoded}` : ""}`;
+  };
+
+  const sendDraft = () => {
+    const text = draft.trim();
+    if (!text || !waNumber) return;
+    window.open(makeLink(text), "_blank", "noopener,noreferrer");
+    setDraft("");
+    setOpen(false);
+  };
+
+  const sendQuestion = (message: string) => {
+    if (!waNumber) return;
+    window.open(makeLink(message), "_blank", "noopener,noreferrer");
+    setOpen(false);
+  };
+
+  const whatsappConfigured = Boolean(waNumber);
 
   return (
     <>
-
       {/* Mobile sticky bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t bg-card/95 p-3 shadow-elegant backdrop-blur-md sm:hidden">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-2">
@@ -52,12 +91,11 @@ export function GlobalActions() {
             variant="whatsapp"
             size="icon"
             className="h-11 w-11 shrink-0 rounded-full"
-            aria-label={t("whatsapp_label")}
-            asChild
+            aria-label={open ? t("wa_close") : t("whatsapp_label")}
+            onClick={() => whatsappConfigured && setOpen((v) => !v)}
+            disabled={!whatsappConfigured}
           >
-            <a href={waLink} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon className="h-5 w-5" />
-            </a>
+            {open ? <X className="h-5 w-5" /> : <WhatsAppIcon className="h-5 w-5" />}
           </Button>
         </div>
       </div>
@@ -77,14 +115,88 @@ export function GlobalActions() {
           variant="whatsapp"
           size="icon"
           className="h-11 w-11 rounded-full"
-          aria-label={t("whatsapp_label")}
-          asChild
+          aria-label={open ? t("wa_close") : t("whatsapp_label")}
+          onClick={() => whatsappConfigured && setOpen((v) => !v)}
+          disabled={!whatsappConfigured}
         >
-          <a href={waLink} target="_blank" rel="noopener noreferrer">
-            <WhatsAppIcon className="h-5 w-5" />
-          </a>
+          {open ? <X className="h-5 w-5" /> : <WhatsAppIcon className="h-5 w-5" />}
         </Button>
       </div>
+
+      {/* WhatsApp quick-questions widget */}
+      {open && whatsappConfigured && (
+        <div
+          ref={widgetRef}
+          className="fixed bottom-[7rem] right-2 z-50 w-[calc(100%-1rem)] max-w-sm sm:bottom-24 sm:right-8"
+        >
+          <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-elegant">
+            {/* Header */}
+            <div className="flex items-center gap-3 bg-whatsapp px-4 py-3 text-whatsapp-foreground">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+                <WhatsAppIcon className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold leading-tight">{t("wa_widget_title")}</p>
+                <p className="text-xs opacity-90">{t("wa_widget_status")}</p>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-whatsapp-foreground hover:bg-white/20"
+                onClick={() => setOpen(false)}
+                aria-label={t("wa_close")}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Body */}
+            <div className="space-y-3 p-4">
+              <div className="rounded-2xl rounded-tl-sm bg-muted p-3 text-sm text-foreground">
+                {t("wa_widget_greeting")}
+              </div>
+
+              {questions.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  {questions.map((q, i) => (
+                    <Button
+                      key={i}
+                      variant="outline"
+                      className="h-auto justify-start rounded-full border-border bg-background px-4 py-2.5 text-left text-sm font-normal leading-snug hover:bg-muted whitespace-normal"
+                      onClick={() => sendQuestion(q.message || q.label[lang] || q.label.en)}
+                    >
+                      {q.label[lang] || q.label.en}
+                    </Button>
+                  ))}
+                </div>
+              )}
+
+              {/* Custom input */}
+              <div className="flex items-center gap-2 rounded-full border border-input bg-background px-3 py-1.5">
+                <MessageCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && sendDraft()}
+                  placeholder={t("wa_input_placeholder")}
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                />
+                <Button
+                  variant="whatsapp"
+                  size="icon"
+                  className="h-8 w-8 shrink-0 rounded-full"
+                  onClick={sendDraft}
+                  disabled={!draft.trim()}
+                  aria-label={t("wa_send")}
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

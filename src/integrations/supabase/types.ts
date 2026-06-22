@@ -150,6 +150,7 @@ export type Database = {
           updated_at: string
           whatsapp_message: string
           whatsapp_number: string
+          whatsapp_questions: Json | null
         }
         Insert: {
           created_at?: string
@@ -160,6 +161,7 @@ export type Database = {
           updated_at?: string
           whatsapp_message?: string
           whatsapp_number?: string
+          whatsapp_questions?: Json | null
         }
         Update: {
           created_at?: string
@@ -170,6 +172,7 @@ export type Database = {
           updated_at?: string
           whatsapp_message?: string
           whatsapp_number?: string
+          whatsapp_questions?: Json | null
         }
         Relationships: []
       }

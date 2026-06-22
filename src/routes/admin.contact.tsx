@@ -3,13 +3,13 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Save, Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Loader2, Save, Phone, Mail, MapPin, MessageCircle, Plus, Trash2, GripVertical } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { getContactInfo, updateContactInfo } from "@/lib/contact-info.functions";
+import { getContactInfo, updateContactInfo, type WhatsappQuestion } from "@/lib/contact-info.functions";
 
 export const Route = createFileRoute("/admin/contact")({
   component: AdminContactInfo,
@@ -21,7 +21,15 @@ type FormState = {
   office: string;
   whatsappNumber: string;
   whatsappMessage: string;
+  whatsappQuestions: WhatsappQuestion[];
 };
+
+const defaultQuestions: WhatsappQuestion[] = [
+  { label: { en: "I want to apply for a loan", bn: "আমি লোনের আবেদন করতে চাই" }, message: "আমি লোনের আবেদন করতে আগ্রহী। বিস্তারিত জানতে চাই।" },
+  { label: { en: "Check my loan status", bn: "আমার লোনের স্ট্যাটাস জানতে চাই" }, message: "আমার লোন আবেদনের বর্তমান অবস্থা জানতে চাই।" },
+  { label: { en: "Help with EMI / payment", bn: "ইএমআই / পেমেন্ট নিয়ে সাহায্য চাই" }, message: "আমি আমার ইএমআই/পেমেন্ট সম্পর্কে জানতে চাই।" },
+  { label: { en: "About deposit & membership", bn: "জমা ও মেম্বারশিপ নিয়ে জানতে চাই" }, message: "আমি জমা ও মেম্বারশিপ সম্পর্কে জানতে চাই।" },
+];
 
 const emptyForm: FormState = {
   hotline: "",
@@ -29,6 +37,7 @@ const emptyForm: FormState = {
   office: "",
   whatsappNumber: "",
   whatsappMessage: "",
+  whatsappQuestions: defaultQuestions,
 };
 
 function AdminContactInfo() {
@@ -51,6 +60,7 @@ function AdminContactInfo() {
         office: data.office,
         whatsappNumber: data.whatsappNumber,
         whatsappMessage: data.whatsappMessage,
+        whatsappQuestions: data.whatsappQuestions.length ? data.whatsappQuestions : defaultQuestions,
       });
     }
   }, [data]);
@@ -66,6 +76,35 @@ function AdminContactInfo() {
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
+
+  const updateQuestion = (index: number, field: "label_en" | "label_bn" | "message", value: string) => {
+    setForm((f) => {
+      const next = [...f.whatsappQuestions];
+      const item = { ...next[index] };
+      if (field === "label_en") item.label = { ...item.label, en: value };
+      else if (field === "label_bn") item.label = { ...item.label, bn: value };
+      else item.message = value;
+      next[index] = item;
+      return { ...f, whatsappQuestions: next };
+    });
+  };
+
+  const addQuestion = () => {
+    setForm((f) => ({
+      ...f,
+      whatsappQuestions: [
+        ...f.whatsappQuestions,
+        { label: { en: "", bn: "" }, message: "" },
+      ],
+    }));
+  };
+
+  const removeQuestion = (index: number) => {
+    setForm((f) => ({
+      ...f,
+      whatsappQuestions: f.whatsappQuestions.filter((_, i) => i !== index),
+    }));
+  };
 
   if (isLoading) {
     return (
@@ -151,6 +190,64 @@ function AdminContactInfo() {
             </p>
           </div>
 
+
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 text-primary" />
+              <Label>WhatsApp Quick Questions</Label>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              These buttons appear in the floating WhatsApp widget. Visitors tap a button to start a chat with that message.
+            </p>
+            <div className="space-y-3">
+              {form.whatsappQuestions.map((q, i) => (
+                <div key={i} className="rounded-xl border bg-card p-3 space-y-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <Label className="text-xs">Label (English)</Label>
+                      <Input
+                        value={q.label.en}
+                        onChange={(e) => updateQuestion(i, "label_en", e.target.value)}
+                        placeholder="e.g. Apply for a loan"
+                        maxLength={120}
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-xs">Label (Bangla)</Label>
+                      <Input
+                        value={q.label.bn}
+                        onChange={(e) => updateQuestion(i, "label_bn", e.target.value)}
+                        placeholder="যেমন: লোনের আবেদন করুন"
+                        maxLength={120}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs">Pre-filled WhatsApp message</Label>
+                    <Textarea
+                      value={q.message}
+                      onChange={(e) => updateQuestion(i, "message", e.target.value)}
+                      placeholder="The message sent when this button is tapped"
+                      maxLength={500}
+                      rows={2}
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeQuestion(i)}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" /> Remove question
+                  </Button>
+                </div>
+              ))}
+              <Button type="button" variant="outline" size="sm" onClick={addQuestion}>
+                <Plus className="h-4 w-4" /> Add question
+              </Button>
+            </div>
+          </div>
 
           <Button
             variant="hero"
