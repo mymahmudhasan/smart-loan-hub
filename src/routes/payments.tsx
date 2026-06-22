@@ -234,7 +234,7 @@ function WithdrawForm() {
         {errors.amount ? (
           <p className="text-xs text-destructive">{errors.amount}</p>
         ) : (
-          <p className="text-xs font-medium text-primary">Minimum withdraw {MIN_WITHDRAW} BDT</p>
+          <p className="text-xs font-medium text-primary">সর্বনিম্ন উত্তোলন {MIN_WITHDRAW} টাকা</p>
         )}
       </div>
 
