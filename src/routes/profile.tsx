@@ -282,6 +282,48 @@ function ProfilePage() {
         </div>
       </div>
 
+      {/* Verified identity card (after admin approves KYC) */}
+      {isVerified && (
+        <Card className="mb-6 overflow-hidden border-accent/30 shadow-soft">
+          <CardContent className="flex items-center gap-4 p-5">
+            <div className="relative shrink-0">
+              {photoUrl ? (
+                <img
+                  src={photoUrl}
+                  alt={L("Verified live photo", "যাচাইকৃত লাইভ ছবি")}
+                  className="h-20 w-20 rounded-2xl border-2 border-accent/40 object-cover shadow-soft"
+                />
+              ) : (
+                <span className="flex h-20 w-20 items-center justify-center rounded-2xl border-2 border-accent/40 bg-accent/10 text-accent">
+                  <UserCircle className="h-10 w-10" />
+                </span>
+              )}
+              <span className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-soft">
+                <CheckCircle2 className="h-4 w-4" />
+              </span>
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="truncate text-lg font-bold">{form.full_name || L("Member", "সদস্য")}</p>
+                <Badge className="bg-accent/15 text-accent hover:bg-accent/15">
+                  <ShieldCheck className="mr-1 h-3.5 w-3.5" /> {L("NID Verified", "এনআইডি যাচাইকৃত")}
+                </Badge>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {L("National ID", "জাতীয় পরিচয়পত্র")}:{" "}
+                <span className="font-semibold text-foreground">{kyc?.nid_number || form.nid_number || "—"}</span>
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {L(
+                  "Your identity is verified. You can still make minor edits to your contact and address details below.",
+                  "আপনার পরিচয় যাচাই হয়েছে। নিচে যোগাযোগ ও ঠিকানার ছোটখাটো তথ্য এখনও সম্পাদনা করতে পারবেন।",
+                )}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Completion */}
       <Card className="mb-6 shadow-soft">
         <CardContent className="p-5">
