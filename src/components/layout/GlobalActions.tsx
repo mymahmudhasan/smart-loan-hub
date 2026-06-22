@@ -1,8 +1,11 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language";
 import { SITE_CONFIG } from "@/config/site";
+import { getContactInfo } from "@/lib/contact-info.functions";
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
