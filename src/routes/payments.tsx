@@ -49,6 +49,8 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState<string | undefined>();
   const { user } = useAuth();
+  const { lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const charge = useServerFn(createPaymentCharge);
 
   const onlineMut = useMutation({
