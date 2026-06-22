@@ -19,6 +19,7 @@ const buttonVariants = cva(
         hero: "gradient-primary text-primary-foreground shadow-elegant hover:opacity-95 hover:-translate-y-0.5 transition-all duration-300",
         accent: "bg-accent text-accent-foreground shadow hover:bg-accent/90",
         glass: "glass text-foreground hover:bg-card/90 transition-colors",
+        whatsapp: "bg-whatsapp text-whatsapp-foreground shadow hover:bg-whatsapp/90",
       },
       size: {
         default: "h-9 px-4 py-2",
