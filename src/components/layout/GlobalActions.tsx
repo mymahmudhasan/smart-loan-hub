@@ -47,8 +47,13 @@ export function GlobalActions() {
       </div>
 
       {/* Desktop floating actions */}
-      <div className="fixed bottom-6 right-6 z-40 hidden sm:flex flex-col items-center gap-2 rounded-2xl border bg-card/95 p-2 shadow-elegant backdrop-blur-md">
-        <Button variant="hero" size="lg" className="w-full gap-2" asChild>
+      <div className="fixed bottom-6 right-6 z-40 hidden sm:flex flex-col items-center gap-2 p-2 group">
+        <Button
+          variant="hero"
+          size="lg"
+          className="w-full gap-2 opacity-0 translate-y-4 pointer-events-none transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"
+          asChild
+        >
           <Link to="/apply">
             {t("global_cta_loan")} <ArrowRight className="h-4 w-4" />
           </Link>
