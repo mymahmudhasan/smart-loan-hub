@@ -59,7 +59,7 @@ function Contact() {
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">{t("nav_contact")}</h1>
-        <p className="mt-2 text-muted-foreground">We're here to help, every step of the way.</p>
+        <p className="mt-2 text-muted-foreground">{L("We're here to help, every step of the way.", "প্রতিটি ধাপে আমরা আপনাকে সাহায্য করতে এখানে আছি।")}</p>
       </div>
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
