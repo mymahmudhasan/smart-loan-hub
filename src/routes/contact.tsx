@@ -29,7 +29,8 @@ const fallback = {
 };
 
 function Contact() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const fetchInfo = useServerFn(getContactInfo);
@@ -39,9 +40,9 @@ function Contact() {
   });
 
   const info = [
-    { icon: Phone, label: "Hotline", value: contact?.hotline || fallback.hotline },
-    { icon: Mail, label: "Email", value: contact?.email || fallback.email },
-    { icon: MapPin, label: "Office", value: contact?.office || fallback.office },
+    { icon: Phone, label: L("Hotline", "হটলাইন"), value: contact?.hotline || fallback.hotline },
+    { icon: Mail, label: L("Email", "ইমেইল"), value: contact?.email || fallback.email },
+    { icon: MapPin, label: L("Office", "অফিস"), value: contact?.office || fallback.office },
   ];
 
   const submit = (e: React.FormEvent) => {
