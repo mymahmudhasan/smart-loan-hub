@@ -231,6 +231,16 @@ export const translations: Dict = {
   learn_more: { en: "Learn more", bn: "বিস্তারিত" },
   global_cta_loan: { en: "Apply for loan now", bn: "এখনি লোনের আবেদন করুন" },
   whatsapp_label: { en: "Chat on WhatsApp", bn: "হোয়াটসঅ্যাপে চ্যাট করুন" },
+  wa_widget_title: { en: "Smart Loan Support", bn: "স্মার্ট লোন সাপোর্ট" },
+  wa_widget_status: { en: "Online · replies in minutes", bn: "অনলাইন · মিনিটের মধ্যে রিপ্লাই" },
+  wa_widget_greeting: {
+    en: "Hi! We're here to help with loans, deposits, EMIs, or your account. Pick a topic below or send a message.",
+    bn: "হ্যালো! লোন, জমা, ইএমআই বা আপনার একাউন্ট নিয়ে সাহায্য করতে আমরা আছি। নিচে থেকে একটি বিষয় বেছে নিন বা মেসেজ পাঠান।",
+  },
+  wa_input_placeholder: { en: "Type your message...", bn: "আপনার মেসেজ লিখুন..." },
+  wa_send: { en: "Send via WhatsApp", bn: "হোয়াটসঅ্যাপে পাঠান" },
+  wa_close: { en: "Close", bn: "বন্ধ করুন" },
+  wa_start_chat: { en: "Start chat", bn: "চ্যাট শুরু করুন" },
 
   footer_tagline: { en: "Secure, membership-based lending for Bangladesh.", bn: "বাংলাদেশের জন্য নিরাপদ মেম্বারশিপ লোন।" },
   footer_rights: { en: "All rights reserved.", bn: "সর্বস্বত্ব সংরক্ষিত।" },
