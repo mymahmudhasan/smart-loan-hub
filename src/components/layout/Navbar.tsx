@@ -70,7 +70,7 @@ export function Navbar() {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Menu">
+              <Button variant="ghost" size="icon" aria-label={L("Menu", "মেনু")}>
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
