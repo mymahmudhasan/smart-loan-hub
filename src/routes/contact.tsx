@@ -103,17 +103,17 @@ function Contact() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Message</Label>
+                <Label>{L("Message", "বার্তা")}</Label>
                 <Textarea
                   rows={5}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  placeholder="How can we help?"
+                  placeholder={L("How can we help?", "আমরা কীভাবে সাহায্য করতে পারি?")}
                   maxLength={1000}
                 />
               </div>
               <Button type="submit" variant="hero" size="lg" className="w-full">
-                <Send className="h-4 w-4" /> Send Message
+                <Send className="h-4 w-4" /> {L("Send Message", "বার্তা পাঠান")}
               </Button>
             </form>
           </CardContent>
