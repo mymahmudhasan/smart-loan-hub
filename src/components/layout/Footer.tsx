@@ -143,7 +143,7 @@ export function Footer() {
             to="/admin-login"
             className="inline-flex items-center gap-1 transition-colors hover:text-primary"
           >
-            <Lock className="h-3 w-3" /> Admin
+            <Lock className="h-3 w-3" /> {L("Admin", "অ্যাডমিন")}
           </Link>
         </div>
       </div>
