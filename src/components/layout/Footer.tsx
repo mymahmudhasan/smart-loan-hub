@@ -72,7 +72,8 @@ function BannerStrip() {
 
 
 export function Footer() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const year = new Date().getFullYear();
 
   const cols = [
@@ -94,10 +95,10 @@ export function Footer() {
       ],
     },
     {
-      title: "Legal",
+      title: L("Legal", "আইনগত"),
       links: [
-        { to: "/privacy", label: "Privacy Policy" },
-        { to: "/terms", label: "Terms & Conditions" },
+        { to: "/privacy", label: L("Privacy Policy", "গোপনীয়তা নীতি") },
+        { to: "/terms", label: L("Terms & Conditions", "শর্তাবলী") },
       ],
     },
   ];
