@@ -3,13 +3,13 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Save, Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Loader2, Save, Phone, Mail, MapPin, MessageCircle, Plus, Trash2, GripVertical } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { getContactInfo, updateContactInfo } from "@/lib/contact-info.functions";
+import { getContactInfo, updateContactInfo, type WhatsappQuestion } from "@/lib/contact-info.functions";
 
 export const Route = createFileRoute("/admin/contact")({
   component: AdminContactInfo,
@@ -21,7 +21,15 @@ type FormState = {
   office: string;
   whatsappNumber: string;
   whatsappMessage: string;
+  whatsappQuestions: WhatsappQuestion[];
 };
+
+const defaultQuestions: WhatsappQuestion[] = [
+  { label: { en: "I want to apply for a loan", bn: "আমি লোনের আবেদন করতে চাই" }, message: "আমি লোনের আবেদন করতে আগ্রহী। বিস্তারিত জানতে চাই।" },
+  { label: { en: "Check my loan status", bn: "আমার লোনের স্ট্যাটাস জানতে চাই" }, message: "আমার লোন আবেদনের বর্তমান অবস্থা জানতে চাই।" },
+  { label: { en: "Help with EMI / payment", bn: "ইএমআই / পেমেন্ট নিয়ে সাহায্য চাই" }, message: "আমি আমার ইএমআই/পেমেন্ট সম্পর্কে জানতে চাই।" },
+  { label: { en: "About deposit & membership", bn: "জমা ও মেম্বারশিপ নিয়ে জানতে চাই" }, message: "আমি জমা ও মেম্বারশিপ সম্পর্কে জানতে চাই।" },
+];
 
 const emptyForm: FormState = {
   hotline: "",
@@ -29,6 +37,7 @@ const emptyForm: FormState = {
   office: "",
   whatsappNumber: "",
   whatsappMessage: "",
+  whatsappQuestions: defaultQuestions,
 };
 
 function AdminContactInfo() {
@@ -51,6 +60,7 @@ function AdminContactInfo() {
         office: data.office,
         whatsappNumber: data.whatsappNumber,
         whatsappMessage: data.whatsappMessage,
+        whatsappQuestions: data.whatsappQuestions.length ? data.whatsappQuestions : defaultQuestions,
       });
     }
   }, [data]);
