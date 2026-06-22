@@ -1,14 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { Loader2, Check, X } from "lucide-react";
+import { Loader2, Check, X, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { listLoans, reviewLoan } from "@/lib/admin.functions";
 import { formatBDT } from "@/lib/format";
@@ -26,6 +34,8 @@ type Loan = {
   emi: number | null;
   status: string;
   reviewer_notes: string | null;
+  created_at?: string | null;
+  reviewed_at?: string | null;
   profiles: { full_name: string | null; phone: string | null; email: string | null; member_balance: number } | null;
 };
 
@@ -39,6 +49,7 @@ function AdminLoans() {
   });
 
   const rows = (data ?? []).filter((l) => filter === "all" || l.status === filter);
+  const invalidate = () => qc.invalidateQueries({ queryKey: ["admin", "loans"] });
 
   return (
     <Card className="shadow-soft">
@@ -65,7 +76,7 @@ function AdminLoans() {
                   <TableHead>Term</TableHead>
                   <TableHead>EMI</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Review</TableHead>
+                  <TableHead className="text-right">Details</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -95,7 +106,7 @@ function AdminLoans() {
                       <TableCell className="text-sm">{l.emi ? formatBDT(l.emi) : "—"}</TableCell>
                       <TableCell><StatusBadge status={l.status} /></TableCell>
                       <TableCell className="text-right">
-                        <ReviewLoan loan={l} onDone={() => qc.invalidateQueries({ queryKey: ["admin", "loans"] })} />
+                        <LoanDetails loan={l} onDone={invalidate} />
                       </TableCell>
                     </TableRow>
                   ))
@@ -109,42 +120,106 @@ function AdminLoans() {
   );
 }
 
-function ReviewLoan({ loan, onDone }: { loan: Loan; onDone: () => void }) {
+function DetailRow({ label, value }: { label: string; value: ReactNode }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b border-border/60 py-2 text-sm last:border-0">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="text-right font-medium">{value}</span>
+    </div>
+  );
+}
+
+function LoanDetails({ loan, onDone }: { loan: Loan; onDone: () => void }) {
   const review = useServerFn(reviewLoan);
+  const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState("");
-  const [show, setShow] = useState(false);
   const mut = useMutation({
     mutationFn: (status: "approved" | "rejected") => review({ data: { id: loan.id, status, notes } }),
     onSuccess: (_d, status) => {
       toast.success(`Loan ${status}`);
+      setOpen(false);
       onDone();
     },
     onError: (e) => toast.error("Failed", { description: (e as Error).message }),
   });
 
-  if (loan.status !== "pending") {
-    return <span className="text-xs text-muted-foreground">{loan.reviewer_notes || "Reviewed"}</span>;
-  }
-  if (!show) {
-    return <Button variant="outline" size="sm" onClick={() => setShow(true)}>Review</Button>;
-  }
+  const fmtDate = (d?: string | null) => (d ? new Date(d).toLocaleString() : "—");
+
   return (
-    <div className="flex flex-col items-end gap-2">
-      <Textarea
-        placeholder="Notes (optional)"
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        rows={2}
-        className="w-56 text-sm"
-      />
-      <div className="flex gap-2">
-        <Button size="sm" variant="accent" disabled={mut.isPending} onClick={() => mut.mutate("approved")}>
-          <Check className="h-4 w-4" /> Approve
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">
+          <Eye className="h-4 w-4" /> View
         </Button>
-        <Button size="sm" variant="destructive" disabled={mut.isPending} onClick={() => mut.mutate("rejected")}>
-          <X className="h-4 w-4" /> Reject
-        </Button>
-      </div>
-    </div>
+      </DialogTrigger>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Loan application</DialogTitle>
+          <DialogDescription>Review the full details and decide.</DialogDescription>
+        </DialogHeader>
+
+        <div className="mt-2">
+          <DetailRow
+            label="Applicant"
+            value={
+              <Link
+                to="/admin/member/$userId"
+                params={{ userId: loan.user_id }}
+                className="text-primary hover:underline"
+              >
+                {loan.profiles?.full_name || "—"}
+              </Link>
+            }
+          />
+          <DetailRow label="Phone" value={loan.profiles?.phone || "—"} />
+          <DetailRow label="Email" value={loan.profiles?.email || "—"} />
+          <DetailRow label="Member balance" value={formatBDT(loan.profiles?.member_balance ?? 0)} />
+          <DetailRow label="Amount" value={formatBDT(loan.amount)} />
+          <DetailRow label="Term" value={`${loan.months} months`} />
+          <DetailRow label="EMI" value={loan.emi ? formatBDT(loan.emi) : "—"} />
+          <DetailRow label="Purpose" value={loan.purpose || "—"} />
+          <DetailRow label="Status" value={<StatusBadge status={loan.status} />} />
+          <DetailRow label="Applied" value={fmtDate(loan.created_at)} />
+          {loan.status !== "pending" && (
+            <>
+              <DetailRow label="Reviewed" value={fmtDate(loan.reviewed_at)} />
+              <DetailRow label="Reviewer notes" value={loan.reviewer_notes || "—"} />
+            </>
+          )}
+        </div>
+
+        {loan.status === "pending" ? (
+          <div className="mt-4 space-y-3">
+            <Textarea
+              placeholder="Notes (optional)"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              rows={2}
+              className="text-sm"
+            />
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="accent"
+                disabled={mut.isPending}
+                onClick={() => mut.mutate("approved")}
+              >
+                {mut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />} Approve
+              </Button>
+              <Button
+                variant="destructive"
+                disabled={mut.isPending}
+                onClick={() => mut.mutate("rejected")}
+              >
+                <X className="h-4 w-4" /> Reject
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-muted-foreground">
+            This application has already been {loan.status}.
+          </p>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
