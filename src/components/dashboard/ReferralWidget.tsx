@@ -143,7 +143,7 @@ export function ReferralWidget() {
                         +{formatBDT(r.reward_amount)}
                       </span>
                       <Badge variant={r.status === "credited" ? "default" : "outline"}>
-                        {r.status}
+                        {r.status === "credited" ? L("Credited", "ক্রেডিটেড") : L("Pending", "অপেক্ষমাণ")}
                       </Badge>
                     </div>
                   </li>
