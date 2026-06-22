@@ -64,29 +64,29 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
       }),
     onSuccess: (res) => {
       if (res?.checkoutUrl) {
-        toast.success("Redirecting to secure checkout…");
+        toast.success(L("Redirecting to secure checkout…", "নিরাপদ চেকআউটে রিডাইরেক্ট করা হচ্ছে…"));
         window.location.href = res.checkoutUrl;
       } else {
-        toast.error("Could not start checkout", {
-          description: "No checkout URL returned by the gateway.",
+        toast.error(L("Could not start checkout", "চেকআউট শুরু করা যায়নি"), {
+          description: L("No checkout URL returned by the gateway.", "গেটওয়ে থেকে কোনো চেকআউট ইউআরএল পাওয়া যায়নি।"),
         });
       }
     },
-    onError: (e) => toast.error("Payment failed", { description: (e as Error).message }),
+    onError: (e) => toast.error(L("Payment failed", "পেমেন্ট ব্যর্থ হয়েছে"), { description: (e as Error).message }),
   });
 
   const validate = () => {
     const val = Number(amount);
     if (!amount || Number.isNaN(val) || val <= 0) {
-      setAmountError("Please enter a valid amount.");
+      setAmountError(L("Please enter a valid amount.", "সঠিক পরিমাণ লিখুন।"));
       return false;
     }
     if (val < 10) {
-      setAmountError("Minimum amount is ৳10.");
+      setAmountError(L("Minimum amount is ৳10.", "সর্বনিম্ন পরিমাণ ৳১০।"));
       return false;
     }
     if (val > 5_00_000) {
-      setAmountError("Maximum amount is ৳5,00,000.");
+      setAmountError(L("Maximum amount is ৳5,00,000.", "সর্বোচ্চ পরিমাণ ৳৫,০০,০০০।"));
       return false;
     }
     setAmountError(undefined);
@@ -95,7 +95,7 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
 
   const payOnline = () => {
     if (!user) {
-      toast.error("Please sign in to continue");
+      toast.error(L("Please sign in to continue", "চালিয়ে যেতে সাইন ইন করুন"));
       return;
     }
     if (!validate()) return;
