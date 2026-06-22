@@ -92,7 +92,7 @@ function Login() {
             </Button>
           </form>
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            New here?{" "}
+            {L("New here?", "নতুন এখানে?")}{" "}
             <Link to="/signup" className="font-semibold text-primary hover:underline">
               {t("nav_signup")}
             </Link>
