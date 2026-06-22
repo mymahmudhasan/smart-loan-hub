@@ -163,8 +163,10 @@ function Membership() {
             <CardContent className="p-6">
               <h3 className="font-semibold">{t("mem_balance")} × {ELIGIBILITY_MULTIPLIER} = {t("mem_eligible")}</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your borrowing power scales directly with your deposited balance. Top up anytime to
-                instantly increase your available loan limit.
+                {L(
+                  "Your borrowing power scales directly with your deposited balance. Top up anytime to instantly increase your available loan limit.",
+                  "আপনার ঋণ ক্ষমতা সরাসরি আপনার জমা ব্যালেন্সের সাথে বাড়ে। যেকোনো সময় টপ আপ করে তাৎক্ষণিকভাবে আপনার উপলব্ধ লোন লিমিট বাড়ান।",
+                )}
               </p>
             </CardContent>
           </Card>
