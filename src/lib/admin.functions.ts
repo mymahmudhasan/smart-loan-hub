@@ -325,12 +325,12 @@ export const reviewKyc = createServerFn({ method: "POST" })
     if (data.status === "approved" && row?.user_id) {
       // On approval, promote the verified identity onto the member profile:
       // mark verified, store the confirmed NID, and use the live selfie as the profile photo.
-      const profileUpdate: Record<string, unknown> = {
+      const profileUpdate = {
         member_status: "verified",
         updated_at: new Date().toISOString(),
+        ...(row.nid_number ? { nid_number: row.nid_number } : {}),
+        ...(row.selfie_url ? { photo_url: row.selfie_url } : {}),
       };
-      if (row.nid_number) profileUpdate.nid_number = row.nid_number;
-      if (row.selfie_url) profileUpdate.photo_url = row.selfie_url;
       await supabaseAdmin.from("profiles").update(profileUpdate).eq("id", row.user_id);
     }
     await logAudit({
