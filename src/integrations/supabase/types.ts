@@ -148,6 +148,8 @@ export type Database = {
           id: string
           office: string
           updated_at: string
+          whatsapp_message: string
+          whatsapp_number: string
         }
         Insert: {
           created_at?: string
@@ -156,6 +158,8 @@ export type Database = {
           id?: string
           office?: string
           updated_at?: string
+          whatsapp_message?: string
+          whatsapp_number?: string
         }
         Update: {
           created_at?: string
@@ -164,6 +168,8 @@ export type Database = {
           id?: string
           office?: string
           updated_at?: string
+          whatsapp_message?: string
+          whatsapp_number?: string
         }
         Relationships: []
       }
