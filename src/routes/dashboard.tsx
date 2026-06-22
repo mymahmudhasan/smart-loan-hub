@@ -55,6 +55,8 @@ function Dashboard() {
     enabled: !!user,
   });
   const balance = Number(profileData?.profile?.member_balance ?? 0);
+  const photoUrl = profileData?.photoUrl ?? null;
+  const isVerified = profileData?.profile?.member_status === "verified";
 
   const fetchReferral = useServerFn(getMyReferral);
   const { data: referralData, isLoading: referralLoading } = useQuery({
@@ -92,12 +94,21 @@ function Dashboard() {
       <section className="gradient-hero text-on-hero">
         <div className="px-5 pt-6">
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-white/40 bg-white/15 text-lg font-bold">
-                {displayName.charAt(0).toUpperCase()}
+            <Link to="/profile" className="flex items-center gap-3">
+              <span className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-2 border-white/40 bg-white/15 text-lg font-bold">
+                {photoUrl ? (
+                  <img src={photoUrl} alt={displayName} className="h-full w-full object-cover" />
+                ) : (
+                  displayName.charAt(0).toUpperCase()
+                )}
+                {isVerified && (
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-accent-foreground ring-2 ring-white/60">
+                    <Check className="h-3 w-3" />
+                  </span>
+                )}
               </span>
               <span className="text-lg font-bold tracking-tight">{displayName}</span>
-            </div>
+            </Link>
 
             <Link
               to="/payments"
