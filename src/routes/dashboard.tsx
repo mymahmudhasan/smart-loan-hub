@@ -153,6 +153,71 @@ function Dashboard() {
         </div>
       </section>
 
+      {/* Referral count card */}
+      <section className="px-4 pb-12">
+        <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-5">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+                <Users className="h-4 w-4" />
+                {t("refer_widget_title")}
+              </div>
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-3xl font-extrabold">
+                  {referralLoading ? "…" : referralData?.totalReferrals ?? 0}
+                </span>
+                <span className="text-sm text-muted-foreground">{t("refer_total")}</span>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-muted-foreground">{t("refer_earned")}</div>
+              <div className="text-lg font-extrabold text-success">
+                {referralLoading
+                  ? "…"
+                  : formatBDT(referralData?.creditedAmount ?? 0)}
+              </div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                {t("refer_pending")}: {" "}
+                <span className="font-medium text-warning">
+                  {referralLoading
+                    ? "…"
+                    : formatBDT(referralData?.pendingAmount ?? 0)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {referralData?.code && (
+            <div className="mt-4 flex items-center gap-2">
+              <div className="flex flex-1 items-center gap-2 rounded-xl border bg-card px-3 py-2">
+                <Coins className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium">{referralData.code}</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0"
+                onClick={copyLink}
+                disabled={!referralLink}
+              >
+                {copied ? (
+                  <Check className="h-4 w-4 text-success" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+                <span className="ml-1.5 hidden sm:inline">
+                  {copied ? t("refer_copied") : t("refer_copy")}
+                </span>
+              </Button>
+            </div>
+          )}
+
+          <p className="mt-3 text-xs text-muted-foreground">
+            {t("refer_invite_message")}
+          </p>
+        </Card>
+      </section>
+
     </div>
   );
 }
