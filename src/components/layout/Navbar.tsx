@@ -49,7 +49,7 @@ export function Navbar() {
           {isAdmin && (
             <Button variant="accent" size="sm" className="hidden sm:inline-flex gap-1.5" asChild>
               <Link to="/admin">
-                <LayoutDashboard className="h-4 w-4" /> Admin Panel
+                <LayoutDashboard className="h-4 w-4" /> {L("Admin Panel", "অ্যাডমিন প্যানেল")}
               </Link>
             </Button>
           )}
