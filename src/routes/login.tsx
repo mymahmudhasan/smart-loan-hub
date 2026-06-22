@@ -36,10 +36,10 @@ function Login() {
     });
     setLoading(false);
     if (error) {
-      toast.error("Sign in failed", { description: error.message });
+      toast.error(L("Sign in failed", "সাইন ইন ব্যর্থ হয়েছে"), { description: error.message });
       return;
     }
-    toast.success("Welcome back!");
+    toast.success(L("Welcome back!", "আবার স্বাগতম!"));
     navigate({ to: "/dashboard" });
   };
 
