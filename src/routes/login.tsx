@@ -51,7 +51,7 @@ function Login() {
             <ShieldCheck className="h-6 w-6" />
           </span>
           <CardTitle className="mt-3 text-2xl">{t("nav_login")}</CardTitle>
-          <p className="text-sm text-muted-foreground">Welcome back to {t("brandFull")}</p>
+          <p className="text-sm text-muted-foreground">{L("Welcome back to", "আবার স্বাগতম")} {t("brandFull")}</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
