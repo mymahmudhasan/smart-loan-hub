@@ -293,7 +293,8 @@ function WithdrawForm() {
 
 
 function Payments() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 lg:py-16">
@@ -302,7 +303,7 @@ function Payments() {
           <Wallet className="h-6 w-6" />
         </span>
         <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("nav_payments")}</h1>
-        <p className="mt-2 text-muted-foreground">Manage deposits, withdrawals and EMI payments.</p>
+        <p className="mt-2 text-muted-foreground">{L("Manage deposits, withdrawals and EMI payments.", "জমা, উত্তোলন ও ইএমআই পেমেন্ট পরিচালনা করুন।")}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-5">
