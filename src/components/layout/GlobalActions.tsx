@@ -47,11 +47,11 @@ export function GlobalActions() {
       </div>
 
       {/* Desktop floating actions */}
-      <div className="fixed bottom-6 right-6 z-40 hidden sm:flex flex-col items-center gap-2 p-2 group">
+      <div className="fixed bottom-6 right-6 z-40 hidden sm:flex flex-col items-center p-2 group">
         <Button
           variant="hero"
           size="lg"
-          className="w-full gap-2 opacity-0 translate-y-4 pointer-events-none transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"
+          className="absolute bottom-full mb-2 w-max gap-2 whitespace-nowrap opacity-0 translate-y-4 pointer-events-none transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto"
           asChild
         >
           <Link to="/apply">
