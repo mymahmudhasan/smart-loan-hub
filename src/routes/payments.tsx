@@ -39,9 +39,9 @@ export const Route = createFileRoute("/payments")({
 });
 
 const logs = [
-  { label: "EMI Payment #8", method: "Online", date: "01 Jun 2026", amount: 13568, status: "Completed" },
-  { label: "Deposit", method: "Online", date: "20 May 2026", amount: 15000, status: "Completed" },
-  { label: "Withdraw", method: "bKash", date: "10 May 2026", amount: 5000, status: "Pending" },
+  { label: { en: "EMI Payment #8", bn: "ইএমআই পেমেন্ট #৮" }, method: { en: "Online", bn: "অনলাইন" }, date: "01 Jun 2026", amount: 13568, status: "completed" as const },
+  { label: { en: "Deposit", bn: "জমা" }, method: { en: "Online", bn: "অনলাইন" }, date: "20 May 2026", amount: 15000, status: "completed" as const },
+  { label: { en: "Withdraw", bn: "উত্তোলন" }, method: { en: "bKash", bn: "বিকাশ" }, date: "10 May 2026", amount: 5000, status: "pending" as const },
 ];
 
 // ---------- Online (gateway) deposit / EMI form ----------
