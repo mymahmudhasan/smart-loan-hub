@@ -11,7 +11,8 @@ import { useLanguage } from "@/context/language";
 import { getMyReferral, type MyReferral } from "@/lib/referral.functions";
 
 export function ReferralWidget() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const L = (en: string, bn: string) => (lang === "bn" ? bn : en);
   const fetchReferral = useServerFn(getMyReferral);
   const { data, isLoading } = useQuery({
     queryKey: ["my", "referral"],
