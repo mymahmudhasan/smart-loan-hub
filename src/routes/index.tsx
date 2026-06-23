@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import heroAsset from "@/assets/hero.png.asset.json";
 import {
   ShieldCheck,
   TrendingUp,
