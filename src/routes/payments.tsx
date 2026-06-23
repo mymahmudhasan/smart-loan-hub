@@ -140,12 +140,11 @@ function OnlinePaymentForm({ type }: { type: "deposit" | "emi_payment" }) {
   );
 }
 
-// ---------- Manual withdrawal request form ----------
+// ---------- Manual withdrawal request form (bKash only) ----------
 function WithdrawForm() {
   const [amount, setAmount] = useState("");
-  const [method, setMethod] = useState<"bkash" | "nagad" | "">("");
   const [account, setAccount] = useState("");
-  const [errors, setErrors] = useState<{ amount?: string; method?: string; account?: string }>({});
+  const [errors, setErrors] = useState<{ amount?: string; account?: string }>({});
   const { user } = useAuth();
   const request = useServerFn(requestTransaction);
 
@@ -164,7 +163,6 @@ function WithdrawForm() {
     else if (Number.isNaN(val) || val <= 0) next.amount = "সঠিক পরিমাণ লিখুন।";
     else if (val < MIN_WITHDRAW) next.amount = `সর্বনিম্ন উত্তোলন ৳${MIN_WITHDRAW}।`;
     else if (val > 5_00_000) next.amount = "সর্বোচ্চ ৳৫,০০,০০০।";
-    if (!method) next.method = "মাধ্যম নির্বাচন করুন।";
     if (!account || account.trim().length < 11) next.account = "সঠিক একাউন্ট নম্বর লিখুন।";
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -172,13 +170,12 @@ function WithdrawForm() {
 
   const mut = useMutation({
     mutationFn: () =>
-      request({ data: { type: "withdrawal", amount: Number(amount), method: (method || "bkash") as "bkash" | "nagad" } }),
+      request({ data: { type: "withdrawal", amount: Number(amount), method: "bkash" } }),
     onSuccess: () => {
       toast.success("উত্তোলনের অনুরোধ জমা হয়েছে", {
         description: `${formatBDT(Number(amount))} — যাচাইয়ের অপেক্ষায়।`,
       });
       setAmount("");
-      setMethod("");
       setAccount("");
       setErrors({});
     },
@@ -200,7 +197,7 @@ function WithdrawForm() {
       {/* Notice banner */}
       <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center">
         <p className="text-sm font-medium leading-relaxed text-primary">
-          উত্তোলনের সর্বোচ্চ ২-৩ মিনিটের মধ্যে টাকা আপনার বিকাশ বা নগদ একাউন্টে পেয়ে যাবেন
+          উত্তোলনের সর্বোচ্চ ২-৩ মিনিটের মধ্যে টাকা আপনার বিকাশ একাউন্টে পেয়ে যাবেন
         </p>
       </div>
 
@@ -238,33 +235,9 @@ function WithdrawForm() {
         )}
       </div>
 
-      {/* Method */}
+      {/* bKash account number */}
       <div className="space-y-2">
-        <Label>উত্তোলনের মাধ্যম</Label>
-        <Select
-          value={method}
-          onValueChange={(v) => {
-            setMethod(v as "bkash" | "nagad");
-            if (errors.method) setErrors((p) => ({ ...p, method: undefined }));
-          }}
-        >
-          <SelectTrigger aria-invalid={!!errors.method} className="w-full">
-            <span className="flex items-center gap-2">
-              <ArrowLeftRight className="h-4 w-4 text-muted-foreground" />
-              <SelectValue placeholder="নির্বাচন করুন" />
-            </span>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="bkash">বিকাশ (bKash)</SelectItem>
-            <SelectItem value="nagad">নগদ (Nagad)</SelectItem>
-          </SelectContent>
-        </Select>
-        {errors.method && <p className="text-xs text-destructive">{errors.method}</p>}
-      </div>
-
-      {/* Account number */}
-      <div className="space-y-2">
-        <Label htmlFor="withdraw-account">একাউন্ট/নম্বর</Label>
+        <Label htmlFor="withdraw-account">বিকাশ একাউন্ট নম্বর</Label>
         <div className="relative">
           <IdCard className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
