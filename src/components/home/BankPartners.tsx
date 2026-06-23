@@ -2,7 +2,7 @@ import { CheckCircle } from "lucide-react";
 import { useLanguage } from "@/context/language";
 import { bankLogos } from "./BankLogos";
 
-const partners = ["BKASH"] as const;
+const partners = ["BKASH", "NAGAD", "BRAC", "CITY", "DUTCH_BANGLA"] as const;
 
 export function BankPartners() {
   const { t } = useLanguage();
