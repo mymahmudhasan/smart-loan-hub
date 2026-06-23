@@ -58,7 +58,7 @@ function Membership() {
     L("Loans up to 10× your member balance", "সদস্য ব্যালেন্সের ১০ গুণ পর্যন্ত লোন"),
     L("Fixed 8% annual interest, reducing balance", "নির্ধারিত বার্ষিক ৮% সুদ, রিডিউসিং ব্যালেন্স"),
     L("Flexible terms up to 36 months", "সর্বোচ্চ ৩৬ মাস পর্যন্ত নমনীয় মেয়াদ"),
-    L("bKash, Nagad & bank transfer support", "বিকাশ, নগদ ও ব্যাংক ট্রান্সফার সাপোর্ট"),
+    L("bKash support", "বিকাশ সাপোর্ট"),
     L("Priority approval for verified members", "ভেরিফায়েড সদস্যদের জন্য অগ্রাধিকার অনুমোদন"),
     L("Full transaction history & statements", "সম্পূর্ণ লেনদেন ইতিহাস ও স্টেটমেন্ট"),
   ];
