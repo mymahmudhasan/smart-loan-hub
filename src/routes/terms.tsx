@@ -37,14 +37,14 @@ const sections = [
     h: { en: "4. Repayment & Duration", bn: "৪. পরিশোধ ও মেয়াদ" },
     p: {
       en: "Loans are repaid via monthly EMIs over a maximum term of 36 months.",
-      bn: "লোন সর্বোচ্চ ৩৬ মাস মেয়াদে মাসিক ইএমআইয়ের মাধ্যমে পরিশোধ করা হয়।",
+      bn: "লোন সর্বোচ্চ ৩৬ মাস মেয়াদে মাসিক কিস্তির মাধ্যমে পরিশোধ করা হয়।",
     },
   },
   {
     h: { en: "5. Late Payment", bn: "৫. বিলম্বিত পরিশোধ" },
     p: {
       en: "A 1% penalty is applied to any overdue amount if an EMI is not paid before its due date.",
-      bn: "নির্ধারিত তারিখের আগে ইএমআই পরিশোধ না হলে বকেয়া পরিমাণের উপর ১% জরিমানা প্রযোজ্য হয়।",
+      bn: "নির্ধারিত তারিখের আগে কিস্তি পরিশোধ না হলে বকেয়া পরিমাণের উপর ১% জরিমানা প্রযোজ্য হয়।",
     },
   },
   {

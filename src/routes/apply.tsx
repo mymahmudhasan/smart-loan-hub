@@ -520,7 +520,7 @@ function Apply() {
                   value={formatBDT(result.totalInterest, true)}
                 />
                 <Row label="ইন্টারেস্ট রেট:" value="৮.০%" />
-                <Row label="মাসিক ইএমআই:" value={formatBDT(result.emi, true)} />
+                <Row label="মাসিক কিস্তি:" value={formatBDT(result.emi, true)} />
               </div>
             </div>
 

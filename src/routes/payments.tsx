@@ -39,7 +39,7 @@ export const Route = createFileRoute("/payments")({
 });
 
 const logs = [
-  { label: { en: "EMI Payment #8", bn: "ইএমআই পেমেন্ট #৮" }, method: { en: "Online", bn: "অনলাইন" }, date: "01 Jun 2026", amount: 13568, status: "completed" as const },
+  { label: { en: "EMI Payment #8", bn: "কিস্তি পেমেন্ট #৮" }, method: { en: "Online", bn: "অনলাইন" }, date: "01 Jun 2026", amount: 13568, status: "completed" as const },
   { label: { en: "Deposit", bn: "জমা" }, method: { en: "Online", bn: "অনলাইন" }, date: "20 May 2026", amount: 15000, status: "completed" as const },
   { label: { en: "Withdraw", bn: "উত্তোলন" }, method: { en: "bKash", bn: "বিকাশ" }, date: "10 May 2026", amount: 5000, status: "pending" as const },
 ];
@@ -303,7 +303,7 @@ function Payments() {
           <Wallet className="h-6 w-6" />
         </span>
         <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{t("nav_payments")}</h1>
-        <p className="mt-2 text-muted-foreground">{L("Manage deposits, withdrawals and EMI payments.", "জমা, উত্তোলন ও ইএমআই পেমেন্ট পরিচালনা করুন।")}</p>
+        <p className="mt-2 text-muted-foreground">{L("Manage deposits, withdrawals and EMI payments.", "জমা, উত্তোলন ও কিস্তি পেমেন্ট পরিচালনা করুন।")}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-5">
