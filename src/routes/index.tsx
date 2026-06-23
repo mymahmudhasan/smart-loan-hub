@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Become a verified member and unlock loans up to 10Ã— your balance at 8% annual interest. Mobile-first, secure lending for Bangladesh.",
+          "Become a verified member and unlock loans up to 10× your balance at 8% annual interest. Mobile-first, secure lending for Bangladesh.",
       },
     ],
   }),
@@ -60,7 +60,7 @@ function Home() {
 
   const stats = [
     { value: "25,000+", key: "stat_members" as const, icon: UserCheck },
-    { value: "à§³1.2B+", key: "stat_disbursed" as const, icon: HandCoins },
+    { value: "৳1.2B+", key: "stat_disbursed" as const, icon: HandCoins },
     { value: "8%", key: "stat_rate" as const, icon: TrendingUp },
     { value: "24h", key: "stat_approval" as const, icon: Zap },
   ];
