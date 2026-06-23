@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import heroAsset from "@/assets/hero.png.asset.json";
 import {
   ShieldCheck,
   TrendingUp,
@@ -107,7 +108,7 @@ function Home() {
             </div>
           </div>
           <img
-            src="/hero-img.png"
+            src={heroAsset.url}
             alt="Smart Loan Platform"
             className="mx-auto w-full max-w-lg animate-float rounded-3xl shadow-elegant lg:max-w-none"
             width={1024}
