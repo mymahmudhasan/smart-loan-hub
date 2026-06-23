@@ -502,9 +502,6 @@ function ProfilePage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="bkash">bKash</SelectItem>
-                      <SelectItem value="nagad">Nagad</SelectItem>
-                      <SelectItem value="rocket">Rocket</SelectItem>
-                      <SelectItem value="upay">Upay</SelectItem>
                     </SelectContent>
                   </Select>
                 </Field>
