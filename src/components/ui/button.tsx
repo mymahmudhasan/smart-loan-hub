@@ -16,7 +16,7 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "gradient-primary text-primary-foreground shadow-elegant hover:opacity-95 hover:-translate-y-0.5 transition-all duration-300",
+        hero: "gradient-primary text-primary-foreground shadow-elegant border border-transparent hover:bg-none hover:bg-card hover:text-foreground hover:border-input hover:-translate-y-0.5 transition-all duration-300",
         accent: "bg-accent text-accent-foreground shadow hover:bg-accent/90",
         glass: "glass text-foreground hover:bg-card/90 transition-colors",
         whatsapp: "bg-whatsapp text-whatsapp-foreground shadow hover:bg-whatsapp/90",
