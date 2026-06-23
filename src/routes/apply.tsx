@@ -98,8 +98,6 @@ const PURPOSES = [
 
 const PAYMENT_METHODS = [
   { id: "bkash", name: "bKash", color: "#E2136E", tag: "মোবাইল ওয়ালেট" },
-  { id: "nagad", name: "Nagad", color: "#EE7622", tag: "মোবাইল ওয়ালেট" },
-  { id: "rocket", name: "Rocket", color: "#8C3494", tag: "মোবাইল ব্যাংকিং" },
 ] as const;
 
 const TENURES = [3, 6, 9, 12, 18, 24, 36];
@@ -587,7 +585,7 @@ function Apply() {
             <p className="text-sm">
               <strong>{formatBDT(amount)}</strong> লোন পেতে{" "}
               <strong>{formatBDT(collateral)}</strong> জামানত করুন। আপনি
-              বিকাশ/নগদ/রকেট এর মাধ্যমে টাকা জামানত করতে পারবেন।
+              বিকাশের মাধ্যমে টাকা জামানত করতে পারবেন।
             </p>
           </div>
 
@@ -599,7 +597,7 @@ function Apply() {
               </p>
             </CardHeader>
             <CardContent className="space-y-5 p-6 pt-0">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 max-w-xs mx-auto">
                 {PAYMENT_METHODS.map((m) => (
                   <button
                     key={m.id}
@@ -666,7 +664,7 @@ function Apply() {
               <DialogDescription className="mt-2 text-sm leading-relaxed text-foreground">
                 আপনি {formatBDT(amount)} টাকা লোন নিতে চাইলে আপনাকে{" "}
                 {formatBDT(collateral)} টাকা জামানত জমা দিতে হবে। আপনি জামানতের টাকা
-                বিকাশ অথবা নগদের মাধ্যমে প্রদান করতে পারবেন।
+                বিকাশের মাধ্যমে প্রদান করতে পারবেন।
               </DialogDescription>
             </div>
             <div>

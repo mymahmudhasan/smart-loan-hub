@@ -57,8 +57,8 @@ const faqs = [
   {
     q: { en: "Which payment methods are supported?", bn: "কোন পেমেন্ট মাধ্যম সমর্থিত?" },
     a: {
-      en: "You can deposit funds and pay EMIs via bKash, Nagad, or bank transfer. Bank transfers go through manual verification.",
-      bn: "আপনি বিকাশ, নগদ বা ব্যাংক ট্রান্সফারের মাধ্যমে অর্থ জমা ও কিস্তি পরিশোধ করতে পারেন। ব্যাংক ট্রান্সফার ম্যানুয়াল যাচাইয়ের মধ্য দিয়ে যায়।",
+      en: "You can deposit funds and pay EMIs via bKash. All deposits are processed through our secure online payment gateway.",
+      bn: "আপনি বিকাশের মাধ্যমে অর্থ জমা ও কিস্তি পরিশোধ করতে পারেন। সমস্ত জমা আমাদের নিরাপদ অনলাইন পেমেন্ট গেটওয়ের মাধ্যমে প্রক্রিয়া করা হয়।",
     },
   },
   {

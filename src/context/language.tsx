@@ -55,7 +55,7 @@ export const translations: Dict = {
   f2_t: { en: "Fair 8% interest", bn: "ন্যায্য ৮% সুদ" },
   f2_d: { en: "Transparent reducing-balance EMIs, no hidden fees.", bn: "স্বচ্ছ রিডিউসিং-ব্যালেন্স কিস্তি, কোনো গোপন ফি নেই।" },
   f3_t: { en: "Local payments", bn: "লোকাল পেমেন্ট" },
-  f3_d: { en: "Deposit and repay via bKash, Nagad, or bank transfer.", bn: "বিকাশ, নগদ বা ব্যাংক ট্রান্সফারে জমা ও পরিশোধ।" },
+  f3_d: { en: "Deposit and repay via bKash.", bn: "বিকাশের মাধ্যমে জমা ও পরিশোধ।" },
   f4_t: { en: "Instant eligibility", bn: "তাৎক্ষণিক যোগ্যতা" },
   f4_d: { en: "See your loan limit update live with your balance.", bn: "ব্যালেন্সের সাথে লোন লিমিট লাইভ দেখুন।" },
 
@@ -183,8 +183,8 @@ export const translations: Dict = {
     bn: "দ্রুত ও সহজ লোন এখন আপনার মোবাইলেই",
   },
   dash_hub_sub: {
-    en: "Apply with just your NID and mobile number — get your loan in your bKash/Nagad wallet within 10 minutes.",
-    bn: "জাতীয় পরিচয়পত্র ও মোবাইল নাম্বার দিয়েই করুন লোন আবেদন, ১০ মিনিটে লোনের টাকা বিকাশ/নগদ ওয়ালেটে নিন",
+    en: "Apply with just your NID and mobile number — get your loan in your bKash wallet within 10 minutes.",
+    bn: "জাতীয় পরিচয়পত্র ও মোবাইল নাম্বার দিয়েই করুন লোন আবেদন, ১০ মিনিটে লোনের টাকা বিকাশ ওয়ালেটে নিন",
   },
   dash_apply_cta: { en: "Apply for a loan now", bn: "এখনই লোন আবেদন করুন" },
   qa_loan_apply: { en: "Loan Application", bn: "লোন আবেদন" },
@@ -337,7 +337,7 @@ export const translations: Dict = {
   },
   bank_badge_1: { en: "NPSB Connected", bn: "এনপিএসবি সংযুক্ত" },
   bank_badge_2: { en: "RTGS Enabled", bn: "আরটিজিএস সক্ষম" },
-  bank_badge_3: { en: "bKash & Nagad", bn: "বিকাশ ও নগদ" },
+  bank_badge_3: { en: "bKash", bn: "বিকাশ" },
   bank_badge_4: { en: "Scheduled Bank Network", bn: "শিডিউল্ড ব্যাংক নেটওয়ার্ক" },
 
   // Client reviews
