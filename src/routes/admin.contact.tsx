@@ -27,7 +27,7 @@ type FormState = {
 const defaultQuestions: WhatsappQuestion[] = [
   { label: { en: "I want to apply for a loan", bn: "আমি লোনের আবেদন করতে চাই" }, message: "আমি লোনের আবেদন করতে আগ্রহী। বিস্তারিত জানতে চাই।" },
   { label: { en: "Check my loan status", bn: "আমার লোনের স্ট্যাটাস জানতে চাই" }, message: "আমার লোন আবেদনের বর্তমান অবস্থা জানতে চাই।" },
-  { label: { en: "Help with EMI / payment", bn: "ইএমআই / পেমেন্ট নিয়ে সাহায্য চাই" }, message: "আমি আমার ইএমআই/পেমেন্ট সম্পর্কে জানতে চাই।" },
+  { label: { en: "Help with EMI / payment", bn: "কিস্তি / পেমেন্ট নিয়ে সাহায্য চাই" }, message: "আমি আমার কিস্তি/পেমেন্ট সম্পর্কে জানতে চাই।" },
   { label: { en: "About deposit & membership", bn: "জমা ও মেম্বারশিপ নিয়ে জানতে চাই" }, message: "আমি জমা ও মেম্বারশিপ সম্পর্কে জানতে চাই।" },
 ];
 

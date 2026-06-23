@@ -44,11 +44,11 @@ const faqs = [
     q: { en: "What is the maximum loan duration?", bn: "সর্বোচ্চ লোনের মেয়াদ কত?" },
     a: {
       en: "You can choose a repayment term of up to 36 months with monthly EMIs.",
-      bn: "আপনি মাসিক ইএমআই সহ সর্বোচ্চ ৩৬ মাস পর্যন্ত পরিশোধের মেয়াদ বেছে নিতে পারেন।",
+      bn: "আপনি মাসিক কিস্তি সহ সর্বোচ্চ ৩৬ মাস পর্যন্ত পরিশোধের মেয়াদ বেছে নিতে পারেন।",
     },
   },
   {
-    q: { en: "What happens if I miss an EMI payment?", bn: "ইএমআই পরিশোধে দেরি হলে কী হয়?" },
+    q: { en: "What happens if I miss an EMI payment?", bn: "কিস্তি পরিশোধে দেরি হলে কী হয়?" },
     a: {
       en: "A 1% penalty is applied to the overdue amount if payment is not completed before the due date. Pay on time to avoid extra charges.",
       bn: "নির্ধারিত তারিখের আগে পরিশোধ না হলে বকেয়া পরিমাণের উপর ১% জরিমানা প্রযোজ্য হয়। অতিরিক্ত চার্জ এড়াতে সময়মতো পরিশোধ করুন।",
@@ -58,7 +58,7 @@ const faqs = [
     q: { en: "Which payment methods are supported?", bn: "কোন পেমেন্ট মাধ্যম সমর্থিত?" },
     a: {
       en: "You can deposit funds and pay EMIs via bKash, Nagad, or bank transfer. Bank transfers go through manual verification.",
-      bn: "আপনি বিকাশ, নগদ বা ব্যাংক ট্রান্সফারের মাধ্যমে অর্থ জমা ও ইএমআই পরিশোধ করতে পারেন। ব্যাংক ট্রান্সফার ম্যানুয়াল যাচাইয়ের মধ্য দিয়ে যায়।",
+      bn: "আপনি বিকাশ, নগদ বা ব্যাংক ট্রান্সফারের মাধ্যমে অর্থ জমা ও কিস্তি পরিশোধ করতে পারেন। ব্যাংক ট্রান্সফার ম্যানুয়াল যাচাইয়ের মধ্য দিয়ে যায়।",
     },
   },
   {
