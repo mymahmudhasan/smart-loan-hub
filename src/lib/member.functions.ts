@@ -217,3 +217,40 @@ export const submitLoanApplication = createServerFn({ method: "POST" })
     });
     return { ok: true };
   });
+
+// ---------- Member self signup (bypasses rate limits and email confirmation) ----------
+export const signUpMember = createServerFn({ method: "POST" })
+  .inputValidator((d: { fullName: string; phone: string; profession: string; password: string }) =>
+    z
+      .object({
+        fullName: z.string().min(1).max(100),
+        phone: z.string().min(11).max(20),
+        profession: z.string().min(1),
+        password: z.string().min(6),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data }) => {
+    const email = `${data.phone.replace(/\D/g, "")}@smartloan.local`;
+    
+    const { data: userRow, error: authError } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      password: data.password,
+      email_confirm: true,
+      user_metadata: {
+        full_name: data.fullName,
+        phone: data.phone,
+        occupation: data.profession,
+      }
+    });
+
+    if (authError) {
+      throw new Error(authError.message);
+    }
+
+    return { ok: true, userId: userRow.user.id };
+  });
+
+
+
+

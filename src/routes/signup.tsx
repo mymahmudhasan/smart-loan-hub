@@ -25,6 +25,7 @@ import {
 import { useLanguage } from "@/context/language";
 import { useBranding } from "@/context/branding";
 import { supabase } from "@/integrations/supabase/client";
+import { signUpMember } from "@/lib/member.functions";
 
 const PROFESSIONS = [
   { value: "salaried", label: { en: "Salaried Employee", bn: "চাকরিজীবী" } },
@@ -82,25 +83,35 @@ function Signup() {
       return;
     }
     setLoading(true);
-    // Use phone as email since we removed email field
-    const email = `${form.phone.replace(/\D/g, "")}@smartloan.local`;
-    const { error } = await supabase.auth.signUp({
-      email,
-      password: form.password,
-      options: {
-        data: {
-          full_name: form.fullName,
-          phone: form.phone,
-          occupation: form.profession,
-        },
-      },
-    });
-    setLoading(false);
-    if (error) {
-      toast.error(L("Registration failed", "নিবন্ধন ব্যর্থ হয়েছে"), { description: error.message });
-      return;
+    try {
+      const email = `${form.phone.replace(/\D/g, "")}@smartloan.local`;
+      
+      // 1. Create user on server using admin client to auto-confirm and bypass email checks
+      await signUpMember({
+        fullName: form.fullName,
+        phone: form.phone,
+        profession: form.profession,
+        password: form.password,
+      });
+
+      // 2. Establish client session immediately
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password: form.password,
+      });
+
+      if (signInError) {
+        throw signInError;
+      }
+
+      setLoading(false);
+      setShowSuccess(true);
+    } catch (err: any) {
+      setLoading(false);
+      toast.error(L("Registration failed", "নিবন্ধন ব্যর্থ হয়েছে"), {
+        description: err.message || L("An unknown error occurred", "একটি অজানা ত্রুটি ঘটেছে")
+      });
     }
-    setShowSuccess(true);
   };
 
   return (
