@@ -30,8 +30,14 @@ function Login() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    const input = form.email.trim();
+    // Support logging in with either phone number or email (e.g. for admin accounts)
+    const email = input.includes("@")
+      ? input
+      : `${input.replace(/\D/g, "")}@smartloan.local`;
+
     const { error } = await supabase.auth.signInWithPassword({
-      email: form.email.trim(),
+      email,
       password: form.password,
     });
     setLoading(false);
@@ -56,10 +62,10 @@ function Login() {
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
-              <Label>{L("Email", "ইমেইল")}</Label>
+              <Label>{L("Mobile Number (11 digits)", "মোবাইল নাম্বার (১১ ডিজিট)")}</Label>
               <Input
-                type="email"
-                placeholder="you@example.com"
+                type="text"
+                placeholder="017XXXXXXXX"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
