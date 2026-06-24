@@ -113,6 +113,7 @@ export function GlobalActions() {
   const questions = (contact?.whatsappQuestions && contact.whatsappQuestions.length > 0)
     ? contact.whatsappQuestions
     : defaultQuestions;
+  const displayedQuestions = questions.slice(0, 5);
   const waMessage = contact?.whatsappMessage?.trim() || "";
 
   const makeLink = (text: string) => {
@@ -211,18 +212,18 @@ export function GlobalActions() {
             </div>
 
             {/* Body */}
-            <div className="space-y-3 p-4">
+            <div className="space-y-3 p-4 max-h-[460px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <div className="rounded-2xl rounded-tl-sm bg-muted p-3 text-sm text-foreground">
                 {t("wa_widget_greeting")}
               </div>
 
-              {questions.length > 0 && (
+              {displayedQuestions.length > 0 && (
                 <div className="flex flex-col gap-2">
-                  {questions.map((q, i) => (
+                  {displayedQuestions.map((q, i) => (
                     <Button
                       key={i}
                       variant="outline"
-                      className="h-auto justify-start rounded-full border-border bg-background px-4 py-2.5 text-left text-sm font-normal leading-snug hover:bg-muted whitespace-normal"
+                      className="h-auto justify-start rounded-full border-border bg-background px-4 py-2.5 text-left text-sm font-normal leading-snug hover:bg-muted whitespace-normal text-foreground"
                       onClick={() => sendQuestion(q.message || q.label[lang] || q.label.en)}
                     >
                       {q.label[lang] || q.label.en}
