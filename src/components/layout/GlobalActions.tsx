@@ -52,8 +52,68 @@ export function GlobalActions() {
   const configured = (contact?.whatsappNumber || "").replace(/\D/g, "");
   const fallback = SITE_CONFIG.whatsappNumber.replace(/\D/g, "");
   const waNumber = configured || (fallback.includes("X") ? "" : fallback);
+  const defaultQuestions = [
+    {
+      label: {
+        bn: "লোন পাওয়ার নিয়ম কি?",
+        en: "What are the rules for getting a loan?"
+      },
+      message: "আমি লোন পাওয়ার নিয়ম সম্পর্কে জানতে চাই।"
+    },
+    {
+      label: {
+        bn: "কত টাকা পর্যন্ত লোন পাওয়া যাবে?",
+        en: "How much loan can I get?"
+      },
+      message: "আমি জানতে চাই সর্বোচ্চ কত টাকা পর্যন্ত লোন পাওয়া যাবে।"
+    },
+    {
+      label: {
+        bn: "কিস্তি পরিশোধের উপায় কি?",
+        en: "How to pay installments?"
+      },
+      message: "কিস্তি পরিশোধের উপায় ও মাধ্যমগুলো কি কি জানতে চাই।"
+    },
+    {
+      label: {
+        bn: "মেম্বারশিপ কিভাবে নেব?",
+        en: "How to become a member?"
+      },
+      message: "আমি স্মার্ট লোন মেম্বারশিপ কিভাবে নেব জানতে চাই।"
+    },
+    {
+      label: {
+        bn: "লোন অনুমোদন হতে কত সময় লাগে?",
+        en: "How long does loan approval take?"
+      },
+      message: "লোন আবেদন করার পর অনুমোদন হতে সাধারণত কত সময় বা দিন লাগে জানতে চাই।"
+    },
+    {
+      label: {
+        bn: "লোন পরিশোধের মেয়াদ কত দিন?",
+        en: "What is the repayment tenure?"
+      },
+      message: "লোন পরিশোধের সর্বনিম্ন ও সর্বোচ্চ মেয়াদকাল কত জানতে চাই।"
+    },
+    {
+      label: {
+        bn: "আবেদনের জন্য কি কি ডকুমেন্টস লাগবে?",
+        en: "What documents are required to apply?"
+      },
+      message: "লোন আবেদন করার জন্য কি কি প্রয়োজনীয় কাগজপত্র বা ডকুমেন্টস লাগবে জানতে চাই।"
+    },
+    {
+      label: {
+        bn: "কোনো হিডেন বা অতিরিক্ত চার্জ আছে কি?",
+        en: "Are there any hidden fees or charges?"
+      },
+      message: "লোন নেওয়ার ক্ষেত্রে সার্ভিস চার্জ ছাড়া অন্য কোনো অতিরিক্ত বা লুকানো ফি আছে কি না জানতে চাই।"
+    }
+  ];
+  const questions = (contact?.whatsappQuestions && contact.whatsappQuestions.length > 0)
+    ? contact.whatsappQuestions
+    : defaultQuestions;
   const waMessage = contact?.whatsappMessage?.trim() || "";
-  const questions = contact?.whatsappQuestions ?? [];
 
   const makeLink = (text: string) => {
     if (!waNumber) return "#";
